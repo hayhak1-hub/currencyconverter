@@ -1,0 +1,32 @@
+# Google Play — Türkçe
+
+applicationId: com.hayhak.currencyconverter
+category: Finans
+content_rating: Everyone
+
+## Uygulama adı (max 30)
+Döviz Çevirici
+
+## Kısa açıklama (max 80)
+Canlı kurlar, grafikler, alarmlar ve widget. 160+ para birimi, çevrimdışı önbellek.
+
+## Tam açıklama (max 4000)
+Canlı döviz kurları, grafikler ve günlük kullanım için pratik araçlarla anında para birimi dönüştürün.
+
+ÖZELLİKLER
+• Dönüştürücü — tutar girin, para birimlerini seçin, tek dokunuşla değiştirin
+• Canlı kurlar — temel para biriminize göre panel ve favoriler
+• İstatistik — günlük değişim ve dünkü karşılaştırma
+• Geçmiş — istediğiniz çift, 1 günden 5 yıla kadar, CSV dışa aktarma
+• Kur alarmları — hedef kura ulaşınca bildirim
+• Ana ekran widget'ı — canlı kurlar bir bakışta
+• 20 dil — Türkçe, Almanca, İngilizce dahil
+• Karanlık mod ve Material You
+
+VERİ KAYNAKLARI
+Canlı kurlar ExchangeRate-API'den (ücretsiz). Geçmiş grafikler Frankfurter'dan (ECB verisi). Kurlar cihazda önbelleğe alınır.
+
+GİZLİLİK
+Hesap gerekmez. Reklam yok. Ayrıntılar uygulama içi gizlilik politikasında.
+
+Hayhak tarafından geliştirildi.

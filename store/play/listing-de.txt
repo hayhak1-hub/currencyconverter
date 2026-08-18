@@ -1,0 +1,32 @@
+# Google Play — Deutsch
+
+applicationId: com.hayhak.currencyconverter
+category: Finanzen
+content_rating: Everyone
+
+## App-Titel (max 30)
+Währungsrechner
+
+## Kurzbeschreibung (max 80)
+Live-Kurse, Charts, Alarme & Widget. 160+ Währungen, Offline-Cache, 20 Sprachen.
+
+## Vollständige Beschreibung (max 4000)
+Währungen sofort umrechnen — mit Live-Wechselkursen, übersichtlichen Charts und praktischen Tools für Alltag und Reisen.
+
+FUNKTIONEN
+• Rechner — Betrag eingeben, Währungen wählen, mit einem Tipp tauschen
+• Live-Kurse — Übersicht zur Basiswährung mit Favoriten
+• Statistik — Tagesänderung und Vergleich mit gestern
+• Verlauf — beliebiges Währungspaar von 1 Tag bis 5 Jahren, CSV-Export
+• Kursalarme — Benachrichtigung bei Erreichen des Zielkurses
+• Startbildschirm-Widget — Live-Kurse auf einen Blick
+• 20 Sprachen — u. a. Deutsch, Englisch, Türkisch
+• Dunkelmodus und Material You
+
+DATENQUELLEN
+Live-Kurse von ExchangeRate-API (kostenlos). Verlaufsdiagramme von Frankfurter (EZB-Daten). Kurse werden lokal zwischengespeichert.
+
+DATENSCHUTZ
+Kein Konto nötig. Keine Werbung. Details in der Datenschutzerklärung in der App.
+
+Von Hayhak entwickelt.
