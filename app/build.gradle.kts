@@ -17,7 +17,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.hayhak.currencyconverter"
-    compileSdk = 35
+    compileSdk = 36
 
     base {
         archivesName.set("currencyconverter")
@@ -25,12 +25,15 @@ android {
 
     defaultConfig {
         applicationId = "com.hayhak.currencyconverter"
-        minSdk = 24
-        targetSdk = 35
-        versionCode = 2
-        versionName = "1.0.1"
+        minSdk = 23
+        targetSdk = 36
+        versionCode = 4
+        versionName = "1.0.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     signingConfigs {
@@ -59,6 +62,7 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -80,6 +84,8 @@ androidComponents {
 }
 
 dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+
     // Core
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)

@@ -20,6 +20,7 @@
         android:supportsRtl="true"
         android:localeConfig="@xml/locales_config"
         android:enableOnBackInvokedCallback="true"
+        tools:targetApi="34"
         android:theme="@style/Theme.CurrencyConverter">
 
         <activity
