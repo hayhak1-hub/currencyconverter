@@ -31,8 +31,8 @@ android {
         applicationId = "com.hayhak.currencyconverter"
         minSdk = 23
         targetSdk = 36
-        versionCode = 6
-        versionName = "1.0.5"
+        versionCode = 1
+        versionName = "1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
