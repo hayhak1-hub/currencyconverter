@@ -58,6 +58,8 @@
     <string name="settings_search_currency">کرنسی تلاش کریں…</string>
     <string name="settings_language">زبان</string>
     <string name="settings_language_system">سسٹم کی زبان</string>
+    <string name="nav_metals">دھاتیں</string>
+    <string name="metals_subtitle">اسپاٹ دھاتیں %1$s میں (ٹرائے اونس)</string>
     <string name="widget_live_rates">لائیو ریٹس</string>
     <string name="widget_no_data">کوئی ڈیٹا نہیں</string>
     <string name="notif_channel">ریٹ الرٹس</string>
@@ -95,6 +97,10 @@
     <string name="currency_myr">ملائیشیائی رنگٹ</string>
     <string name="currency_php">فلپائنی پیسو</string>
     <string name="currency_isk">آئس لینڈی کرونا</string>
+    <string name="currency_xau">سونا (ٹرائے اونس)</string>
+    <string name="currency_xag">چاندی (ٹرائے اونس)</string>
+    <string name="currency_xpt">پلاٹینم</string>
+    <string name="currency_xpd">پیلیڈیم</string>
     <plurals name="minutes_ago">
         <item quantity="one">%d منٹ پہلے</item>
         <item quantity="other">%d منٹ پہلے</item>

@@ -58,6 +58,8 @@
     <string name="settings_search_currency">ค้นหาสกุลเงิน…</string>
     <string name="settings_language">ภาษา</string>
     <string name="settings_language_system">ค่าเริ่มต้นของระบบ</string>
+    <string name="nav_metals">โลหะ</string>
+    <string name="metals_subtitle">โลหะสปอตเป็น %1$s (ทรอยออนซ์)</string>
     <string name="widget_live_rates">อัตราแบบสด</string>
     <string name="widget_no_data">ไม่มีข้อมูล</string>
     <string name="notif_channel">การแจ้งเตือนอัตรา</string>
@@ -95,6 +97,10 @@
     <string name="currency_myr">ริงกิตมาเลเซีย</string>
     <string name="currency_php">เปโซฟิลิปปินส์</string>
     <string name="currency_isk">โครนาไอซ์แลนด์</string>
+    <string name="currency_xau">ทองคำ (ทรอยออนซ์)</string>
+    <string name="currency_xag">เงิน (ทรอยออนซ์)</string>
+    <string name="currency_xpt">แพลทินัม</string>
+    <string name="currency_xpd">แพลเลเดียม</string>
     <plurals name="minutes_ago">
         <item quantity="other">%d นาทีที่แล้ว</item>
     </plurals>

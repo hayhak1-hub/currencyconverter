@@ -58,6 +58,8 @@
     <string name="settings_search_currency">Szukaj waluty…</string>
     <string name="settings_language">Język</string>
     <string name="settings_language_system">Domyślny systemowy</string>
+    <string name="nav_metals">Metale</string>
+    <string name="metals_subtitle">Metale spot w %1$s (uncja trojańska)</string>
     <string name="widget_live_rates">Kursy na żywo</string>
     <string name="widget_no_data">Brak danych</string>
     <string name="notif_channel">Alerty kursów</string>
@@ -95,6 +97,10 @@
     <string name="currency_myr">Ringgit malezyjski</string>
     <string name="currency_php">Peso filipińskie</string>
     <string name="currency_isk">Korona islandzka</string>
+    <string name="currency_xau">Złoto (uncja trojańska)</string>
+    <string name="currency_xag">Srebro (uncja trojańska)</string>
+    <string name="currency_xpt">Platyna</string>
+    <string name="currency_xpd">Pallad</string>
     <plurals name="minutes_ago">
         <item quantity="one">%d minutę temu</item>
         <item quantity="few">%d minuty temu</item>

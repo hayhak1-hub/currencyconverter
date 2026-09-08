@@ -25,7 +25,6 @@
     <string name="converter_other_units">Diğer birimler</string>
     <string name="converter_updated">Güncelleme: %1$s</string>
     <string name="converter_offline">Canlı kur yok. Yenileme başarılı olana kadar bekleyin — bağlantınızı kontrol edin.</string>
-    <string name="converter_stale">Kurlar eski olabilir (son güncelleme %1$s).</string>
     <string name="converter_retry">Yeniden dene</string>
     <string name="converter_share_text">%1$s %2$s = %3$s %4$s</string>
     <string name="dashboard_favorites">Favoriler</string>
@@ -82,6 +81,7 @@
     <string name="settings_widget_desc">Baz para ve en fazla dört kur seçin. Widget’a dokununca çevirici açılır. Boyutu 1, 2 veya 4 satır için değiştirin.</string>
     <string name="settings_widget_pairs">Gösterilecek para birimleri</string>
     <string name="metals_subtitle">Spot metaller (%1$s, ons)</string>
+    <string name="metals_error">Metal fiyatları alınamadı. Aşağı çekerek yenileyin veya yeniden deneyin.</string>
     <string name="settings_about">Hakkında</string>
     <string name="settings_developer_by">Hayhak tarafından geliştirildi</string>
     <string name="settings_version_label">Sürüm %1$s (%2$d)</string>
@@ -150,6 +150,10 @@
     <string name="currency_myr">Malezya Ringgiti</string>
     <string name="currency_php">Filipinler Pesosu</string>
     <string name="currency_isk">İzlanda Kronu</string>
+    <string name="currency_xau">Altın (ons)</string>
+    <string name="currency_xag">Gümüş (ons)</string>
+    <string name="currency_xpt">Platin</string>
+    <string name="currency_xpd">Paladyum</string>
     <plurals name="minutes_ago">
         <item quantity="one">%d dk önce</item>
         <item quantity="other">%d dk önce</item>

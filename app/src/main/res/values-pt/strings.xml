@@ -58,6 +58,8 @@
     <string name="settings_search_currency">Pesquisar moedas…</string>
     <string name="settings_language">Idioma</string>
     <string name="settings_language_system">Padrão do sistema</string>
+    <string name="nav_metals">Metais</string>
+    <string name="metals_subtitle">Metais à vista em %1$s (onça troy)</string>
     <string name="widget_live_rates">Câmbio ao vivo</string>
     <string name="widget_no_data">Sem dados</string>
     <string name="notif_channel">Alertas de câmbio</string>
@@ -95,6 +97,10 @@
     <string name="currency_myr">Ringgit malaio</string>
     <string name="currency_php">Peso filipino</string>
     <string name="currency_isk">Coroa islandesa</string>
+    <string name="currency_xau">Ouro (onça troy)</string>
+    <string name="currency_xag">Prata (onça troy)</string>
+    <string name="currency_xpt">Platina</string>
+    <string name="currency_xpd">Paládio</string>
     <plurals name="minutes_ago">
         <item quantity="one">há %d minuto</item>
         <item quantity="other">há %d minutos</item>

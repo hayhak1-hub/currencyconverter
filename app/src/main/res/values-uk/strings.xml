@@ -58,6 +58,8 @@
     <string name="settings_search_currency">Пошук валюти…</string>
     <string name="settings_language">Мова</string>
     <string name="settings_language_system">Системна</string>
+    <string name="nav_metals">Метали</string>
+    <string name="metals_subtitle">Спотові метали в %1$s (тройська унція)</string>
     <string name="widget_live_rates">Курси онлайн</string>
     <string name="widget_no_data">Немає даних</string>
     <string name="notif_channel">Сповіщення про курс</string>
@@ -95,6 +97,10 @@
     <string name="currency_myr">Малайзійський рингіт</string>
     <string name="currency_php">Філіппінське песо</string>
     <string name="currency_isk">Ісландська крона</string>
+    <string name="currency_xau">Золото (тройська унція)</string>
+    <string name="currency_xag">Срібло (тройська унція)</string>
+    <string name="currency_xpt">Платина</string>
+    <string name="currency_xpd">Паладій</string>
     <plurals name="minutes_ago">
         <item quantity="one">%d хвилину тому</item>
         <item quantity="few">%d хвилини тому</item>

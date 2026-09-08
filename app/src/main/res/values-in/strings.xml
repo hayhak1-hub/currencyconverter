@@ -58,6 +58,8 @@
     <string name="settings_search_currency">Cari mata uang…</string>
     <string name="settings_language">Bahasa</string>
     <string name="settings_language_system">Default sistem</string>
+    <string name="nav_metals">Logam</string>
+    <string name="metals_subtitle">Logam spot dalam %1$s (ons troy)</string>
     <string name="widget_live_rates">Kurs langsung</string>
     <string name="widget_no_data">Tidak ada data</string>
     <string name="notif_channel">Peringatan kurs</string>
@@ -95,6 +97,10 @@
     <string name="currency_myr">Ringgit Malaysia</string>
     <string name="currency_php">Peso Filipina</string>
     <string name="currency_isk">Krona Islandia</string>
+    <string name="currency_xau">Emas (ons troy)</string>
+    <string name="currency_xag">Perak (ons troy)</string>
+    <string name="currency_xpt">Platina</string>
+    <string name="currency_xpd">Paladium</string>
     <plurals name="minutes_ago">
         <item quantity="other">%d menit lalu</item>
     </plurals>

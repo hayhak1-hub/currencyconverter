@@ -58,6 +58,8 @@
     <string name="settings_search_currency">通貨を検索…</string>
     <string name="settings_language">言語</string>
     <string name="settings_language_system">システムのデフォルト</string>
+    <string name="nav_metals">金属</string>
+    <string name="metals_subtitle">スポット金属（%1$s、トロイオンス）</string>
     <string name="widget_live_rates">ライブレート</string>
     <string name="widget_no_data">データなし</string>
     <string name="notif_channel">レート通知</string>
@@ -95,6 +97,10 @@
     <string name="currency_myr">マレーシアリンギット</string>
     <string name="currency_php">フィリピンペソ</string>
     <string name="currency_isk">アイスランドクローナ</string>
+    <string name="currency_xau">金（トロイオンス）</string>
+    <string name="currency_xag">銀（トロイオンス）</string>
+    <string name="currency_xpt">白金</string>
+    <string name="currency_xpd">パラジウム</string>
     <plurals name="minutes_ago">
         <item quantity="other">%d分前</item>
     </plurals>

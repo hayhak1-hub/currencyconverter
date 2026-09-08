@@ -58,6 +58,8 @@
     <string name="settings_search_currency">Rechercher une devise…</string>
     <string name="settings_language">Langue</string>
     <string name="settings_language_system">Langue du système</string>
+    <string name="nav_metals">Métaux</string>
+    <string name="metals_subtitle">Métaux au comptant en %1$s (once troy)</string>
     <string name="widget_live_rates">Cours en direct</string>
     <string name="widget_no_data">Aucune donnée</string>
     <string name="notif_channel">Alertes de cours</string>
@@ -95,6 +97,10 @@
     <string name="currency_myr">Ringgit malaisien</string>
     <string name="currency_php">Peso philippin</string>
     <string name="currency_isk">Couronne islandaise</string>
+    <string name="currency_xau">Or (once troy)</string>
+    <string name="currency_xag">Argent (once troy)</string>
+    <string name="currency_xpt">Platine</string>
+    <string name="currency_xpd">Palladium</string>
     <plurals name="minutes_ago">
         <item quantity="one">il y a %d minute</item>
         <item quantity="other">il y a %d minutes</item>

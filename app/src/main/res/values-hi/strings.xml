@@ -58,6 +58,8 @@
     <string name="settings_search_currency">मुद्रा खोजें…</string>
     <string name="settings_language">भाषा</string>
     <string name="settings_language_system">सिस्टम डिफ़ॉल्ट</string>
+    <string name="nav_metals">धातुएँ</string>
+    <string name="metals_subtitle">स्पॉट धातुएँ %1$s में (ट्रॉय औंस)</string>
     <string name="widget_live_rates">लाइव दरें</string>
     <string name="widget_no_data">कोई डेटा नहीं</string>
     <string name="notif_channel">दर अलर्ट</string>
@@ -95,6 +97,10 @@
     <string name="currency_myr">मलेशियाई रिंगित</string>
     <string name="currency_php">फ़िलिपीनी पेसो</string>
     <string name="currency_isk">आइसलैंडिक क्रोना</string>
+    <string name="currency_xau">सोना (ट्रॉय औंस)</string>
+    <string name="currency_xag">चांदी (ट्रॉय औंस)</string>
+    <string name="currency_xpt">प्लैटिनम</string>
+    <string name="currency_xpd">पैलेडियम</string>
     <plurals name="minutes_ago">
         <item quantity="one">%d मिनट पहले</item>
         <item quantity="other">%d मिनट पहले</item>

@@ -58,6 +58,8 @@
     <string name="settings_search_currency">Tìm tiền tệ…</string>
     <string name="settings_language">Ngôn ngữ</string>
     <string name="settings_language_system">Mặc định hệ thống</string>
+    <string name="nav_metals">Kim loại</string>
+    <string name="metals_subtitle">Kim loại giao ngay theo %1$s (ao-xơ troy)</string>
     <string name="widget_live_rates">Tỷ giá trực tiếp</string>
     <string name="widget_no_data">Không có dữ liệu</string>
     <string name="notif_channel">Cảnh báo tỷ giá</string>
@@ -95,6 +97,10 @@
     <string name="currency_myr">Ringgit Malaysia</string>
     <string name="currency_php">Peso Philippines</string>
     <string name="currency_isk">Krona Iceland</string>
+    <string name="currency_xau">Vàng (ao-xơ troy)</string>
+    <string name="currency_xag">Bạc (ao-xơ troy)</string>
+    <string name="currency_xpt">Bạch kim</string>
+    <string name="currency_xpd">Paladi</string>
     <plurals name="minutes_ago">
         <item quantity="other">%d phút trước</item>
     </plurals>

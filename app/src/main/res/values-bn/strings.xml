@@ -58,6 +58,8 @@
     <string name="settings_search_currency">মুদ্রা খুঁজুন…</string>
     <string name="settings_language">ভাষা</string>
     <string name="settings_language_system">সিস্টেম ডিফল্ট</string>
+    <string name="nav_metals">ধাতু</string>
+    <string name="metals_subtitle">স্পট ধাতু %1$s-এ (ট্রয় আউন্স)</string>
     <string name="widget_live_rates">লাইভ হার</string>
     <string name="widget_no_data">কোনো তথ্য নেই</string>
     <string name="notif_channel">হার সতর্কতা</string>
@@ -95,6 +97,10 @@
     <string name="currency_myr">মালয়েশীয় রিঙ্গিত</string>
     <string name="currency_php">ফিলিপিনো পেসো</string>
     <string name="currency_isk">আইসল্যান্ডীয় ক্রোনা</string>
+    <string name="currency_xau">সোনা (ট্রয় আউন্স)</string>
+    <string name="currency_xag">রুপা (ট্রয় আউন্স)</string>
+    <string name="currency_xpt">প্ল্যাটিনাম</string>
+    <string name="currency_xpd">প্যালাডিয়াম</string>
     <plurals name="minutes_ago">
         <item quantity="one">%d মিনিট আগে</item>
         <item quantity="other">%d মিনিট আগে</item>

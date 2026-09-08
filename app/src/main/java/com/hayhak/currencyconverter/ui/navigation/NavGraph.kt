@@ -161,7 +161,10 @@ fun CurrencyNavGraph(
 
     fun navigateTo(screen: Screen) {
         scope.launch { drawerState.close() }
-        navController.navigate(screen.route) {
+        val route = screen.route
+        if (navController.currentDestination?.route == route) return
+        if (navController.popBackStack(route, inclusive = false)) return
+        navController.navigate(route) {
             popUpTo(navController.graph.findStartDestination().id) {
                 saveState = true
             }
@@ -343,7 +346,7 @@ fun CurrencyNavGraph(
                     }
                     composable(Screen.Dashboard.route) {
                         DashboardScreen(
-                            onNavigateToAlerts = { navController.navigate(Screen.Alerts.route) },
+                            onNavigateToAlerts = { navigateTo(Screen.Alerts) },
                             isWide = isWide
                         )
                     }
@@ -354,7 +357,7 @@ fun CurrencyNavGraph(
                         AlertsScreen(
                             onOpenPair = { from, to ->
                                 pendingPair = from to to
-                                navController.navigate(Screen.Converter.route)
+                                navigateTo(Screen.Converter)
                             }
                         )
                     }

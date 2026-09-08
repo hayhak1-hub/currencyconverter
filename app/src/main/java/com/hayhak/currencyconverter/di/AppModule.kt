@@ -6,6 +6,8 @@ import com.hayhak.currencyconverter.BuildConfig
 import com.hayhak.currencyconverter.data.local.dao.ExchangeRateDao
 import com.hayhak.currencyconverter.data.local.database.AppDatabase
 import com.hayhak.currencyconverter.data.remote.api.ExchangeRateApi
+import com.hayhak.currencyconverter.data.remote.api.FawazCurrencyApi
+import com.hayhak.currencyconverter.data.remote.api.GoldPriceApi
 import com.hayhak.currencyconverter.data.remote.api.LiveExchangeRateApi
 import dagger.Module
 import dagger.Provides
@@ -62,6 +64,26 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(LiveExchangeRateApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideGoldPriceApi(client: OkHttpClient): GoldPriceApi =
+        Retrofit.Builder()
+            .baseUrl("https://api.gold-api.com/")
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(GoldPriceApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideFawazCurrencyApi(client: OkHttpClient): FawazCurrencyApi =
+        Retrofit.Builder()
+            .baseUrl("https://cdn.jsdelivr.net/")
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(FawazCurrencyApi::class.java)
 
     @Provides
     @Singleton

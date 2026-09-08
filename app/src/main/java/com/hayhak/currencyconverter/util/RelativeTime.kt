@@ -15,8 +15,3 @@ fun formatRelativeTime(context: Context, ts: Long): String {
         else -> SimpleDateFormat("dd MMM HH:mm", Locale.getDefault()).format(Date(ts))
     }
 }
-
-fun isRateStale(ts: Long?, maxAgeHours: Long = 6): Boolean {
-    if (ts == null) return true
-    return System.currentTimeMillis() - ts > maxAgeHours * 60 * 60 * 1000
-}

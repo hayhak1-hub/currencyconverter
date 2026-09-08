@@ -58,6 +58,8 @@
     <string name="settings_search_currency">البحث عن عملة…</string>
     <string name="settings_language">اللغة</string>
     <string name="settings_language_system">لغة النظام</string>
+    <string name="nav_metals">المعادن</string>
+    <string name="metals_subtitle">المعادن الفورية بـ %1$s (أونصة تروي)</string>
     <string name="widget_live_rates">أسعار مباشرة</string>
     <string name="widget_no_data">لا بيانات</string>
     <string name="notif_channel">تنبيهات الأسعار</string>
@@ -95,6 +97,10 @@
     <string name="currency_myr">الرينغيت الماليزي</string>
     <string name="currency_php">البيزو الفلبيني</string>
     <string name="currency_isk">الكرونة الآيسلندية</string>
+    <string name="currency_xau">ذهب (أونصة تروي)</string>
+    <string name="currency_xag">فضة (أونصة تروي)</string>
+    <string name="currency_xpt">بلاتين</string>
+    <string name="currency_xpd">بالاديوم</string>
     <plurals name="minutes_ago">
         <item quantity="zero">الآن</item>
         <item quantity="one">منذ دقيقة</item>

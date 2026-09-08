@@ -26,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -66,32 +67,33 @@ fun AlertsScreen(
         )
     }
 
-    if (alarms.isEmpty()) {
-        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text(
-                stringResource(R.string.alerts_empty),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                modifier = Modifier.padding(32.dp)
-            )
+    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+        if (alarms.isEmpty()) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text(
+                    stringResource(R.string.alerts_empty),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                    modifier = Modifier.padding(32.dp)
+                )
+            }
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(alarms, key = { it.id }) { alarm ->
+                    AlarmCard(
+                        alarm = alarm,
+                        onToggle = { viewModel.toggle(alarm) },
+                        onEdit = { editing = alarm },
+                        onDelete = { viewModel.remove(alarm.id) },
+                        onOpen = { onOpenPair(alarm.baseCode, alarm.targetCode) }
+                    )
+                }
+                item { Spacer(Modifier.height(8.dp)) }
+            }
         }
-        return
-    }
-
-    LazyColumn(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        items(alarms, key = { it.id }) { alarm ->
-            AlarmCard(
-                alarm = alarm,
-                onToggle = { viewModel.toggle(alarm) },
-                onEdit = { editing = alarm },
-                onDelete = { viewModel.remove(alarm.id) },
-                onOpen = { onOpenPair(alarm.baseCode, alarm.targetCode) }
-            )
-        }
-        item { Spacer(Modifier.height(8.dp)) }
     }
 }
 

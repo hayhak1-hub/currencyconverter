@@ -29,7 +29,6 @@ import com.hayhak.currencyconverter.ui.components.CurrencySelector
 import com.hayhak.currencyconverter.util.ShareHelper
 import com.hayhak.currencyconverter.util.currencyName
 import com.hayhak.currencyconverter.util.formatRelativeTime
-import com.hayhak.currencyconverter.util.isRateStale
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -177,39 +176,26 @@ private fun RateStatusBanner(
     hasRates: Boolean,
     onRetry: () -> Unit
 ) {
-    val context = LocalContext.current
-    val stale = isRateStale(lastUpdated)
-    if (isLoading && lastUpdated == null) return
-    val container: ColorPair = when {
-        !hasRates -> ColorPair(
-            MaterialTheme.colorScheme.errorContainer,
-            MaterialTheme.colorScheme.onErrorContainer
-        )
-        stale -> ColorPair(
-            MaterialTheme.colorScheme.tertiaryContainer,
-            MaterialTheme.colorScheme.onTertiaryContainer
-        )
-        else -> return
-    }
-    val message = when {
-        !hasRates -> stringResource(R.string.converter_offline)
-        else -> stringResource(
-            R.string.converter_stale,
-            lastUpdated?.let { formatRelativeTime(context, it) } ?: "—"
-        )
-    }
-    Surface(color = container.bg, shape = MaterialTheme.shapes.small, modifier = Modifier.fillMaxWidth()) {
+    if (hasRates || (isLoading && lastUpdated == null)) return
+    Surface(
+        color = MaterialTheme.colorScheme.errorContainer,
+        shape = MaterialTheme.shapes.small,
+        modifier = Modifier.fillMaxWidth()
+    ) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(message, style = MaterialTheme.typography.bodySmall, color = container.fg, modifier = Modifier.weight(1f))
+            Text(
+                stringResource(R.string.converter_offline),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onErrorContainer,
+                modifier = Modifier.weight(1f)
+            )
             TextButton(onClick = onRetry) { Text(stringResource(R.string.converter_retry)) }
         }
     }
 }
-
-private data class ColorPair(val bg: androidx.compose.ui.graphics.Color, val fg: androidx.compose.ui.graphics.Color)
 
 @Composable
 private fun BatchList(state: ConverterUiState, modifier: Modifier = Modifier) {

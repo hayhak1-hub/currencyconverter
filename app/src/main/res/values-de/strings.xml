@@ -25,7 +25,6 @@
     <string name="converter_other_units">Weitere Währungen</string>
     <string name="converter_updated">Aktualisiert %1$s</string>
     <string name="converter_offline">Keine Live-Kurse. Bitte Verbindung prüfen und erneut laden.</string>
-    <string name="converter_stale">Kurse könnten veraltet sein (zuletzt %1$s).</string>
     <string name="converter_retry">Erneut</string>
     <string name="converter_share_text">%1$s %2$s = %3$s %4$s</string>
     <string name="dashboard_favorites">Favoriten</string>
@@ -82,6 +81,7 @@
     <string name="settings_widget_desc">Wählen Sie die Notierung und bis zu vier Kurse. Tippen öffnet den Rechner. Größe für 1, 2 oder 4 Zeilen ändern.</string>
     <string name="settings_widget_pairs">Anzuzeigende Währungen</string>
     <string name="metals_subtitle">Spot-Metalle in %1$s (Feinunze)</string>
+    <string name="metals_error">Metallpreise konnten nicht geladen werden. Zum Aktualisieren ziehen oder erneut versuchen.</string>
     <string name="settings_about">Über</string>
     <string name="settings_developer_by">Entwickelt von Hayhak</string>
     <string name="settings_version_label">Version %1$s (%2$d)</string>
@@ -150,6 +150,10 @@
     <string name="currency_myr">Malaysischer Ringgit</string>
     <string name="currency_php">Philippinischer Peso</string>
     <string name="currency_isk">Isländische Krone</string>
+    <string name="currency_xau">Gold (Feinunze)</string>
+    <string name="currency_xag">Silber (Feinunze)</string>
+    <string name="currency_xpt">Platin</string>
+    <string name="currency_xpd">Palladium</string>
     <plurals name="minutes_ago">
         <item quantity="one">vor %d Minute</item>
         <item quantity="other">vor %d Minuten</item>

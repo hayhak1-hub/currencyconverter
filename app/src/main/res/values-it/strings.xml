@@ -58,6 +58,8 @@
     <string name="settings_search_currency">Cerca valute…</string>
     <string name="settings_language">Lingua</string>
     <string name="settings_language_system">Predefinita di sistema</string>
+    <string name="nav_metals">Metalli</string>
+    <string name="metals_subtitle">Metalli spot in %1$s (oncia troy)</string>
     <string name="widget_live_rates">Cambi in tempo reale</string>
     <string name="widget_no_data">Nessun dato</string>
     <string name="notif_channel">Avvisi di cambio</string>
@@ -95,6 +97,10 @@
     <string name="currency_myr">Ringgit malese</string>
     <string name="currency_php">Peso filippino</string>
     <string name="currency_isk">Corona islandese</string>
+    <string name="currency_xau">Oro (oncia troy)</string>
+    <string name="currency_xag">Argento (oncia troy)</string>
+    <string name="currency_xpt">Platino</string>
+    <string name="currency_xpd">Palladio</string>
     <plurals name="minutes_ago">
         <item quantity="one">%d minuto fa</item>
         <item quantity="other">%d minuti fa</item>

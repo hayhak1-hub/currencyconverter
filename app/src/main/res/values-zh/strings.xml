@@ -58,6 +58,8 @@
     <string name="settings_search_currency">搜索货币…</string>
     <string name="settings_language">语言</string>
     <string name="settings_language_system">跟随系统</string>
+    <string name="nav_metals">金属</string>
+    <string name="metals_subtitle">现货金属（%1$s，金衡盎司）</string>
     <string name="widget_live_rates">实时汇率</string>
     <string name="widget_no_data">暂无数据</string>
     <string name="notif_channel">汇率提醒</string>
@@ -95,6 +97,10 @@
     <string name="currency_myr">马来西亚林吉特</string>
     <string name="currency_php">菲律宾比索</string>
     <string name="currency_isk">冰岛克朗</string>
+    <string name="currency_xau">黄金（金衡盎司）</string>
+    <string name="currency_xag">白银（金衡盎司）</string>
+    <string name="currency_xpt">铂金</string>
+    <string name="currency_xpd">钯金</string>
     <plurals name="minutes_ago">
         <item quantity="other">%d 分钟前</item>
     </plurals>

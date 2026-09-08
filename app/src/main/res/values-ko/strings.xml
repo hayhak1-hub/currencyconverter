@@ -58,6 +58,8 @@
     <string name="settings_search_currency">통화 검색…</string>
     <string name="settings_language">언어</string>
     <string name="settings_language_system">시스템 기본값</string>
+    <string name="nav_metals">금속</string>
+    <string name="metals_subtitle">현물 금속(%1$s, 트로이 온스)</string>
     <string name="widget_live_rates">실시간 환율</string>
     <string name="widget_no_data">데이터 없음</string>
     <string name="notif_channel">환율 알림</string>
@@ -95,6 +97,10 @@
     <string name="currency_myr">말레이시아 링깃</string>
     <string name="currency_php">필리핀 페소</string>
     <string name="currency_isk">아이슬란드 크로나</string>
+    <string name="currency_xau">금(트로이 온스)</string>
+    <string name="currency_xag">은(트로이 온스)</string>
+    <string name="currency_xpt">백금</string>
+    <string name="currency_xpd">팔라듐</string>
     <plurals name="minutes_ago">
         <item quantity="other">%d분 전</item>
     </plurals>
