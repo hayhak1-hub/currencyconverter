@@ -20,6 +20,12 @@ data class HistoryUiState(
     val targetInfo: CurrencyInfo? = currencyByCode("TRY"),
     val timeRange: TimeRange = TimeRange.ONE_WEEK,
     val data: List<HistoricalRate> = emptyList(),
+    val compareEnabled: Boolean = false,
+    val compareBase: String = "EUR",
+    val compareTarget: String = "USD",
+    val compareBaseInfo: CurrencyInfo? = currencyByCode("EUR"),
+    val compareTargetInfo: CurrencyInfo? = currencyByCode("USD"),
+    val compareData: List<HistoricalRate> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null,
     val hasData: Boolean = false

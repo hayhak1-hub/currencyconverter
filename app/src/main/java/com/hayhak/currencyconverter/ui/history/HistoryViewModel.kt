@@ -102,6 +102,24 @@ class HistoryViewModel @Inject constructor(
         _uiState.update { it.copy(timeRange = range) }
         val state = _uiState.value
         loadHistory(state.baseCurrency, state.targetCurrency, range)
+        if (state.compareEnabled) loadCompare()
+    }
+
+    fun setCompareEnabled(enabled: Boolean) {
+        _uiState.update { it.copy(compareEnabled = enabled, compareData = if (enabled) it.compareData else emptyList()) }
+        if (enabled) loadCompare()
+    }
+
+    fun selectCompareBase(currency: CurrencyInfo) {
+        if (currency.code == _uiState.value.compareTarget) return
+        _uiState.update { it.copy(compareBase = currency.code, compareBaseInfo = currency) }
+        loadCompare()
+    }
+
+    fun selectCompareTarget(currency: CurrencyInfo) {
+        if (currency.code == _uiState.value.compareBase) return
+        _uiState.update { it.copy(compareTarget = currency.code, compareTargetInfo = currency) }
+        loadCompare()
     }
 
     private fun persistAndLoad() {
@@ -152,6 +170,21 @@ class HistoryViewModel @Inject constructor(
                         error = if (data.isEmpty() && refreshFailed) it.error else null
                     )
                 }
+            }
+        }
+    }
+
+    private var compareJob: Job? = null
+
+    private fun loadCompare() {
+        val state = _uiState.value
+        compareJob?.cancel()
+        compareJob = viewModelScope.launch {
+            runCatching {
+                repository.refreshHistoricalRates(state.compareBase, state.compareTarget, state.timeRange.days)
+            }
+            getHistoricalRates(state.compareBase, state.compareTarget, state.timeRange.days).collect { data ->
+                _uiState.update { it.copy(compareData = data) }
             }
         }
     }

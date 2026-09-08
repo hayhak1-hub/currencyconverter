@@ -6,10 +6,13 @@
     <string name="nav_statistics">Statistics</string>
     <string name="nav_history">History</string>
     <string name="nav_settings">Settings</string>
+    <string name="nav_alerts">Alerts</string>
+    <string name="nav_metals">Metals</string>
     <string name="cd_theme">Theme</string>
     <string name="cd_menu">Open menu</string>
     <string name="cd_export_csv">Export CSV</string>
     <string name="cd_copy">Copy</string>
+    <string name="cd_share_conversion">Share conversion</string>
     <string name="cd_swap">Swap currencies</string>
     <string name="converter_amount">Amount</string>
     <string name="converter_clear">Clear</string>
@@ -20,6 +23,11 @@
     <string name="converter_to">To</string>
     <string name="converter_select">Select</string>
     <string name="converter_other_units">Other currencies</string>
+    <string name="converter_updated">Updated %1$s</string>
+    <string name="converter_offline">No live rates. Showing nothing until a refresh succeeds — check your connection.</string>
+    <string name="converter_stale">Rates may be outdated (last update %1$s).</string>
+    <string name="converter_retry">Retry</string>
+    <string name="converter_share_text">%1$s %2$s = %3$s %4$s</string>
     <string name="dashboard_favorites">Favorites</string>
     <string name="dashboard_all_rates">All rates</string>
     <string name="dashboard_base">Base:</string>
@@ -33,6 +41,11 @@
     <string name="alarm_when_above">When it goes above</string>
     <string name="alarm_when_below">When it goes below</string>
     <string name="alarm_set">Set alert</string>
+    <string name="alarm_repeating">Repeat until I turn it off</string>
+    <string name="alerts_empty">No rate alerts yet. Set one from the Rates screen.</string>
+    <string name="alerts_delete">Delete alert</string>
+    <string name="alerts_edit">Edit alert</string>
+    <string name="settings_widget_add">Add a currency</string>
     <string name="cancel">Cancel</string>
     <string name="history_csv_saved">CSV saved to Downloads</string>
     <string name="history_csv_failed">Export failed</string>
@@ -40,6 +53,8 @@
     <string name="history_low">Low</string>
     <string name="history_high">High</string>
     <string name="history_current">Latest</string>
+    <string name="history_change">Change</string>
+    <string name="history_compare">Compare</string>
     <string name="range_1d">1D</string>
     <string name="range_1w">1W</string>
     <string name="range_1m">1M</string>
@@ -63,6 +78,10 @@
     <string name="settings_search_currency">Search currencies…</string>
     <string name="settings_language">Language</string>
     <string name="settings_language_system">System default</string>
+    <string name="settings_widget">Home screen widget</string>
+    <string name="settings_widget_desc">Choose the quote currency and up to four rates. Tap the widget to open the converter. Resize it for 1, 2, or 4 rows.</string>
+    <string name="settings_widget_pairs">Currencies to show</string>
+    <string name="metals_subtitle">Spot metals in %1$s (troy ounce)</string>
     <string name="settings_about">About</string>
     <string name="settings_developer_by">Developed by Hayhak</string>
     <string name="settings_version_label">Version %1$s (%2$d)</string>
@@ -93,7 +112,7 @@
     <string name="update_dialog_positive">Update</string>
     <string name="update_dialog_later">Later</string>
     <string name="help_welcome_title">Welcome to Currency Converter</string>
-    <string name="help_body">• Converter: Tap the amount (default 1) to open the keypad. Pick currencies — each is shown with its flag — and tap ⇄ to swap.\n\n• Rates: Live rates for your base currency. Star favorites to pin them. Set a rate alert from any row.\n\n• Statistics: Daily change and yesterday’s comparison for major currencies.\n\n• History: Any currency pair and a range from 1 day to 5 years.\n\n• Widget: Add the home-screen widget for live USD, EUR, GBP, and CHF rates.\n\n• Settings: Language, theme, favorite currencies, updates, and privacy.\n\nOpen screens from the menu at the top left. Live rates come from ExchangeRate-API. Historical charts use Frankfurter (ECB). Data is cached on your device.</string>
+    <string name="help_body">• Converter: Tap the amount (default 1) to open the keypad. Use + − × ÷, share the result, and see a banner if rates are offline or stale. Other currencies lists favorites first, then the full catalog.\n\n• Rates: Live rates for your base currency, with daily percent change. Star favorites. Set a rate alert from any row (Android 13+ will ask for notification permission).\n\n• Alerts: List, edit, or delete alerts. A one-shot alert turns off after it fires; repeating alerts stay on. Tap a notification to open that pair in the converter.\n\n• Statistics: Daily change versus yesterday, quoted in the same base as Rates.\n\n• History: Drag the chart to inspect a date, see the range percent change, and compare a second pair.\n\n• Metals: Gold, silver, platinum, and palladium in your Rates base.\n\n• Widget: Choose quote currency and up to four rates in Settings. Resize for 1, 2, or 4 rows. Tap a row to open the converter for that pair.\n\n• Settings: Language, theme, favorites, widget, updates, and privacy.\n\nOpen screens from the menu at the top left. Live rates come from ExchangeRate-API. Historical charts use Frankfurter (ECB). Data is cached on your device.</string>
     <string name="cd_back">Back</string>
     <string name="widget_live_rates">Live rates</string>
     <string name="widget_no_data">No data</string>

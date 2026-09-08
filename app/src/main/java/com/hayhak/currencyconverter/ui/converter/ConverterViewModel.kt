@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -41,6 +42,7 @@ class ConverterViewModel @Inject constructor(
     private var accumulator: Double? = null
     private var pendingOp: String? = null
     private var replaceOnNextDigit = false
+    private var appliedLaunchPair = false
 
     init {
         userPrefs.favorites
@@ -48,17 +50,14 @@ class ConverterViewModel @Inject constructor(
             .launchIn(viewModelScope)
 
         viewModelScope.launch {
-            userPrefs.lastFromCurrency.onEach { code ->
-                SUPPORTED_CURRENCIES.find { it.code == code }?.let { info ->
-                    _uiState.update { it.copy(fromCurrency = info) }
-                }
-            }.launchIn(this)
-
-            userPrefs.lastToCurrency.onEach { code ->
-                SUPPORTED_CURRENCIES.find { it.code == code }?.let { info ->
-                    _uiState.update { it.copy(toCurrency = info) }
-                }
-            }.launchIn(this)
+            val from = userPrefs.lastFromCurrency.first()
+            val to = userPrefs.lastToCurrency.first()
+            if (appliedLaunchPair) return@launch
+            val fromInfo = SUPPORTED_CURRENCIES.find { it.code == from }
+            val toInfo = SUPPORTED_CURRENCIES.find { it.code == to }
+            if (fromInfo != null && toInfo != null && from != to) {
+                _uiState.update { it.copy(fromCurrency = fromInfo, toCurrency = toInfo) }
+            }
         }
 
         refreshRates()
@@ -159,6 +158,14 @@ class ConverterViewModel @Inject constructor(
 
     fun onToCurrencyChange(currency: CurrencyInfo) {
         _uiState.update { it.copy(toCurrency = currency) }
+    }
+
+    fun applyPair(from: String, to: String) {
+        val fromInfo = SUPPORTED_CURRENCIES.find { it.code == from } ?: return
+        val toInfo = SUPPORTED_CURRENCIES.find { it.code == to } ?: return
+        if (from == to) return
+        appliedLaunchPair = true
+        _uiState.update { it.copy(fromCurrency = fromInfo, toCurrency = toInfo) }
     }
 
     fun swapCurrencies() {

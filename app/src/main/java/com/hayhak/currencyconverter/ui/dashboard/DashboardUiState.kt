@@ -18,5 +18,6 @@ data class DashboardUiState(
     val isRefreshing: Boolean = false,
     val error: String? = null,
     val lastUpdated: Long? = null,
+    val yesterdayRates: Map<String, Double> = emptyMap(),
     val showAlarmDialog: CurrencyRow? = null
 )

@@ -20,9 +20,11 @@ import androidx.compose.material.icons.automirrored.filled.ShowChart
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Contrast
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.Diamond
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material.icons.filled.WbAuto
@@ -66,10 +68,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.hayhak.currencyconverter.MainActivity
 import com.hayhak.currencyconverter.R
+import com.hayhak.currencyconverter.ui.alerts.AlertsScreen
 import com.hayhak.currencyconverter.ui.converter.ConverterScreen
+import com.hayhak.currencyconverter.ui.converter.ConverterViewModel
 import com.hayhak.currencyconverter.ui.dashboard.DashboardScreen
 import com.hayhak.currencyconverter.ui.history.HistoryScreen
+import com.hayhak.currencyconverter.ui.metals.MetalsScreen
 import com.hayhak.currencyconverter.ui.settings.HelpScreen
 import com.hayhak.currencyconverter.ui.settings.PrivacyPolicyScreen
 import com.hayhak.currencyconverter.ui.settings.SettingsScreen
@@ -85,6 +93,8 @@ sealed class Screen(val route: String, val labelRes: Int, val icon: ImageVector)
     object Dashboard  : Screen("dashboard",  R.string.nav_rates,      Icons.AutoMirrored.Filled.ShowChart)
     object Statistics : Screen("statistics", R.string.nav_statistics, Icons.Default.BarChart)
     object History    : Screen("history",    R.string.nav_history,    Icons.Default.History)
+    object Metals     : Screen("metals",     R.string.nav_metals,     Icons.Default.Diamond)
+    object Alerts     : Screen("alerts",     R.string.nav_alerts,     Icons.Default.Notifications)
     object Settings   : Screen("settings",   R.string.nav_settings,   Icons.Default.Settings)
 }
 
@@ -93,6 +103,8 @@ private val screens = listOf(
     Screen.Dashboard,
     Screen.Statistics,
     Screen.History,
+    Screen.Metals,
+    Screen.Alerts,
     Screen.Settings
 )
 
@@ -102,7 +114,9 @@ private val subRoutes = setOf("settings/help", "settings/privacy")
 @Composable
 fun CurrencyNavGraph(
     themeViewModel: ThemeViewModel,
-    @Suppress("UNUSED_PARAMETER") windowSizeClass: Any? = null
+    windowWidth: WindowWidthSizeClass = WindowWidthSizeClass.Compact,
+    launchExtras: MainActivity.LaunchExtras? = null,
+    onLaunchConsumed: () -> Unit = {}
 ) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -113,6 +127,27 @@ fun CurrencyNavGraph(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val layoutDirection = LocalLayoutDirection.current
     val density = LocalDensity.current
+    val isWide = windowWidth == WindowWidthSizeClass.Expanded
+    var pendingPair by remember { mutableStateOf<Pair<String, String>?>(null) }
+
+    LaunchedEffect(launchExtras) {
+        val extras = launchExtras ?: return@LaunchedEffect
+        if (!extras.from.isNullOrBlank() && !extras.target.isNullOrBlank()) {
+            pendingPair = extras.from to extras.target
+        }
+        when (extras.route) {
+            MainActivity.NAV_ALERTS -> navController.navigate(Screen.Alerts.route) {
+                launchSingleTop = true
+            }
+            MainActivity.NAV_METALS -> navController.navigate(Screen.Metals.route) {
+                launchSingleTop = true
+            }
+            MainActivity.NAV_CONVERTER -> navController.navigate(Screen.Converter.route) {
+                launchSingleTop = true
+            }
+        }
+        onLaunchConsumed()
+    }
 
     LaunchedEffect(currentDestination?.route) {
         currentDestination?.route?.let { AnalyticsHelper.logScreen(context, it) }
@@ -296,10 +331,33 @@ fun CurrencyNavGraph(
                     navController = navController,
                     startDestination = Screen.Converter.route
                 ) {
-                    composable(Screen.Converter.route) { ConverterScreen() }
-                    composable(Screen.Dashboard.route) { DashboardScreen() }
-                    composable(Screen.Statistics.route) { StatisticsScreen() }
-                    composable(Screen.History.route) { HistoryScreen() }
+                    composable(Screen.Converter.route) {
+                        val converterVm: ConverterViewModel = hiltViewModel()
+                        LaunchedEffect(launchExtras?.from, launchExtras?.target, pendingPair) {
+                            val from = pendingPair?.first ?: launchExtras?.from
+                            val to = pendingPair?.second ?: launchExtras?.target
+                            if (from != null && to != null) converterVm.applyPair(from, to)
+                            pendingPair = null
+                        }
+                        ConverterScreen(viewModel = converterVm, isWide = isWide)
+                    }
+                    composable(Screen.Dashboard.route) {
+                        DashboardScreen(
+                            onNavigateToAlerts = { navController.navigate(Screen.Alerts.route) },
+                            isWide = isWide
+                        )
+                    }
+                    composable(Screen.Statistics.route) { StatisticsScreen(isWide = isWide) }
+                    composable(Screen.History.route) { HistoryScreen(isWide = isWide) }
+                    composable(Screen.Metals.route) { MetalsScreen(isWide = isWide) }
+                    composable(Screen.Alerts.route) {
+                        AlertsScreen(
+                            onOpenPair = { from, to ->
+                                pendingPair = from to to
+                                navController.navigate(Screen.Converter.route)
+                            }
+                        )
+                    }
                     composable(Screen.Settings.route) {
                         SettingsScreen(
                             themeViewModel = themeViewModel,

@@ -29,14 +29,17 @@ class NotificationHelper(private val context: Context) {
         }
     }
 
-    fun showRateNotification(title: String, message: String) {
+    fun showRateNotification(title: String, message: String, from: String? = null, to: String? = null) {
         val open = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-            putExtra(MainActivity.EXTRA_NAV, MainActivity.NAV_ALERTS)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            putExtra(MainActivity.EXTRA_NAV, MainActivity.NAV_CONVERTER)
+            if (from != null) putExtra(MainActivity.EXTRA_FROM, from)
+            if (to != null) putExtra(MainActivity.EXTRA_TARGET, to)
         }
+        val requestCode = ((from ?: "") + (to ?: "")).hashCode()
         val pending = PendingIntent.getActivity(
             context,
-            0,
+            requestCode,
             open,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )

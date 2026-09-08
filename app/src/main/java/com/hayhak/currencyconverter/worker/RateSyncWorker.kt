@@ -66,7 +66,9 @@ class RateSyncWorker @AssistedInject constructor(
                             alarm.baseCode,
                             alarm.targetCode
                         ),
-                        message = context.getString(msgRes, alarm.threshold.toString(), currentRate.toString())
+                        message = context.getString(msgRes, alarm.threshold.toString(), currentRate.toString()),
+                        from = alarm.baseCode,
+                        to = alarm.targetCode
                     )
                     if (alarm.repeating) {
                         userPrefs.updateAlarm(alarm.copy(lastFiredAt = System.currentTimeMillis()))

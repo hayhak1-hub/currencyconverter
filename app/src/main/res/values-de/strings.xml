@@ -6,10 +6,13 @@
     <string name="nav_statistics">Statistik</string>
     <string name="nav_history">Verlauf</string>
     <string name="nav_settings">Einstellungen</string>
+    <string name="nav_alerts">Alarme</string>
+    <string name="nav_metals">Metalle</string>
     <string name="cd_theme">Design</string>
     <string name="cd_menu">Menü öffnen</string>
     <string name="cd_export_csv">CSV exportieren</string>
     <string name="cd_copy">Kopieren</string>
+    <string name="cd_share_conversion">Umrechnung teilen</string>
     <string name="cd_swap">Währungen tauschen</string>
     <string name="converter_amount">Betrag</string>
     <string name="converter_clear">Löschen</string>
@@ -20,6 +23,11 @@
     <string name="converter_to">Nach</string>
     <string name="converter_select">Auswählen</string>
     <string name="converter_other_units">Weitere Währungen</string>
+    <string name="converter_updated">Aktualisiert %1$s</string>
+    <string name="converter_offline">Keine Live-Kurse. Bitte Verbindung prüfen und erneut laden.</string>
+    <string name="converter_stale">Kurse könnten veraltet sein (zuletzt %1$s).</string>
+    <string name="converter_retry">Erneut</string>
+    <string name="converter_share_text">%1$s %2$s = %3$s %4$s</string>
     <string name="dashboard_favorites">Favoriten</string>
     <string name="dashboard_all_rates">Alle Kurse</string>
     <string name="dashboard_base">Basis:</string>
@@ -33,6 +41,11 @@
     <string name="alarm_when_above">Wenn er übersteigt</string>
     <string name="alarm_when_below">Wenn er unterschreitet</string>
     <string name="alarm_set">Alarm setzen</string>
+    <string name="alarm_repeating">Wiederholen, bis ich ihn ausschalte</string>
+    <string name="alerts_empty">Noch keine Kursalarme. Legen Sie einen auf dem Kurse-Bildschirm an.</string>
+    <string name="alerts_delete">Alarm löschen</string>
+    <string name="alerts_edit">Alarm bearbeiten</string>
+    <string name="settings_widget_add">Währung hinzufügen</string>
     <string name="cancel">Abbrechen</string>
     <string name="history_csv_saved">CSV in Downloads gespeichert</string>
     <string name="history_csv_failed">Export fehlgeschlagen</string>
@@ -40,6 +53,8 @@
     <string name="history_low">Tief</string>
     <string name="history_high">Hoch</string>
     <string name="history_current">Aktuell</string>
+    <string name="history_change">Änderung</string>
+    <string name="history_compare">Vergleich</string>
     <string name="range_1d">1T</string>
     <string name="range_1w">1W</string>
     <string name="range_1m">1M</string>
@@ -63,6 +78,10 @@
     <string name="settings_search_currency">Währung suchen…</string>
     <string name="settings_language">Sprache</string>
     <string name="settings_language_system">Systemstandard</string>
+    <string name="settings_widget">Startbildschirm-Widget</string>
+    <string name="settings_widget_desc">Wählen Sie die Notierung und bis zu vier Kurse. Tippen öffnet den Rechner. Größe für 1, 2 oder 4 Zeilen ändern.</string>
+    <string name="settings_widget_pairs">Anzuzeigende Währungen</string>
+    <string name="metals_subtitle">Spot-Metalle in %1$s (Feinunze)</string>
     <string name="settings_about">Über</string>
     <string name="settings_developer_by">Entwickelt von Hayhak</string>
     <string name="settings_version_label">Version %1$s (%2$d)</string>
@@ -92,7 +111,7 @@
     <string name="update_dialog_positive">Aktualisieren</string>
     <string name="update_dialog_later">Später</string>
     <string name="help_welcome_title">Willkommen beim Währungsrechner</string>
-    <string name="help_body">• Rechner: Tippen Sie auf den Betrag (Standard 1), um das Ziffernfeld zu öffnen. Währungen erscheinen mit Flagge. ⇄ tauscht sie.\n\n• Kurse: Live-Kurse zur Basiswährung. Favoriten mit Stern anheften. Kursalarm in jeder Zeile setzen.\n\n• Statistik: Tagesänderung und Vergleich mit gestern.\n\n• Verlauf: Beliebiges Währungspaar und Zeitraum von 1 Tag bis 5 Jahre.\n\n• Widget: Live-Kurse für USD, EUR, GBP und CHF auf dem Startbildschirm.\n\n• Einstellungen: Sprache, Design, Favoriten, Updates und Datenschutz.\n\nBildschirme öffnen Sie über das Menü oben links. Live-Kurse von ExchangeRate-API. Verlaufsdiagramme nutzen Frankfurter (EZB). Daten werden lokal zwischengespeichert.</string>
+    <string name="help_body">• Rechner: Tippen Sie auf den Betrag (Standard 1), um das Ziffernfeld zu öffnen. Nutzen Sie + − × ÷, teilen Sie das Ergebnis; ein Banner erscheint bei Offline- oder alten Kursen. Weitere Währungen: zuerst Favoriten, dann der volle Katalog.\n\n• Kurse: Live-Kurse zur Basiswährung mit täglicher Prozentänderung. Favoriten mit Stern anheften. Kursalarm in jeder Zeile setzen (Android 13+ fragt nach Benachrichtigungen).\n\n• Alarme: Auflisten, bearbeiten oder löschen. Einmalalarme schalten nach dem Auslösen ab; wiederkehrende bleiben an. Tippen auf die Benachrichtigung öffnet das Paar im Rechner.\n\n• Statistik: Tagesänderung gegenüber gestern, in derselben Basis wie Kurse.\n\n• Verlauf: Im Diagramm wischen, Bereichsänderung in Prozent sehen, ein zweites Paar vergleichen.\n\n• Metalle: Gold, Silber, Platin und Palladium in Ihrer Kurs-Basis.\n\n• Widget: Notierung und bis zu vier Kurse in den Einstellungen. Größe für 1, 2 oder 4 Zeilen. Tippen auf eine Zeile öffnet den Rechner für dieses Paar.\n\n• Einstellungen: Sprache, Design, Favoriten, Widget, Updates und Datenschutz.\n\nBildschirme öffnen Sie über das Menü oben links. Live-Kurse von ExchangeRate-API. Verlaufsdiagramme nutzen Frankfurter (EZB). Daten werden lokal zwischengespeichert.</string>
     <string name="cd_back">Zurück</string>
     <string name="widget_live_rates">Live-Kurse</string>
     <string name="widget_no_data">Keine Daten</string>

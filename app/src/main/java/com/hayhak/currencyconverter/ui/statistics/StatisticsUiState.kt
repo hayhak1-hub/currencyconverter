@@ -11,6 +11,7 @@ data class CurrencyStat(
 
 data class StatisticsUiState(
     val stats: List<CurrencyStat> = emptyList(),
+    val quoteCode: String = "USD",
     val date: String = "",
     val isLoading: Boolean = true,
     val hasYesterdayData: Boolean = false,

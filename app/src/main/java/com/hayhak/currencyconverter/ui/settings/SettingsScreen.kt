@@ -49,6 +49,8 @@ import com.hayhak.currencyconverter.util.PlayUpdateChecker
 import com.hayhak.currencyconverter.util.PlayUpdateInfo
 import com.hayhak.currencyconverter.util.ShareHelper
 import com.hayhak.currencyconverter.util.UpdateCheckStatus
+import com.hayhak.currencyconverter.ui.widget.WidgetConfigViewModel
+import com.hayhak.currencyconverter.ui.components.CurrencySelector
 import com.hayhak.currencyconverter.util.currencyName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -265,6 +267,10 @@ fun SettingsScreen(
         Spacer(Modifier.height(16.dp))
         HorizontalDivider()
         Spacer(Modifier.height(16.dp))
+        WidgetSettingsSection()
+        Spacer(Modifier.height(16.dp))
+        HorizontalDivider()
+        Spacer(Modifier.height(16.dp))
         AboutSection(
             checkingUpdate = checkingUpdate,
             onCheckUpdate = {
@@ -299,6 +305,58 @@ fun SettingsScreen(
         UpdateAvailableDialog(
             updateInfo = info,
             onDismiss = { manualUpdateInfo = null }
+        )
+    }
+}
+
+@Composable
+private fun WidgetSettingsSection(viewModel: WidgetConfigViewModel = hiltViewModel()) {
+    val base by viewModel.base.collectAsStateWithLifecycle()
+    val codes by viewModel.codes.collectAsStateWithLifecycle()
+    val favorites by viewModel.favorites.collectAsStateWithLifecycle()
+    val majors = listOf("USD", "EUR", "GBP", "CHF", "TRY", "JPY", "CAD", "AUD")
+    val options = (codes + favorites + majors).distinct().filter { it != base }
+    val baseInfo = SUPPORTED_CURRENCIES.find { it.code == base } ?: return
+    val addCurrency = SUPPORTED_CURRENCIES.find { it.code !in codes && it.code != base } ?: SUPPORTED_CURRENCIES.first()
+
+    SectionHeader(stringResource(R.string.settings_widget))
+    Text(
+        stringResource(R.string.settings_widget_desc),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f),
+        modifier = Modifier.padding(bottom = 8.dp)
+    )
+    CurrencySelector(
+        label = stringResource(R.string.dashboard_base_currency),
+        currency = baseInfo,
+        onSelect = { viewModel.save(it.code, codes) },
+        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+    )
+    Text(stringResource(R.string.settings_widget_pairs), style = MaterialTheme.typography.labelMedium)
+    Spacer(Modifier.height(6.dp))
+    options.chunked(4).forEach { row ->
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth().padding(bottom = 6.dp)) {
+            row.forEach { code ->
+                val selected = code in codes
+                FilterChip(
+                    selected = selected,
+                    onClick = {
+                        val next = if (selected) codes - code else (codes + code).distinct().take(4)
+                        viewModel.save(base, next)
+                    },
+                    label = { Text("${SUPPORTED_CURRENCIES.find { it.code == code }?.flag.orEmpty()} $code") },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+            repeat(4 - row.size) { Spacer(Modifier.weight(1f)) }
+        }
+    }
+    if (codes.size < 4) {
+        CurrencySelector(
+            label = stringResource(R.string.settings_widget_add),
+            currency = addCurrency,
+            onSelect = { viewModel.save(base, (codes + it.code).distinct().take(4)) },
+            modifier = Modifier.fillMaxWidth().padding(top = 4.dp)
         )
     }
 }

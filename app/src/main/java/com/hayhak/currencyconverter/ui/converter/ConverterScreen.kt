@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -25,65 +26,37 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hayhak.currencyconverter.R
 import com.hayhak.currencyconverter.domain.model.SUPPORTED_CURRENCIES
 import com.hayhak.currencyconverter.ui.components.CurrencySelector
+import com.hayhak.currencyconverter.util.ShareHelper
 import com.hayhak.currencyconverter.util.currencyName
+import com.hayhak.currencyconverter.util.formatRelativeTime
+import com.hayhak.currencyconverter.util.isRateStale
 import java.text.NumberFormat
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ConverterScreen(viewModel: ConverterViewModel = hiltViewModel()) {
+fun ConverterScreen(
+    viewModel: ConverterViewModel = hiltViewModel(),
+    isWide: Boolean = false
+) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     var showNumberPad by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        OutlinedCard(
-            onClick = {
+    val mainColumn: @Composable ColumnScope.() -> Unit = {
+        RateStatusBanner(
+            lastUpdated = state.lastUpdated,
+            isLoading = state.isLoading,
+            hasRates = state.rates.isNotEmpty(),
+            onRetry = viewModel::refreshRates
+        )
+        AmountCard(
+            amount = state.amount,
+            onOpenPad = {
                 viewModel.startAmountEntry()
                 showNumberPad = true
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 14.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        stringResource(R.string.converter_amount),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-                    )
-                    AnimatedContent(
-                        targetState = state.amount.ifEmpty { "1" },
-                        transitionSpec = { fadeIn() togetherWith fadeOut() },
-                        label = "amountField"
-                    ) { value ->
-                        Text(
-                            text = value,
-                            style = MaterialTheme.typography.headlineSmall,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.End,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                }
-                Spacer(Modifier.width(12.dp))
-                Icon(
-                    Icons.Default.Dialpad,
-                    contentDescription = stringResource(R.string.cd_open_numpad),
-                    tint = MaterialTheme.colorScheme.primary
-                )
             }
-        }
-
+        )
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -105,29 +78,38 @@ fun ConverterScreen(viewModel: ConverterViewModel = hiltViewModel()) {
                 modifier = Modifier.weight(1f)
             )
         }
-
-        if (state.isLoading) {
+        if (state.isLoading && state.result == null) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         } else {
             ResultDisplay(state)
         }
+    }
 
-        HorizontalDivider()
-
-        Text(stringResource(R.string.converter_other_units), style = MaterialTheme.typography.titleSmall)
-        LazyColumn(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+    if (isWide) {
+        Row(
+            modifier = Modifier.fillMaxSize().padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(state.batchResults.entries.toList()) { (code, value) ->
-                val info = SUPPORTED_CURRENCIES.find { it.code == code }
-                ListItem(
-                    headlineContent = { Text(code) },
-                    supportingContent = { Text(info?.let { currencyName(it.code) } ?: "") },
-                    leadingContent = { Text(info?.flag ?: "", fontSize = 20.sp) },
-                    trailingContent = { Text(formatVal(value), fontWeight = FontWeight.Bold) }
-                )
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                content = mainColumn
+            )
+            Column(modifier = Modifier.weight(1f).fillMaxHeight()) {
+                Text(stringResource(R.string.converter_other_units), style = MaterialTheme.typography.titleSmall)
+                Spacer(Modifier.height(8.dp))
+                BatchList(state, Modifier.fillMaxSize())
             }
+        }
+    } else {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            mainColumn()
+            HorizontalDivider()
+            Text(stringResource(R.string.converter_other_units), style = MaterialTheme.typography.titleSmall)
+            BatchList(state, Modifier.weight(1f))
         }
     }
 
@@ -152,14 +134,111 @@ fun ConverterScreen(viewModel: ConverterViewModel = hiltViewModel()) {
 }
 
 @Composable
+private fun AmountCard(amount: String, onOpenPad: () -> Unit) {
+    OutlinedCard(onClick = onOpenPad, modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    stringResource(R.string.converter_amount),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                )
+                AnimatedContent(
+                    targetState = amount.ifEmpty { "1" },
+                    transitionSpec = { fadeIn() togetherWith fadeOut() },
+                    label = "amountField"
+                ) { value ->
+                    Text(
+                        text = value,
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.End,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+            Spacer(Modifier.width(12.dp))
+            Icon(
+                Icons.Default.Dialpad,
+                contentDescription = stringResource(R.string.cd_open_numpad),
+                tint = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
+}
+
+@Composable
+private fun RateStatusBanner(
+    lastUpdated: Long?,
+    isLoading: Boolean,
+    hasRates: Boolean,
+    onRetry: () -> Unit
+) {
+    val context = LocalContext.current
+    val stale = isRateStale(lastUpdated)
+    if (isLoading && lastUpdated == null) return
+    val container: ColorPair = when {
+        !hasRates -> ColorPair(
+            MaterialTheme.colorScheme.errorContainer,
+            MaterialTheme.colorScheme.onErrorContainer
+        )
+        stale -> ColorPair(
+            MaterialTheme.colorScheme.tertiaryContainer,
+            MaterialTheme.colorScheme.onTertiaryContainer
+        )
+        else -> return
+    }
+    val message = when {
+        !hasRates -> stringResource(R.string.converter_offline)
+        else -> stringResource(
+            R.string.converter_stale,
+            lastUpdated?.let { formatRelativeTime(context, it) } ?: "—"
+        )
+    }
+    Surface(color = container.bg, shape = MaterialTheme.shapes.small, modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(message, style = MaterialTheme.typography.bodySmall, color = container.fg, modifier = Modifier.weight(1f))
+            TextButton(onClick = onRetry) { Text(stringResource(R.string.converter_retry)) }
+        }
+    }
+}
+
+private data class ColorPair(val bg: androidx.compose.ui.graphics.Color, val fg: androidx.compose.ui.graphics.Color)
+
+@Composable
+private fun BatchList(state: ConverterUiState, modifier: Modifier = Modifier) {
+    LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        items(state.batchResults.entries.toList(), key = { it.key }) { (code, value) ->
+            val info = SUPPORTED_CURRENCIES.find { it.code == code }
+            ListItem(
+                headlineContent = { Text(code) },
+                supportingContent = { Text(info?.let { currencyName(it.code) } ?: "") },
+                leadingContent = { Text(info?.flag ?: "", fontSize = 20.sp) },
+                trailingContent = { Text(formatVal(value), fontWeight = FontWeight.Bold) }
+            )
+        }
+    }
+}
+
+@Composable
 private fun ResultDisplay(state: ConverterUiState) {
     val clip = LocalClipboardManager.current
+    val context = LocalContext.current
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
     ) {
         Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("${state.fromCurrency.flag} ${state.fromCurrency.code} -> ${state.toCurrency.flag} ${state.toCurrency.code}", style = MaterialTheme.typography.labelMedium)
+            Text(
+                "${state.fromCurrency.flag} ${state.fromCurrency.code} -> ${state.toCurrency.flag} ${state.toCurrency.code}",
+                style = MaterialTheme.typography.labelMedium
+            )
             val res = state.result?.let { formatVal(it) } ?: "—"
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(res, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
@@ -167,7 +246,30 @@ private fun ResultDisplay(state: ConverterUiState) {
                     IconButton(onClick = { clip.setText(AnnotatedString(res)) }) {
                         Icon(Icons.Default.ContentCopy, stringResource(R.string.cd_copy), modifier = Modifier.size(16.dp))
                     }
+                    IconButton(onClick = {
+                        val amount = state.amount.ifEmpty { "1" }
+                        ShareHelper.shareText(
+                            context,
+                            context.getString(R.string.settings_share),
+                            context.getString(
+                                R.string.converter_share_text,
+                                amount,
+                                state.fromCurrency.code,
+                                res,
+                                state.toCurrency.code
+                            )
+                        )
+                    }) {
+                        Icon(Icons.Default.Share, stringResource(R.string.cd_share_conversion), modifier = Modifier.size(16.dp))
+                    }
                 }
+            }
+            state.lastUpdated?.let { ts ->
+                Text(
+                    stringResource(R.string.converter_updated, formatRelativeTime(context, ts)),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
+                )
             }
         }
     }

@@ -6,10 +6,13 @@
     <string name="nav_statistics">İstatistik</string>
     <string name="nav_history">Geçmiş</string>
     <string name="nav_settings">Ayarlar</string>
+    <string name="nav_alerts">Alarmlar</string>
+    <string name="nav_metals">Metaller</string>
     <string name="cd_theme">Tema</string>
     <string name="cd_menu">Menüyü aç</string>
     <string name="cd_export_csv">CSV dışa aktar</string>
     <string name="cd_copy">Kopyala</string>
+    <string name="cd_share_conversion">Çeviriyi paylaş</string>
     <string name="cd_swap">Para birimlerini değiştir</string>
     <string name="converter_amount">Miktar</string>
     <string name="converter_clear">Temizle</string>
@@ -20,6 +23,11 @@
     <string name="converter_to">Kime</string>
     <string name="converter_select">Seçiniz</string>
     <string name="converter_other_units">Diğer birimler</string>
+    <string name="converter_updated">Güncelleme: %1$s</string>
+    <string name="converter_offline">Canlı kur yok. Yenileme başarılı olana kadar bekleyin — bağlantınızı kontrol edin.</string>
+    <string name="converter_stale">Kurlar eski olabilir (son güncelleme %1$s).</string>
+    <string name="converter_retry">Yeniden dene</string>
+    <string name="converter_share_text">%1$s %2$s = %3$s %4$s</string>
     <string name="dashboard_favorites">Favoriler</string>
     <string name="dashboard_all_rates">Tüm kurlar</string>
     <string name="dashboard_base">Baz:</string>
@@ -33,6 +41,11 @@
     <string name="alarm_when_above">Üstüne çıkınca</string>
     <string name="alarm_when_below">Altına düşünce</string>
     <string name="alarm_set">Alarm kur</string>
+    <string name="alarm_repeating">Kapatana kadar tekrarla</string>
+    <string name="alerts_empty">Henüz kur alarmı yok. Kurlar ekranından ekleyin.</string>
+    <string name="alerts_delete">Alarmı sil</string>
+    <string name="alerts_edit">Alarmı düzenle</string>
+    <string name="settings_widget_add">Para birimi ekle</string>
     <string name="cancel">İptal</string>
     <string name="history_csv_saved">CSV indirilenlere kaydedildi</string>
     <string name="history_csv_failed">Dışa aktarma başarısız</string>
@@ -40,6 +53,8 @@
     <string name="history_low">En düşük</string>
     <string name="history_high">En yüksek</string>
     <string name="history_current">Güncel</string>
+    <string name="history_change">Değişim</string>
+    <string name="history_compare">Karşılaştır</string>
     <string name="range_1d">1G</string>
     <string name="range_1w">1H</string>
     <string name="range_1m">1A</string>
@@ -63,6 +78,10 @@
     <string name="settings_search_currency">Para birimi ara...</string>
     <string name="settings_language">Dil</string>
     <string name="settings_language_system">Sistem varsayılanı</string>
+    <string name="settings_widget">Ana ekran widget’ı</string>
+    <string name="settings_widget_desc">Baz para ve en fazla dört kur seçin. Widget’a dokununca çevirici açılır. Boyutu 1, 2 veya 4 satır için değiştirin.</string>
+    <string name="settings_widget_pairs">Gösterilecek para birimleri</string>
+    <string name="metals_subtitle">Spot metaller (%1$s, ons)</string>
     <string name="settings_about">Hakkında</string>
     <string name="settings_developer_by">Hayhak tarafından geliştirildi</string>
     <string name="settings_version_label">Sürüm %1$s (%2$d)</string>
@@ -92,7 +111,7 @@
     <string name="update_dialog_positive">Güncelle</string>
     <string name="update_dialog_later">Sonra</string>
     <string name="help_welcome_title">Döviz Çevirici\'ye hoş geldiniz</string>
-    <string name="help_body">• Çevirici: Miktara dokunarak tuş takımını açın (varsayılan 1). Para birimleri bayrakla gösterilir. ⇄ ile yer değiştirin.\n\n• Kurlar: Baz para biriminize göre canlı kurlar. Favorilere yıldız ekleyin. Satırdan kur alarmı kurun.\n\n• İstatistik: Günlük değişim ve dünkü karşılaştırma.\n\n• Geçmiş: İstediğiniz çift ve süre (1 gün – 5 yıl).\n\n• Widget: Ana ekran widget’ı ile USD, EUR, GBP ve CHF kurları.\n\n• Ayarlar: Dil, tema, favoriler, güncelleme ve gizlilik.\n\nEkranlar sol üstteki menüden açılır. Canlı kurlar ExchangeRate-API’den. Geçmiş grafikler Frankfurter (ECB) kullanır. Veriler cihazda önbelleğe alınır.</string>
+    <string name="help_body">• Çevirici: Miktara dokunarak tuş takımını açın (varsayılan 1). + − × ÷ kullanın, sonucu paylaşın; kurlar çevrimdışı veya eskiyse banner görünür. Diğer birimler önce favoriler, sonra tam katalog.\n\n• Kurlar: Baz para biriminize göre canlı kurlar ve günlük yüzde değişim. Favorilere yıldız ekleyin. Satırdan kur alarmı kurun (Android 13+ bildirim izni ister).\n\n• Alarmlar: Listeleyin, düzenleyin veya silin. Tek seferlik alarm tetiklenince kapanır; tekrarlayanlar açık kalır. Bildirime dokununca ilgili çift çeviricide açılır.\n\n• İstatistik: Dünkü karşılaştırmayı Kurlar’daki baz paraya göre gösterir.\n\n• Geçmiş: Grafikte kaydırarak tarihi inceleyin, aralık yüzde değişimini görün, ikinci bir çifti karşılaştırın.\n\n• Metaller: Altın, gümüş, platin ve paladyum — Kurlar bazına göre.\n\n• Widget: Ayarlar’dan baz para ve en fazla dört kur seçin. Boyutu 1, 2 veya 4 satır için değiştirin. Satıra dokununca o çift çeviricide açılır.\n\n• Ayarlar: Dil, tema, favoriler, widget, güncelleme ve gizlilik.\n\nEkranlar sol üstteki menüden açılır. Canlı kurlar ExchangeRate-API’den. Geçmiş grafikler Frankfurter (ECB) kullanır. Veriler cihazda önbelleğe alınır.</string>
     <string name="cd_back">Geri</string>
     <string name="widget_live_rates">Canlı kurlar</string>
     <string name="widget_no_data">Veri yok</string>

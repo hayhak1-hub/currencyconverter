@@ -1,6 +1,8 @@
 package com.hayhak.currencyconverter.ui.history
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -9,7 +11,9 @@ import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -19,6 +23,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
@@ -37,7 +42,10 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
+fun HistoryScreen(
+    viewModel: HistoryViewModel = hiltViewModel(),
+    isWide: Boolean = false
+) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     val PAIRS = listOf(
@@ -78,6 +86,37 @@ fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
                         onSelect = viewModel::selectTarget,
                         modifier = Modifier.weight(1f)
                     )
+                }
+            }
+
+            FilterChip(
+                selected = state.compareEnabled,
+                onClick = { viewModel.setCompareEnabled(!state.compareEnabled) },
+                label = { Text(stringResource(R.string.history_compare)) },
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            if (state.compareEnabled) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    state.compareBaseInfo?.let { info ->
+                        CurrencySelector(
+                            label = stringResource(R.string.history_compare),
+                            currency = info,
+                            onSelect = viewModel::selectCompareBase,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                    state.compareTargetInfo?.let { info ->
+                        CurrencySelector(
+                            label = stringResource(R.string.converter_to),
+                            currency = info,
+                            onSelect = viewModel::selectCompareTarget,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                 }
             }
 
@@ -124,10 +163,12 @@ fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         RateChart(
                             data = state.data,
+                            compareData = if (state.compareEnabled) state.compareData else emptyList(),
                             lineColor = MaterialTheme.colorScheme.primary,
+                            compareColor = MaterialTheme.colorScheme.tertiary,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(250.dp)
+                                .height(if (isWide) 340.dp else 250.dp)
                         )
                         Spacer(Modifier.height(16.dp))
                         RateSummary(state.data)
@@ -151,7 +192,9 @@ fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
 @Composable
 private fun RateChart(
     data: List<HistoricalRate>,
+    compareData: List<HistoricalRate>,
     lineColor: Color,
+    compareColor: Color,
     modifier: Modifier = Modifier
 ) {
     if (data.isEmpty()) return
@@ -160,6 +203,7 @@ private fun RateChart(
     val labelColor      = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
     val gridColor       = MaterialTheme.colorScheme.outline.copy(alpha = 0.12f)
     val labelStyle      = TextStyle(fontSize = 9.sp, color = labelColor)
+    val scrubStyle      = TextStyle(fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.SemiBold)
     val spanDays = if (data.size >= 2) {
         ((data.last().date - data.first().date) / (24 * 60 * 60 * 1000L)).coerceAtLeast(1)
     } else {
@@ -167,8 +211,51 @@ private fun RateChart(
     }
     val datePattern = if (spanDays > 400) "MMM yy" else "dd MMM"
     val dateSdf         = remember(datePattern) { SimpleDateFormat(datePattern, Locale.getDefault()) }
+    var selectedIndex by remember(data) { mutableStateOf<Int?>(null) }
 
-    Canvas(modifier = modifier) {
+    fun seriesPoints(
+        series: List<HistoricalRate>,
+        chartL: Float,
+        chartT: Float,
+        chartW: Float,
+        chartH: Float
+    ): List<Offset> {
+        if (series.isEmpty()) return emptyList()
+        val minR = series.minOf { it.rate }
+        val maxR = series.maxOf { it.rate }
+        val range = (maxR - minR).takeIf { it > 0 } ?: (maxR * 0.01).coerceAtLeast(0.0001)
+        return if (series.size == 1) {
+            listOf(Offset(chartL + chartW / 2f, chartT + chartH / 2f))
+        } else {
+            series.mapIndexed { i, point ->
+                Offset(
+                    chartL + (i.toFloat() / (series.size - 1)) * chartW,
+                    chartT + ((maxR - point.rate) / range * chartH).toFloat()
+                )
+            }
+        }
+    }
+
+    Canvas(
+        modifier = modifier
+            .pointerInput(data) {
+                fun pick(x: Float): Int {
+                    val frac = (x / size.width).coerceIn(0f, 1f)
+                    return (frac * data.lastIndex).toInt().coerceIn(0, data.lastIndex)
+                }
+                detectTapGestures { selectedIndex = pick(it.x) }
+            }
+            .pointerInput(data) {
+                fun pick(x: Float): Int {
+                    val frac = (x / size.width).coerceIn(0f, 1f)
+                    return (frac * data.lastIndex).toInt().coerceIn(0, data.lastIndex)
+                }
+                detectDragGestures(
+                    onDragStart = { selectedIndex = pick(it.x) },
+                    onDrag = { change, _ -> selectedIndex = pick(change.position.x) }
+                )
+            }
+    ) {
         val minRate   = data.minOf { it.rate }
         val maxRate   = data.maxOf { it.rate }
         val rateRange = (maxRate - minRate).takeIf { it > 0 } ?: (maxRate * 0.01).coerceAtLeast(0.0001)
@@ -180,7 +267,7 @@ private fun RateChart(
 
         val chartL = yLabelW
         val chartR = size.width
-        val chartT = 4f
+        val chartT = 18f
         val chartB = size.height - xLabelH
         val chartW = (chartR - chartL).coerceAtLeast(1f)
         val chartH = (chartB - chartT).coerceAtLeast(1f)
@@ -190,9 +277,7 @@ private fun RateChart(
             val frac       = i.toFloat() / steps
             val rateValue  = maxRate - frac * rateRange
             val y          = chartT + frac * chartH
-
             drawLine(gridColor, Offset(chartL, y), Offset(chartR, y), strokeWidth = 1f)
-
             val label   = formatYLabel(rateValue)
             val measure = textMeasurer.measure(label, labelStyle)
             drawText(
@@ -203,40 +288,47 @@ private fun RateChart(
             )
         }
 
-        val points = if (data.size == 1) {
-            listOf(Offset(chartL + chartW / 2f, chartT + chartH / 2f))
-        } else {
-            data.mapIndexed { i, point ->
-                val x = chartL + (i.toFloat() / (data.size - 1)) * chartW
-                val y = chartT + ((maxRate - point.rate) / rateRange * chartH).toFloat()
-                Offset(x, y)
+        val points = seriesPoints(data, chartL, chartT, chartW, chartH)
+        val comparePoints = seriesPoints(compareData, chartL, chartT, chartW, chartH)
+
+        fun drawSeries(pts: List<Offset>, color: Color, fill: Boolean) {
+            if (pts.size >= 2) {
+                if (fill) {
+                    val fillPath = Path().apply {
+                        moveTo(pts.first().x, chartB)
+                        pts.forEach { lineTo(it.x, it.y) }
+                        lineTo(pts.last().x, chartB)
+                        close()
+                    }
+                    drawPath(
+                        path  = fillPath,
+                        brush = Brush.verticalGradient(
+                            colors   = listOf(color.copy(alpha = 0.25f), Color.Transparent),
+                            startY   = chartT,
+                            endY     = chartB
+                        )
+                    )
+                }
+                val linePath = Path().apply {
+                    moveTo(pts.first().x, pts.first().y)
+                    pts.drop(1).forEach { lineTo(it.x, it.y) }
+                }
+                drawPath(linePath, color, style = Stroke(width = 2.5f, cap = StrokeCap.Round, join = StrokeJoin.Round))
             }
         }
 
-        if (points.size >= 2) {
-            val fillPath = Path().apply {
-                moveTo(points.first().x, chartB)
-                points.forEach { lineTo(it.x, it.y) }
-                lineTo(points.last().x, chartB)
-                close()
-            }
-            drawPath(
-                path  = fillPath,
-                brush = Brush.verticalGradient(
-                    colors   = listOf(lineColor.copy(alpha = 0.25f), Color.Transparent),
-                    startY   = chartT,
-                    endY     = chartB
-                )
-            )
+        drawSeries(points, lineColor, fill = true)
+        drawSeries(comparePoints, compareColor, fill = false)
 
-            val linePath = Path().apply {
-                moveTo(points.first().x, points.first().y)
-                points.drop(1).forEach { lineTo(it.x, it.y) }
-            }
-            drawPath(
-                linePath, lineColor,
-                style = Stroke(width = 2.5f, cap = StrokeCap.Round, join = StrokeJoin.Round)
-            )
+        val idx = selectedIndex
+        if (idx != null && idx in data.indices) {
+            val x = if (data.size == 1) chartL + chartW / 2f else chartL + (idx.toFloat() / (data.size - 1)) * chartW
+            drawLine(lineColor.copy(alpha = 0.5f), Offset(x, chartT), Offset(x, chartB), strokeWidth = 2f)
+            val point = data[idx]
+            val label = "${dateSdf.format(Date(point.date))}  ${formatYLabel(point.rate)}"
+            val measure = textMeasurer.measure(label, scrubStyle)
+            val lx = (x - measure.size.width / 2f).coerceIn(chartL, chartR - measure.size.width)
+            drawText(textMeasurer = textMeasurer, text = label, topLeft = Offset(lx, 0f), style = scrubStyle)
         }
 
         if (data.size <= 15) {
@@ -248,13 +340,13 @@ private fun RateChart(
 
         val labelCount = minOf(4, data.size)
         repeat(labelCount) { i ->
-            val idx     = if (labelCount == 1) 0 else (i * (data.size - 1)) / (labelCount - 1)
+            val di     = if (labelCount == 1) 0 else (i * (data.size - 1)) / (labelCount - 1)
             val x       = if (data.size == 1) {
                 chartL + chartW / 2f
             } else {
-                chartL + (idx.toFloat() / (data.size - 1)) * chartW
+                chartL + (di.toFloat() / (data.size - 1)) * chartW
             }
-            val dateStr = dateSdf.format(Date(data[idx].date))
+            val dateStr = dateSdf.format(Date(data[di].date))
             val measure = textMeasurer.measure(dateStr, labelStyle)
             val labelX  = (x - measure.size.width / 2f).coerceIn(chartL, chartR - measure.size.width)
             drawText(
@@ -281,6 +373,8 @@ private fun RateSummary(data: List<HistoricalRate>) {
     val min  = data.minOf { it.rate }
     val max  = data.maxOf { it.rate }
     val last = data.last()
+    val first = data.first()
+    val change = if (first.rate != 0.0) (last.rate - first.rate) / first.rate * 100.0 else null
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -289,6 +383,9 @@ private fun RateSummary(data: List<HistoricalRate>) {
         SummaryItem(stringResource(R.string.history_low), "%.4f".format(min))
         SummaryItem(stringResource(R.string.history_high), "%.4f".format(max))
         SummaryItem(stringResource(R.string.history_current), "%.4f".format(last.rate))
+        if (change != null) {
+            SummaryItem(stringResource(R.string.history_change), "%+.2f%%".format(change))
+        }
     }
 }
 

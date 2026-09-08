@@ -1,0 +1,7 @@
+# Firebase / Google Analytics
+
+1. Create a Firebase Android app with package `com.hayhak.currencyconverter`.
+2. Download `google-services.json` and place it in `app/google-services.json`.
+3. Rebuild. The Google Services plugin is applied only when that file exists.
+
+Advertising ID collection is disabled in the manifest.

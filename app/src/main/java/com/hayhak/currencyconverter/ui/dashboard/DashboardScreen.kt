@@ -1,7 +1,17 @@
 package com.hayhak.currencyconverter.ui.dashboard
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.content.ContextCompat
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
@@ -38,12 +48,25 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(viewModel: DashboardViewModel = hiltViewModel()) {
+fun DashboardScreen(
+    viewModel: DashboardViewModel = hiltViewModel(),
+    onNavigateToAlerts: () -> Unit = {},
+    isWide: Boolean = false
+) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     var searchQuery by remember { mutableStateOf("") }
     val context = LocalContext.current
     val localeKey = LocalConfiguration.current.locales.toLanguageTags()
+    val notifPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {}
+    fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= 33 &&
+            ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            notifPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
 
     LaunchedEffect(state.error) {
         state.error?.let {
@@ -56,23 +79,29 @@ fun DashboardScreen(viewModel: DashboardViewModel = hiltViewModel()) {
         AlarmDialog(
             row = state.showAlarmDialog!!,
             onDismiss = { viewModel.showAlarmDialog(null) },
-            onConfirm = { threshold, isAbove -> viewModel.addAlarm(threshold, isAbove) }
+            onConfirm = { threshold, isAbove, repeating ->
+                requestNotificationPermission()
+                viewModel.addAlarm(threshold, isAbove, repeating)
+            }
         )
     }
 
     val query = searchQuery.trim()
 
-    val allRateRows = remember(state.allRates, state.baseCurrency, localeKey) {
+    val allRateRows = remember(state.allRates, state.yesterdayRates, state.baseCurrency, localeKey) {
         SUPPORTED_CURRENCIES
             .filter { it.code != state.baseCurrency }
             .mapNotNull { info ->
                 val rate = state.allRates[info.code] ?: return@mapNotNull null
+                val prev = state.yesterdayRates[info.code]
+                val trend = if (prev != null && prev != 0.0) (rate - prev) / prev * 100.0 else 0.0
                 CurrencyRow(
                     code = info.code,
                     name = context.currencyName(info.code),
                     symbol = info.symbol,
                     flag = info.flag,
-                    rateToTry = rate
+                    rateToTry = rate,
+                    trend = trend
                 )
             }
     }
@@ -120,6 +149,9 @@ fun DashboardScreen(viewModel: DashboardViewModel = hiltViewModel()) {
                         onSelect = viewModel::onBaseCurrencyChange,
                         modifier = Modifier.weight(1f)
                     )
+                    TextButton(onClick = onNavigateToAlerts) {
+                        Text(stringResource(R.string.nav_alerts))
+                    }
                     state.lastUpdated?.let { ts ->
                         Text(
                             text  = formatRelativeTime(ts),
@@ -153,9 +185,12 @@ fun DashboardScreen(viewModel: DashboardViewModel = hiltViewModel()) {
                         CircularProgressIndicator()
                     }
                 } else {
-                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(if (isWide) 2 else 1),
+                        modifier = Modifier.fillMaxSize()
+                    ) {
                         if (favoriteRows.isNotEmpty()) {
-                            item {
+                            item(span = { GridItemSpan(maxLineSpan) }) {
                                 Text(
                                     stringResource(R.string.dashboard_favorites),
                                     style    = MaterialTheme.typography.labelMedium,
@@ -171,12 +206,11 @@ fun DashboardScreen(viewModel: DashboardViewModel = hiltViewModel()) {
                                     onToggleFavorite = { viewModel.toggleFavorite(row.code) },
                                     onAlarm = { viewModel.showAlarmDialog(row) }
                                 )
-                                HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.15f))
                             }
                         }
 
                         if (otherRows.isNotEmpty()) {
-                            item {
+                            item(span = { GridItemSpan(maxLineSpan) }) {
                                 Text(
                                     stringResource(R.string.dashboard_all_rates),
                                     style    = MaterialTheme.typography.labelMedium,
@@ -192,7 +226,6 @@ fun DashboardScreen(viewModel: DashboardViewModel = hiltViewModel()) {
                                     onToggleFavorite = { viewModel.toggleFavorite(row.code) },
                                     onAlarm = { viewModel.showAlarmDialog(row) }
                                 )
-                                HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
                             }
                         }
                     }
@@ -229,7 +262,16 @@ private fun RateRow(
             }
             Text(text = row.name, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f))
         }
-        Text(text = formatRate(row.rateToTry), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = trendColor, modifier = Modifier.padding(horizontal = 8.dp))
+        Column(horizontalAlignment = Alignment.End) {
+            Text(text = formatRate(row.rateToTry), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = trendColor)
+            if (row.trend != 0.0) {
+                Text(
+                    text = "%+.2f%%".format(row.trend),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = trendColor
+                )
+            }
+        }
         IconButton(onClick = onAlarm, modifier = Modifier.size(36.dp)) {
             Icon(Icons.Default.NotificationsNone, null, modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f))
         }
@@ -342,10 +384,11 @@ private fun BaseCurrencyDialog(
 private fun AlarmDialog(
     row: CurrencyRow,
     onDismiss: () -> Unit,
-    onConfirm: (Double, Boolean) -> Unit
+    onConfirm: (Double, Boolean, Boolean) -> Unit
 ) {
     var thresholdInput by remember { mutableStateOf("") }
     var isAbove by remember { mutableStateOf(true) }
+    var repeating by remember { mutableStateOf(false) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -369,12 +412,16 @@ private fun AlarmDialog(
                     FilterChip(selected = isAbove, onClick = { isAbove = true }, label = { Text(stringResource(R.string.alarm_when_above)) })
                     FilterChip(selected = !isAbove, onClick = { isAbove = false }, label = { Text(stringResource(R.string.alarm_when_below)) })
                 }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(checked = repeating, onCheckedChange = { repeating = it })
+                    Text(stringResource(R.string.alarm_repeating), style = MaterialTheme.typography.bodyMedium)
+                }
             }
         },
         confirmButton = {
             Button(onClick = {
                 val threshold = thresholdInput.replace(",", ".").toDoubleOrNull()
-                if (threshold != null) onConfirm(threshold, isAbove)
+                if (threshold != null) onConfirm(threshold, isAbove, repeating)
             }, enabled = thresholdInput.isNotBlank()) { Text(stringResource(R.string.alarm_set)) }
         },
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } }

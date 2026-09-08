@@ -68,7 +68,7 @@ class DashboardViewModel @Inject constructor(
         _uiState.update { it.copy(showAlarmDialog = row) }
     }
 
-    fun addAlarm(threshold: Double, isAbove: Boolean) {
+    fun addAlarm(threshold: Double, isAbove: Boolean, repeating: Boolean) {
         val row = _uiState.value.showAlarmDialog ?: return
         viewModelScope.launch {
             userPrefs.addAlarm(
@@ -76,7 +76,8 @@ class DashboardViewModel @Inject constructor(
                     baseCode = _uiState.value.baseCurrency,
                     targetCode = row.code,
                     threshold = threshold,
-                    isAbove = isAbove
+                    isAbove = isAbove,
+                    repeating = repeating
                 )
             )
             showAlarmDialog(null)
@@ -94,40 +95,47 @@ class DashboardViewModel @Inject constructor(
             }
         }
 
-        ratesJob = combine(
-            getExchangeRates(base),
-            userPrefs.favorites
-        ) { exchangeRate, favorites ->
-            if (exchangeRate == null) {
-                _uiState.update { it.copy(isLoading = false) }
-                return@combine
-            }
-            
-            val rows = SUPPORTED_CURRENCIES
-                .filter { it.code != base }
-                .filter { favorites.contains(it.code) }
-                .mapNotNull { info ->
-                    val rateToBase = exchangeRate.rates[info.code] ?: return@mapNotNull null
-                    CurrencyRow(
-                        code = info.code,
-                        name = application.currencyName(info.code),
-                        symbol = info.symbol,
-                        flag = info.flag,
-                        rateToTry = rateToBase
+        ratesJob = viewModelScope.launch {
+            combine(getExchangeRates(base), userPrefs.favorites) { exchangeRate, favorites ->
+                exchangeRate to favorites
+            }.collect { (exchangeRate, favorites) ->
+                if (exchangeRate == null) {
+                    _uiState.update { it.copy(isLoading = false) }
+                    return@collect
+                }
+                val cutoff = System.currentTimeMillis() - java.util.concurrent.TimeUnit.HOURS.toMillis(20)
+                val yesterday = repository.getRatesBefore(base, cutoff)?.rates ?: emptyMap()
+
+                val rows = SUPPORTED_CURRENCIES
+                    .filter { it.code != base }
+                    .filter { favorites.contains(it.code) }
+                    .mapNotNull { info ->
+                        val rateToBase = exchangeRate.rates[info.code] ?: return@mapNotNull null
+                        val prev = yesterday[info.code]
+                        val trend = if (prev != null && prev != 0.0) (rateToBase - prev) / prev * 100.0 else 0.0
+                        CurrencyRow(
+                            code = info.code,
+                            name = application.currencyName(info.code),
+                            symbol = info.symbol,
+                            flag = info.flag,
+                            rateToTry = rateToBase,
+                            trend = trend
+                        )
+                    }
+
+                _uiState.update {
+                    it.copy(
+                        rows = rows,
+                        allRates = exchangeRate.rates,
+                        yesterdayRates = yesterday,
+                        isLoading = false,
+                        isRefreshing = false,
+                        error = null,
+                        lastUpdated = exchangeRate.timestamp
                     )
                 }
-            
-            _uiState.update {
-                it.copy(
-                    rows = rows,
-                    allRates = exchangeRate.rates,
-                    isLoading = false,
-                    isRefreshing = false,
-                    error = null,
-                    lastUpdated = exchangeRate.timestamp
-                )
             }
-        }.launchIn(viewModelScope)
+        }
     }
 
     fun refresh() {
