@@ -64,10 +64,11 @@ fun NumberPalette(
         DecimalFormatSymbols.getInstance().decimalSeparator.toString()
     }
     val keys = listOf(
-        listOf("1", "2", "3"),
-        listOf("4", "5", "6"),
-        listOf("7", "8", "9"),
-        listOf(decimalSep, "0", "DEL")
+        listOf("1", "2", "3", "÷"),
+        listOf("4", "5", "6", "×"),
+        listOf("7", "8", "9", "-"),
+        listOf(decimalSep, "0", "%", "+"),
+        listOf("DEL", "=", "C")
     )
 
     Column(
@@ -78,7 +79,7 @@ fun NumberPalette(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AnimatedContent(
-            targetState = amount.ifEmpty { "0" },
+            targetState = amount,
             transitionSpec = {
                 fadeIn(tween(120)) togetherWith fadeOut(tween(80))
             },
@@ -89,7 +90,10 @@ fun NumberPalette(
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .padding(bottom = 4.dp)
             )
         }
 
@@ -107,8 +111,8 @@ fun NumberPalette(
                 row.forEachIndexed { colIndex, key ->
                     NumberKey(
                         label = key,
-                        index = rowIndex * 3 + colIndex,
-                        modifier = Modifier.weight(1f),
+                        index = rowIndex * 4 + colIndex,
+                        modifier = Modifier.weight(if (key == "DEL" || key == "=" || key == "C") 1f else 1f),
                         onClick = { onKey(key) }
                     )
                 }
@@ -161,7 +165,8 @@ private fun NumberKey(
         )
     }
 
-    val isAction = label == "DEL"
+    val isAction = label == "DEL" || label == "=" || label == "C" ||
+        label == "+" || label == "-" || label == "×" || label == "÷" || label == "%"
     Surface(
         onClick = {
             haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -191,11 +196,19 @@ private fun NumberKey(
             contentAlignment = Alignment.Center
         ) {
             if (isAction) {
-                Icon(
-                    Icons.AutoMirrored.Filled.Backspace,
-                    contentDescription = stringResource(R.string.cd_backspace),
-                    tint = MaterialTheme.colorScheme.onSecondaryContainer
-                )
+                when (label) {
+                    "DEL" -> Icon(
+                        Icons.AutoMirrored.Filled.Backspace,
+                        contentDescription = stringResource(R.string.cd_backspace),
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                    else -> Text(
+                        text = label,
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 22.sp
+                    )
+                }
             } else {
                 Text(
                     text = label,

@@ -56,6 +56,12 @@ fun HelpScreen(onBack: () -> Unit) {
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(top = 12.dp)
             )
+            Text(
+                stringResource(R.string.settings_developer_by),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f),
+                modifier = Modifier.padding(top = 24.dp)
+            )
         }
     }
 }

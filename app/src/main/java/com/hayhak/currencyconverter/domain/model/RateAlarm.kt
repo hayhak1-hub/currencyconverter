@@ -5,6 +5,8 @@ data class RateAlarm(
     val baseCode: String,
     val targetCode: String,
     val threshold: Double,
-    val isAbove: Boolean, // true if trigger when rate > threshold, false if below
-    val isEnabled: Boolean = true
+    val isAbove: Boolean,
+    val isEnabled: Boolean = true,
+    val repeating: Boolean = false,
+    val lastFiredAt: Long = 0L
 )

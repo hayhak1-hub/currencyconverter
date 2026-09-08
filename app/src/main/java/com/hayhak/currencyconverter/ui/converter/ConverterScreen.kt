@@ -43,7 +43,10 @@ fun ConverterScreen(viewModel: ConverterViewModel = hiltViewModel()) {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         OutlinedCard(
-            onClick = { showNumberPad = true },
+            onClick = {
+                viewModel.startAmountEntry()
+                showNumberPad = true
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Row(
@@ -59,7 +62,7 @@ fun ConverterScreen(viewModel: ConverterViewModel = hiltViewModel()) {
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
                     AnimatedContent(
-                        targetState = state.amount.ifEmpty { "0" },
+                        targetState = state.amount.ifEmpty { "1" },
                         transitionSpec = { fadeIn() togetherWith fadeOut() },
                         label = "amountField"
                     ) { value ->
@@ -130,13 +133,19 @@ fun ConverterScreen(viewModel: ConverterViewModel = hiltViewModel()) {
 
     if (showNumberPad) {
         ModalBottomSheet(
-            onDismissRequest = { showNumberPad = false },
+            onDismissRequest = {
+                viewModel.finishAmountEntry()
+                showNumberPad = false
+            },
             sheetState = sheetState
         ) {
             NumberPalette(
                 amount = state.amount,
                 onKey = viewModel::onNumpadClick,
-                onDone = { showNumberPad = false }
+                onDone = {
+                    viewModel.finishAmountEntry()
+                    showNumberPad = false
+                }
             )
         }
     }
@@ -150,7 +159,7 @@ private fun ResultDisplay(state: ConverterUiState) {
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
     ) {
         Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("${state.fromCurrency.code} -> ${state.toCurrency.code}", style = MaterialTheme.typography.labelMedium)
+            Text("${state.fromCurrency.flag} ${state.fromCurrency.code} -> ${state.toCurrency.flag} ${state.toCurrency.code}", style = MaterialTheme.typography.labelMedium)
             val res = state.result?.let { formatVal(it) } ?: "—"
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(res, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)

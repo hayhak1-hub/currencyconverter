@@ -28,6 +28,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.color.ColorProvider
 import com.hayhak.currencyconverter.domain.repository.ExchangeRateRepository
+import com.hayhak.currencyconverter.domain.model.getFlagEmoji
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
@@ -89,13 +90,13 @@ class CurrencyWidget : GlanceAppWidget() {
                 Spacer(GlanceModifier.height(10.dp))
 
                 // ── Kur satırları ───────────────────────────────────
-                RateRow("$",  "USD", tryRate)
+                RateRow(getFlagEmoji("USD"), "USD", tryRate)
                 Spacer(GlanceModifier.height(5.dp))
-                RateRow("€",  "EUR", crossRate("EUR"))
+                RateRow(getFlagEmoji("EUR"), "EUR", crossRate("EUR"))
                 Spacer(GlanceModifier.height(5.dp))
-                RateRow("£",  "GBP", crossRate("GBP"))
+                RateRow(getFlagEmoji("GBP"), "GBP", crossRate("GBP"))
                 Spacer(GlanceModifier.height(5.dp))
-                RateRow("Fr", "CHF", crossRate("CHF"))
+                RateRow(getFlagEmoji("CHF"), "CHF", crossRate("CHF"))
 
                 Spacer(GlanceModifier.defaultWeight())
 

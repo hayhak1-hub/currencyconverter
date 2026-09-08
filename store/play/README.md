@@ -13,8 +13,8 @@
 
 ## Required assets checklist
 
-- [ ] **App icon** — 512×512 PNG (use `@mipmap/ic_launcher` export)
-- [ ] **Feature graphic** — 1024×500 PNG
+- [x] **App icon** — 512×512 PNG → `store/play/app-icon-512.png`
+- [x] **Feature graphic** — 1024×500 PNG → `store/play/feature-graphic-1024x500.png`
 - [ ] **Phone screenshots** — min 2, max 8 (1080×1920 or 9:16)
   - Converter screen
   - Rates / dashboard

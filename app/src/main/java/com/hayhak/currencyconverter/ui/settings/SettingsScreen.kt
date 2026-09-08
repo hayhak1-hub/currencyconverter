@@ -42,6 +42,8 @@ import com.hayhak.currencyconverter.ui.dashboard.DashboardViewModel
 import com.hayhak.currencyconverter.ui.locale.AppLanguages
 import com.hayhak.currencyconverter.ui.theme.ThemeMode
 import com.hayhak.currencyconverter.ui.theme.ThemeViewModel
+import com.hayhak.currencyconverter.util.AnalyticsHelper
+import com.hayhak.currencyconverter.util.FeedbackHelper
 import com.hayhak.currencyconverter.util.PlayStoreHelper
 import com.hayhak.currencyconverter.util.PlayUpdateChecker
 import com.hayhak.currencyconverter.util.PlayUpdateInfo
@@ -92,6 +94,7 @@ fun SettingsScreen(
             onDismiss = { showLanguageDialog = false },
             onSelect = { tag ->
                 AppLanguages.apply(tag)
+                AnalyticsHelper.logLanguageSelected(context, tag)
                 showLanguageDialog = false
             }
         )
@@ -327,10 +330,28 @@ private fun AboutSection(
             ) {
                 Icon(Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                 Spacer(Modifier.width(16.dp))
-                Text(
-                    stringResource(R.string.settings_version_label, packageInfo.versionName ?: "", versionCode),
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                Column {
+                    Text(
+                        stringResource(R.string.app_name),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        stringResource(R.string.settings_developer_by),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f)
+                    )
+                    Text(
+                        stringResource(
+                            R.string.settings_version_label,
+                            packageInfo.versionName ?: "",
+                            versionCode
+                        ),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f),
+                        modifier = Modifier.padding(top = 2.dp)
+                    )
+                }
             }
             HorizontalDivider()
             AboutLinkRow(
@@ -356,6 +377,13 @@ private fun AboutSection(
                 title = stringResource(R.string.settings_rate_us),
                 subtitle = stringResource(R.string.settings_rate_us_desc),
                 onClick = { PlayStoreHelper.openListing(context) }
+            )
+            HorizontalDivider()
+            AboutLinkRow(
+                icon = Icons.Default.Email,
+                title = stringResource(R.string.settings_feedback),
+                subtitle = stringResource(R.string.settings_feedback_desc),
+                onClick = { FeedbackHelper.openFeedbackEmail(context) }
             )
             HorizontalDivider()
             AboutLinkRow(

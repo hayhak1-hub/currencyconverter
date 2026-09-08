@@ -112,6 +112,7 @@ class DashboardViewModel @Inject constructor(
                         code = info.code,
                         name = application.currencyName(info.code),
                         symbol = info.symbol,
+                        flag = info.flag,
                         rateToTry = rateToBase
                     )
                 }

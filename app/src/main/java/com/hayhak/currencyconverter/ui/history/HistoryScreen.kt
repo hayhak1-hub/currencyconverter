@@ -5,13 +5,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -32,8 +30,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hayhak.currencyconverter.R
 import com.hayhak.currencyconverter.domain.model.HistoricalRate
+import com.hayhak.currencyconverter.domain.model.getFlagEmoji
 import com.hayhak.currencyconverter.ui.components.CurrencySelector
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -41,10 +39,6 @@ import java.util.Locale
 @Composable
 fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
-    val csvSaved = stringResource(R.string.history_csv_saved)
-    val csvFailed = stringResource(R.string.history_csv_failed)
 
     val PAIRS = listOf(
         "USD" to "TRY",
@@ -55,30 +49,12 @@ fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
         "EUR" to "GBP"
     )
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(onClick = {
-                    viewModel.exportToCsv { path ->
-                        scope.launch {
-                            snackbarHostState.showSnackbar(
-                                if (path != null) csvSaved else csvFailed
-                            )
-                        }
-                    }
-                }) {
-                    Icon(Icons.Default.Download, contentDescription = stringResource(R.string.cd_export_csv))
-                }
-            }
-
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+            .padding(top = 4.dp, bottom = 16.dp)
+    ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -114,7 +90,7 @@ fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
                     FilterChip(
                         selected = state.baseCurrency == base && state.targetCurrency == target,
                         onClick = { viewModel.selectPair(base, target) },
-                        label = { Text("$base/$target") }
+                        label = { Text("${getFlagEmoji(base)} $base / ${getFlagEmoji(target)} $target") }
                     )
                 }
             }
@@ -169,12 +145,6 @@ fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
                     )
                 }
             }
-        }
-        
-        SnackbarHost(
-            hostState = snackbarHostState,
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
     }
 }
 

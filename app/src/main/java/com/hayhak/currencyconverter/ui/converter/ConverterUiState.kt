@@ -10,6 +10,7 @@ data class ConverterUiState(
     val result: Double? = null,
     val batchResults: Map<String, Double> = emptyMap(),
     val rates: Map<String, Double> = emptyMap(),
+    val favorites: Set<String> = emptySet(),
     val isLoading: Boolean = false,
     val error: String? = null,
     val lastUpdated: Long? = null

@@ -7,6 +7,7 @@
     <string name="nav_history">Verlauf</string>
     <string name="nav_settings">Einstellungen</string>
     <string name="cd_theme">Design</string>
+    <string name="cd_menu">Menü öffnen</string>
     <string name="cd_export_csv">CSV exportieren</string>
     <string name="cd_copy">Kopieren</string>
     <string name="cd_swap">Währungen tauschen</string>
@@ -63,6 +64,7 @@
     <string name="settings_language">Sprache</string>
     <string name="settings_language_system">Systemstandard</string>
     <string name="settings_about">Über</string>
+    <string name="settings_developer_by">Entwickelt von Hayhak</string>
     <string name="settings_version_label">Version %1$s (%2$d)</string>
     <string name="settings_update">Aktualisieren</string>
     <string name="settings_update_desc">Google Play auf die neueste Version prüfen</string>
@@ -70,6 +72,12 @@
     <string name="settings_help_desc">So nutzen Sie die App</string>
     <string name="settings_rate_us">Bewerten Sie uns</string>
     <string name="settings_rate_us_desc">Feedback bei Google Play teilen</string>
+    <string name="settings_feedback">Kontakt</string>
+    <string name="settings_feedback_desc">Ideen, Fehler oder Wünsche per E-Mail senden</string>
+    <string name="settings_feedback_subject">Währungsrechner Feedback (%1$s)</string>
+    <string name="settings_feedback_body">Schreiben Sie Ihre Nachricht über diese Zeile.\n\n———\nApp: Währungsrechner %1$s (%2$d)\nGerät: %3$s %4$s\nAndroid: %5$s (API %6$d)\n———\n</string>
+    <string name="settings_feedback_chooser">Feedback senden</string>
+    <string name="settings_feedback_no_email">Keine E-Mail-App gefunden. Schreiben Sie an thunderbascraft@gmail.com</string>
     <string name="settings_share">Teilen</string>
     <string name="settings_share_desc">Empfehlen Sie die App Ihren Freunden</string>
     <string name="settings_share_text">Probieren Sie Währungsrechner — Live-Kurse und Diagramme.\n%1$s</string>
@@ -84,7 +92,7 @@
     <string name="update_dialog_positive">Aktualisieren</string>
     <string name="update_dialog_later">Später</string>
     <string name="help_welcome_title">Willkommen beim Währungsrechner</string>
-    <string name="help_body">• Rechner: Betrag eingeben, Währungen wählen, sofortiges Ergebnis. ⇄ tauscht die Währungen.\n\n• Kurse: Live-Kurse zur Basiswährung. Favoriten mit Stern anheften.\n\n• Statistik: Tagesänderung und Vergleich mit gestern.\n\n• Verlauf: Beliebiges Währungspaar und Zeitraum (1 Tag bis 5 Jahre). CSV-Export.\n\n• Kursalarme: Zielkurs setzen und bei Erreichen benachrichtigt werden.\n\n• Einstellungen: Sprache, Design und Favoriten. Widget für Live-Kurse auf dem Startbildschirm.\n\nLive-Kurse von ExchangeRate-API (kostenlos). Verlaufsdiagramme nutzen Frankfurter. Daten werden lokal zwischengespeichert.</string>
+    <string name="help_body">• Rechner: Tippen Sie auf den Betrag (Standard 1), um das Ziffernfeld zu öffnen. Währungen erscheinen mit Flagge. ⇄ tauscht sie.\n\n• Kurse: Live-Kurse zur Basiswährung. Favoriten mit Stern anheften. Kursalarm in jeder Zeile setzen.\n\n• Statistik: Tagesänderung und Vergleich mit gestern.\n\n• Verlauf: Beliebiges Währungspaar und Zeitraum von 1 Tag bis 5 Jahre.\n\n• Widget: Live-Kurse für USD, EUR, GBP und CHF auf dem Startbildschirm.\n\n• Einstellungen: Sprache, Design, Favoriten, Updates und Datenschutz.\n\nBildschirme öffnen Sie über das Menü oben links. Live-Kurse von ExchangeRate-API. Verlaufsdiagramme nutzen Frankfurter (EZB). Daten werden lokal zwischengespeichert.</string>
     <string name="cd_back">Zurück</string>
     <string name="widget_live_rates">Live-Kurse</string>
     <string name="widget_no_data">Keine Daten</string>

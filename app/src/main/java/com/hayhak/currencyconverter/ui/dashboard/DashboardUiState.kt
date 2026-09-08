@@ -4,6 +4,7 @@ data class CurrencyRow(
     val code: String,
     val name: String,
     val symbol: String,
+    val flag: String,
     val rateToTry: Double,
     val trend: Double = 0.0
 )

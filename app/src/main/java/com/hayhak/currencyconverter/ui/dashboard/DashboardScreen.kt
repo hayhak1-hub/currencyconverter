@@ -71,6 +71,7 @@ fun DashboardScreen(viewModel: DashboardViewModel = hiltViewModel()) {
                     code = info.code,
                     name = context.currencyName(info.code),
                     symbol = info.symbol,
+                    flag = info.flag,
                     rateToTry = rate
                 )
             }
@@ -96,18 +97,20 @@ fun DashboardScreen(viewModel: DashboardViewModel = hiltViewModel()) {
     }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
-    ) { padding ->
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        contentWindowInsets = WindowInsets(0)
+    ) { _ ->
         PullToRefreshBox(
             isRefreshing = state.isRefreshing,
             onRefresh    = viewModel::refresh,
-            modifier     = Modifier.fillMaxSize().padding(padding)
+            modifier     = Modifier.fillMaxSize()
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 4.dp, bottom = 4.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
@@ -132,7 +135,7 @@ fun DashboardScreen(viewModel: DashboardViewModel = hiltViewModel()) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
-                        .padding(bottom = 8.dp),
+                        .padding(bottom = 4.dp),
                     placeholder = { Text(stringResource(R.string.settings_search_currency)) },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                     trailingIcon = {
@@ -158,7 +161,7 @@ fun DashboardScreen(viewModel: DashboardViewModel = hiltViewModel()) {
                                     style    = MaterialTheme.typography.labelMedium,
                                     color    = MaterialTheme.colorScheme.primary,
                                     fontWeight = FontWeight.Bold,
-                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
+                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp)
                                 )
                             }
                             items(favoriteRows, key = { "fav_${it.code}" }) { row ->
@@ -179,7 +182,7 @@ fun DashboardScreen(viewModel: DashboardViewModel = hiltViewModel()) {
                                     style    = MaterialTheme.typography.labelMedium,
                                     color    = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                                     fontWeight = FontWeight.Bold,
-                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
+                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 2.dp)
                                 )
                             }
                             items(otherRows, key = { it.code }) { row ->
@@ -216,11 +219,14 @@ private fun RateRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 10.dp),
+            .padding(horizontal = 12.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = "${row.symbol} ${row.code}", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(text = row.flag, fontSize = 20.sp, modifier = Modifier.padding(end = 8.dp))
+                Text(text = row.code, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+            }
             Text(text = row.name, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f))
         }
         Text(text = formatRate(row.rateToTry), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = trendColor, modifier = Modifier.padding(horizontal = 8.dp))
@@ -251,6 +257,11 @@ private fun BaseCurrencySelector(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(stringResource(R.string.dashboard_base), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+            Text(
+                SUPPORTED_CURRENCIES.find { it.code == selected }?.flag ?: "",
+                fontSize = 20.sp,
+                modifier = Modifier.padding(start = 8.dp, end = 6.dp)
+            )
             Text(selected, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.weight(1f))
             Icon(Icons.Default.ArrowDropDown, null)
@@ -314,8 +325,9 @@ private fun BaseCurrencyDialog(
                 LazyColumn {
                     items(filtered, key = { it.code }) { info ->
                         ListItem(
-                            headlineContent = { Text("${info.flag}  ${info.code}") },
+                            headlineContent = { Text(info.code) },
                             supportingContent = { Text(currencyName(info.code)) },
+                            leadingContent = { Text(info.flag, fontSize = 20.sp) },
                             trailingContent = { if (info.code == current) Icon(Icons.Default.Check, null) },
                             modifier = Modifier.clickable { onSelect(info.code) }
                         )
@@ -337,7 +349,11 @@ private fun AlarmDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(stringResource(R.string.alarm_title, row.code)) },
+        title = {
+            Text(
+                stringResource(R.string.alarm_title, "${row.flag} ${row.code}")
+            )
+        },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text(stringResource(R.string.alarm_current_rate, formatRate(row.rateToTry)), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f))

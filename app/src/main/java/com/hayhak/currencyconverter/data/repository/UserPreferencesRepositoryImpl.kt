@@ -32,9 +32,12 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         val HISTORY_TARGET = stringPreferencesKey("history_target")
         val DASHBOARD_BASE = stringPreferencesKey("dashboard_base")
         val ALARMS = stringPreferencesKey("alarms")
+        val WIDGET_BASE = stringPreferencesKey("widget_base")
+        val WIDGET_CODES = stringPreferencesKey("widget_codes")
     }
 
     private val defaultFavorites = setOf("USD", "EUR", "GBP", "TRY")
+    private val defaultWidgetCodes = listOf("USD", "EUR", "GBP", "CHF")
 
     override val favorites: Flow<Set<String>> = context.dataStore.data.map {
         it[PreferencesKeys.FAVORITES] ?: defaultFavorites
@@ -94,12 +97,32 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         }
     }
 
+    override val widgetBase: Flow<String> = context.dataStore.data.map {
+        it[PreferencesKeys.WIDGET_BASE] ?: (it[PreferencesKeys.DASHBOARD_BASE] ?: "USD")
+    }
+
+    override val widgetCodes: Flow<List<String>> = context.dataStore.data.map { prefs ->
+        val raw = prefs[PreferencesKeys.WIDGET_CODES]
+        if (raw.isNullOrBlank()) defaultWidgetCodes
+        else raw.split(",").map { it.trim() }.filter { it.isNotEmpty() }.ifEmpty { defaultWidgetCodes }
+    }
+
     override suspend fun addAlarm(alarm: RateAlarm) {
         context.dataStore.edit { prefs ->
             val json = prefs[PreferencesKeys.ALARMS] ?: "[]"
             val type = object : TypeToken<List<RateAlarm>>() {}.type
             val current: List<RateAlarm> = gson.fromJson(json, type)
             val next = current + alarm
+            prefs[PreferencesKeys.ALARMS] = gson.toJson(next)
+        }
+    }
+
+    override suspend fun updateAlarm(alarm: RateAlarm) {
+        context.dataStore.edit { prefs ->
+            val json = prefs[PreferencesKeys.ALARMS] ?: "[]"
+            val type = object : TypeToken<List<RateAlarm>>() {}.type
+            val current: List<RateAlarm> = gson.fromJson(json, type)
+            val next = current.map { if (it.id == alarm.id) alarm else it }
             prefs[PreferencesKeys.ALARMS] = gson.toJson(next)
         }
     }
@@ -111,6 +134,13 @@ class UserPreferencesRepositoryImpl @Inject constructor(
             val current: List<RateAlarm> = gson.fromJson(json, type)
             val next = current.filter { it.id != id }
             prefs[PreferencesKeys.ALARMS] = gson.toJson(next)
+        }
+    }
+
+    override suspend fun saveWidgetConfig(base: String, codes: List<String>) {
+        context.dataStore.edit { prefs ->
+            prefs[PreferencesKeys.WIDGET_BASE] = base
+            prefs[PreferencesKeys.WIDGET_CODES] = codes.joinToString(",")
         }
     }
 }
