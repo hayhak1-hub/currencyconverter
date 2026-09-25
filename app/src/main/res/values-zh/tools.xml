@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">费用、记录与旅行</string>
+    <string name="tools_fees">费用</string>
+    <string name="tools_history">已保存</string>
+    <string name="tools_travel">旅行</string>
+    <string name="tools_fee_explanation">仅供估算。百分比及固定费用从兑换后的 %1$s 金额中扣除。</string>
+    <string name="tools_percent">费用 (%)</string>
+    <string name="tools_fixed">固定费用 (%1$s)</string>
+    <string name="tools_net">净额：%1$s %2$s</string>
+    <string name="tools_invalid">请输入有效金额和费用，费用不得超过兑换金额。</string>
+    <string name="tools_save">保存兑换</string>
+    <string name="tools_history_note">本机保存最近50次手动记录。重新使用将按当前可用汇率计算，不含费用。</string>
+    <string name="tools_saved_fees">已保存费用：%1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">保存失败，请重试。</string>
+    <string name="tools_empty">暂无兑换记录。</string>
+    <string name="tools_reuse">重新使用</string>
+    <string name="tools_delete">删除</string>
+    <string name="tools_country">搜索国家或货币</string>
+    <string name="tools_travel_note">选择目的地，将其货币设为目标并加入收藏。</string>
+    <string name="metal_amount">金属数量</string>
+    <string name="metal_gram">克</string>
+    <string name="metal_ounce">金衡盎司</string>
+    <string name="metal_cache">已保存价格 — 暂时无法更新</string>
+    <string name="metal_retrieved">%1$s · 获取时间：%2$s</string>
+    <string name="metal_estimate">参考金属价值；不含纯度调整、经销商溢价和费用。</string>
+</resources>

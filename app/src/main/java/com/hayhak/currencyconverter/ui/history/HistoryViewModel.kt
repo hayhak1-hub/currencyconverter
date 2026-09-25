@@ -106,6 +106,7 @@ class HistoryViewModel @Inject constructor(
     }
 
     fun setCompareEnabled(enabled: Boolean) {
+        if (!enabled) compareJob?.cancel()
         _uiState.update { it.copy(compareEnabled = enabled, compareData = if (enabled) it.compareData else emptyList()) }
         if (enabled) loadCompare()
     }
@@ -133,11 +134,11 @@ class HistoryViewModel @Inject constructor(
     private fun loadHistory(base: String, target: String, range: TimeRange) {
         historyJob?.cancel()
         historyJob = viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
+            _uiState.update { it.copy(isLoading = true, error = null, data = emptyList(), hasData = false) }
 
             val cached = runCatching {
                 getHistoricalRates(base, target, daysBack = range.days).first()
-            }.getOrDefault(emptyList())
+            }.onFailure { if (it is kotlinx.coroutines.CancellationException) throw it }.getOrDefault(emptyList())
 
             if (cached.isNotEmpty()) {
                 _uiState.update { it.copy(data = cached, hasData = true) }
@@ -147,6 +148,7 @@ class HistoryViewModel @Inject constructor(
                 repository.refreshHistoricalRates(base, target, range.days)
                 false
             } catch (e: Exception) {
+                if (e is kotlinx.coroutines.CancellationException) throw e
                 if (cached.isEmpty()) {
                     _uiState.update {
                         it.copy(
@@ -179,10 +181,11 @@ class HistoryViewModel @Inject constructor(
     private fun loadCompare() {
         val state = _uiState.value
         compareJob?.cancel()
+        _uiState.update { it.copy(compareData = emptyList()) }
         compareJob = viewModelScope.launch {
             runCatching {
                 repository.refreshHistoricalRates(state.compareBase, state.compareTarget, state.timeRange.days)
-            }
+            }.onFailure { if (it is kotlinx.coroutines.CancellationException) throw it }
             getHistoricalRates(state.compareBase, state.compareTarget, state.timeRange.days).collect { data ->
                 _uiState.update { it.copy(compareData = data) }
             }

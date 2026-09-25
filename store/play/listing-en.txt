@@ -1,6 +1,6 @@
 # Google Play — English (default)
 
-applicationId: com.hayhak.currencyconverter
+applicationId: com.hayhak.currencyConverter
 category: Finance
 content_rating: Everyone
 
@@ -8,7 +8,7 @@ content_rating: Everyone
 Currency Converter
 
 ## Short description (max 80)
-Live rates, charts, alerts & widget. 160+ currencies, offline cache, 20 languages.
+Live rates, charts, alerts & widget. 160+ currencies, metals, 20 languages.
 
 ## Full description (max 4000)
 Convert currencies instantly with live exchange rates, beautiful charts, and tools for everyday use and travel.
@@ -19,6 +19,7 @@ FEATURES
 • Statistics — daily change and comparison with yesterday
 • History — any currency pair from 1 day to 5 years, export CSV
 • Rate alerts — get notified when your target rate is reached
+• Precious metals — gold, silver, platinum, palladium
 • Home-screen widget — live rates at a glance
 • 20 languages — including English, German, and Turkish
 • Dark mode and Material You dynamic colors
@@ -30,6 +31,16 @@ PRIVACY
 No account required. No ads. See the in-app privacy policy for details.
 
 Made by Hayhak.
+
+## Release notes / What's new (max 500)
+First release.
+
+• Instant converter for 160+ currencies
+• Live rates, statistics, and history charts (1 day–5 years)
+• Rate alerts and home-screen widget
+• Precious metals (gold, silver, platinum, palladium)
+• Offline cache, 20 languages, dark mode
+• No ads, no account
 
 ## Tags / keywords (internal notes)
 currency, exchange rate, converter, forex, travel, money, widget, chart, alert

@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">ค่าธรรมเนียม รายการบันทึก และท่องเที่ยว</string>
+    <string name="tools_fees">ค่าธรรมเนียม</string>
+    <string name="tools_history">บันทึกแล้ว</string>
+    <string name="tools_travel">ท่องเที่ยว</string>
+    <string name="tools_fee_explanation">เป็นค่าประมาณ ค่าธรรมเนียมแบบเปอร์เซ็นต์และคงที่จะหักจากยอดที่แปลงเป็น %1$s</string>
+    <string name="tools_percent">ค่าธรรมเนียม (%)</string>
+    <string name="tools_fixed">ค่าธรรมเนียมคงที่ (%1$s)</string>
+    <string name="tools_net">สุทธิ: %1$s %2$s</string>
+    <string name="tools_invalid">ป้อนยอดเงินและค่าธรรมเนียมที่ถูกต้อง ค่าธรรมเนียมต้องไม่เกินยอดที่แปลง</string>
+    <string name="tools_save">บันทึกการแปลง</string>
+    <string name="tools_history_note">เก็บค่าประมาณที่บันทึกเองล่าสุด 50 รายการในอุปกรณ์นี้ การใช้ซ้ำจะคำนวณตามอัตราที่มีโดยไม่รวมค่าธรรมเนียม</string>
+    <string name="tools_saved_fees">ค่าธรรมเนียมที่บันทึก: %1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">บันทึกไม่สำเร็จ โปรดลองอีกครั้ง</string>
+    <string name="tools_empty">ยังไม่มีรายการบันทึก</string>
+    <string name="tools_reuse">ใช้ซ้ำ</string>
+    <string name="tools_delete">ลบ</string>
+    <string name="tools_country">ค้นหาประเทศหรือสกุลเงิน</string>
+    <string name="tools_travel_note">เลือกจุดหมายเพื่อใช้สกุลเงินของประเทศนั้นและเพิ่มในรายการโปรด</string>
+    <string name="metal_amount">ปริมาณโลหะ</string>
+    <string name="metal_gram">กรัม</string>
+    <string name="metal_ounce">ทรอยออนซ์</string>
+    <string name="metal_cache">ราคาที่บันทึก — ยังอัปเดตไม่ได้</string>
+    <string name="metal_retrieved">%1$s · ดึงข้อมูล: %2$s</string>
+    <string name="metal_estimate">มูลค่าโดยประมาณ ไม่รวมการปรับความบริสุทธิ์ ส่วนเพิ่มผู้ขาย และค่าธรรมเนียม.</string>
+</resources>

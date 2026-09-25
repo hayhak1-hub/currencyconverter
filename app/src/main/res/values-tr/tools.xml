@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">Komisyon, kayıtlar ve seyahat</string>
+    <string name="tools_fees">Komisyon</string>
+    <string name="tools_history">Kayıtlar</string>
+    <string name="tools_travel">Seyahat</string>
+    <string name="tools_fee_explanation">Tahmini hesaptır. Yüzdelik ve sabit ücret, çevrilen %1$s tutarından düşülür.</string>
+    <string name="tools_percent">Komisyon (%)</string>
+    <string name="tools_fixed">Sabit ücret (%1$s)</string>
+    <string name="tools_net">Net: %1$s %2$s</string>
+    <string name="tools_invalid">Geçerli tutar ve ücret girin. Ücretler çevrilen tutarı aşamaz.</string>
+    <string name="tools_save">Çeviriyi kaydet</string>
+    <string name="tools_history_note">Elle kaydedilen son 50 tahmin cihazda saklanır. Yeniden kullanımda tutar mevcut kurla, komisyonsuz hesaplanır.</string>
+    <string name="tools_saved_fees">Kayıtlı ücretler: %1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">Kaydedilemedi. Tekrar deneyin.</string>
+    <string name="tools_empty">Kayıtlı çeviri yok.</string>
+    <string name="tools_reuse">Yeniden kullan</string>
+    <string name="tools_delete">Sil</string>
+    <string name="tools_country">Ülke veya para birimi ara</string>
+    <string name="tools_travel_note">Gideceğiniz ülkeyi seçin; para birimi hedef olarak ayarlanır ve favorilere eklenir.</string>
+    <string name="metal_amount">Metal miktarı</string>
+    <string name="metal_gram">Gram</string>
+    <string name="metal_ounce">Troy ons</string>
+    <string name="metal_cache">Kayıtlı fiyat — yenileme yapılamadı</string>
+    <string name="metal_retrieved">%1$s · Alınma: %2$s</string>
+    <string name="metal_estimate">Gösterge niteliğindedir; saflık düzeltmeleri, satıcı primi ve komisyon dahil değildir.</string>
+</resources>

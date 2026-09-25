@@ -40,6 +40,7 @@ fun ConverterScreen(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     var showNumberPad by remember { mutableStateOf(false) }
+    var showTools by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     val mainColumn: @Composable ColumnScope.() -> Unit = {
@@ -82,6 +83,7 @@ fun ConverterScreen(
         } else {
             ResultDisplay(state)
         }
+        TextButton(onClick = { showTools = true }) { Text(stringResource(R.string.tools_title)) }
     }
 
     if (isWide) {
@@ -112,6 +114,9 @@ fun ConverterScreen(
         }
     }
 
+    if (showTools) {
+        ConverterToolsSheet(state, { showTools = false }, viewModel::reuseConversion, viewModel::onToCurrencyChange)
+    }
     if (showNumberPad) {
         ModalBottomSheet(
             onDismissRequest = {

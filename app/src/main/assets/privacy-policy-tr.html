@@ -10,48 +10,79 @@
   h2 { font-size: 1.3em; margin-top: 2em; }
   ul { padding-left: 1.3em; }
   .updated { color: #666; font-size: 0.9em; }
+  a { color: #1565c0; }
 </style>
 </head>
 <body>
 
 <h1>Gizlilik Politikası</h1>
-<p class="updated">Son güncelleme: 18 Ağustos 2026</p>
+<p class="updated">Son güncelleme: 8 Eylül 2026</p>
 
-<p>Bu metin, Döviz Çevirici uygulamasının (paket adı com.hayhak.currencyconverter)
-bilgileri nasıl işlediğini açıklar. Geliştirici: Hayhak.</p>
+<p>Bu Gizlilik Politikası, Android uygulaması Döviz Çevirici
+(paket adı com.hayhak.currencyConverter) bilgileri nasıl işlediğini açıklar.
+Geliştirici / veri sorumlusu: Hayhak.</p>
 
 <h2>1. Özet</h2>
-<p>Uygulama döviz çevirir; canlı kurlar, geçmiş grafikleri, istatistikler ve isteğe bağlı kur
-alarmları sunar. Hesap gerekmez. Reklam yoktur.</p>
+<p>Uygulama döviz çevirir; canlı kurlar, değerli metaller, geçmiş grafikleri, istatistikler,
+ana ekran widget’ı ve isteğe bağlı kur alarmları sunar. Hesap gerekmez. Reklam yoktur.
+Advertising ID toplanmaz. Konum, rehber, mikrofon veya kamera kullanılmaz.</p>
 
-<h2>2. İşlenen veriler</h2>
+<h2>2. Android izinleri</h2>
 <ul>
-  <li><strong>Döviz kurları:</strong> Canlı kurlar ExchangeRate-API’den, geçmiş grafikler
-    Frankfurter’dan (ECB). Yalnızca para birimi kodları ve tarih aralığı gönderilir.</li>
-  <li><strong>Yerel depolama:</strong> Kurlar, favoriler, alarmlar, dil ve tema yalnızca
-    cihazınızda saklanır.</li>
-  <li><strong>Girdiğiniz tutarlar</strong> cihazda kalır.</li>
-  <li><strong>Bildirimler:</strong> Kur alarmı için yerel sistem bildirimi gösterilebilir.</li>
-  <li><strong>Güncellemeler:</strong> Play Store’dan yüklendiyse sürüm kontrolü yapılabilir.</li>
-  <li><strong>Analitik:</strong> Google Firebase Analytics anonim kullanım olayları toplar (ekran, dil). Tutar, ad veya reklam kimliği gönderilmez. Advertising ID toplanmaz.</li>
+  <li><strong>İnternet ve ağ durumu:</strong> kur ve metal fiyatlarını indirmek için.</li>
+  <li><strong>Bildirimler (isteğe bağlı):</strong> kur alarmı için. Android 13+ sistem izni ister.</li>
+  <li><strong>Harici depolama (yalnızca Android 9 ve altı):</strong> geçmişi CSV dışa aktarırsanız.</li>
 </ul>
 
-<h2>3. Üçüncü taraflar</h2>
+<h2>3. İşlenen veriler</h2>
+<ul>
+  <li><strong>Döviz kurları:</strong> Canlı kurlar ExchangeRate-API’den (open.er-api.com), geçmiş
+    grafikler Frankfurter’dan (ECB). Yalnızca para birimi kodları ve tarih aralığı gönderilir.</li>
+  <li><strong>Değerli metaller:</strong> Altın, gümüş, platin, paladyum — Gold-API ve yedek olarak
+    jsDelivr / Fawaz currency-api. Gönderilen: metal sembolü veya genel USD tablosu.</li>
+  <li><strong>Yerel depolama:</strong> Kurlar, favoriler, alarmlar, dil, tema, widget ayarları
+    yalnızca cihazınızda saklanır.</li>
+  <li><strong>Girdiğiniz tutarlar</strong> cihazda kalır; API’lere gönderilmez.</li>
+  <li><strong>Bildirimler:</strong> Kur alarmı için yerel sistem bildirimi gösterilebilir.</li>
+  <li><strong>Widget:</strong> Cihazdaki kayıtlı kurları gösterir; ayrı sunucuya veri göndermez.</li>
+  <li><strong>Analitik:</strong> Google Firebase Analytics anonim kullanım olayları toplar (ekran,
+    dil, para birimi kodları). SDK teknik bilgiler toplayabilir (cihaz, Android sürümü, uygulama
+    örneği kimliği, yaklaşık ülke). Tutar, ad veya Advertising ID gönderilmez.</li>
+  <li><strong>Güncellemeler:</strong> Play Store’dan yüklendiyse sürüm kontrolü yapılabilir.</li>
+  <li><strong>Geri bildirim (isteğe bağlı):</strong> E-posta taslağında sürüm ve cihaz bilgisi
+    olabilir; yalnızca siz gönderirseniz bize ulaşır.</li>
+  <li><strong>Paylaşım ve CSV:</strong> Sizin başlattığınız işlemlerdir; Hayhak sunucusuna yüklenmez.</li>
+  <li><strong>Cihaz yedekleme:</strong> Android yedekleme açıksa veriler Google hesabınıza
+    yedeklenebilir. Hayhak erişmez.</li>
+</ul>
+<p>Ağ istekleri HTTPS ile iletilir.</p>
+
+<h2>4. Üçüncü taraflar</h2>
 <ul>
   <li><strong>ExchangeRate-API:</strong> canlı kurlar.</li>
   <li><strong>Frankfurter:</strong> geçmiş kurlar.</li>
-  <li><strong>Google Play:</strong> güncelleme kontrolü.</li>
-  <li><strong>Firebase Analytics:</strong> uygulamayı iyileştirmek için anonim kullanım olayları (reklam yok, Advertising ID yok).</li>
+  <li><strong>Gold-API:</strong> metal fiyatları.</li>
+  <li><strong>jsDelivr / Fawaz currency-api:</strong> metal fiyatları yedeği.</li>
+  <li><strong>Google Play:</strong> dağıtım ve güncelleme kontrolü.</li>
+  <li><strong>Firebase Analytics:</strong> uygulamayı iyileştirmek için anonim kullanım olayları
+    (reklam yok, Advertising ID yok).</li>
 </ul>
-<p>Uygulama verileriniz için kendi sunucularımız yoktur. Verilerinizi satmıyoruz.</p>
+<p>Uygulama verileriniz için kendi sunucularımız yoktur. Verilerinizi satmıyoruz. Kur ve analitik
+istekleri sağlayıcı sunucularına (AB dışı dahil) gidebilir.</p>
 
-<h2>4. Saklama</h2>
-<p>Yerel veriler siz değiştirene veya uygulamayı kaldırana kadar kalır.</p>
+<h2>5. Saklama ve silme</h2>
+<p>Hesap yoktur. Yerel veriler siz değiştirene veya uygulamayı kaldırana kadar kalır. Kaldırma
+cihazdaki uygulama verilerini siler. Firebase kayıtları için:
+<a href="mailto:thunderbascraft@gmail.com">thunderbascraft@gmail.com</a>.</p>
 
-<h2>5. Çocuklar</h2>
+<h2>6. Çocuklar</h2>
 <p>Uygulama 13 yaş altına yönelik değildir.</p>
 
-<h2>6. İletişim</h2>
+<h2>7. Haklarınız (KVKK)</h2>
+<p>KVKK kapsamındaysanız öğrenme, düzeltme, silme ve itiraz haklarınız vardır. Sunucu tarafı
+profil tutmadığımız için silme kural olarak uygulamayı kaldırmakla olur.</p>
+
+<h2>8. İletişim</h2>
 <p>Sorularınız için: <a href="mailto:thunderbascraft@gmail.com">thunderbascraft@gmail.com</a>.</p>
 
 </body>

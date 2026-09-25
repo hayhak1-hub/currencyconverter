@@ -1,0 +1,8 @@
+• Precious metals now work offline: the last price is kept, with its source and update time
+• Enter metal amounts in ounces or grams
+• Comparison chart fixed: both pairs share one scale and show % change
+• The "1 day" range now really shows 1 day
+• Rate alerts stay on when a notification cannot be delivered
+• The widget can now be emptied of all currencies
+• Fixed a crash on Android 6 in Settings and Rates
+• More reliable rate cache

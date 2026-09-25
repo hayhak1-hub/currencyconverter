@@ -19,51 +19,105 @@
 <p class="langs"><a href="datenschutz.html">Deutsch</a> · <a href="privacy-policy.html">English</a> · <strong>Türkçe</strong></p>
 
 <h1>Gizlilik Politikası</h1>
-<p class="updated">Son güncelleme: 18 Ağustos 2026</p>
+<p class="updated">Son güncelleme: 8 Eylül 2026</p>
 
-<p>Bu metin, Android uygulaması <strong>Döviz Çevirici</strong>
-(paket adı <code>com.hayhak.currencyconverter</code>, “Uygulama”) bilgileri nasıl işlediğini açıklar.
-Geliştirici: <strong>Hayhak</strong>.</p>
+<p>Bu Gizlilik Politikası, Android uygulaması <strong>Döviz Çevirici</strong>
+(paket adı <code>com.hayhak.currencyConverter</code>, “Uygulama”) bilgileri nasıl işlediğini açıklar.</p>
+<p><strong>Geliştirici / veri sorumlusu:</strong> Hayhak<br>
+<strong>İletişim:</strong> <a href="mailto:thunderbascraft@gmail.com">thunderbascraft@gmail.com</a></p>
 
 <h2>1. Özet</h2>
-<p>Uygulama döviz çevirir; canlı kurlar, geçmiş grafikleri, istatistikler ve isteğe bağlı kur
-alarmları sunar. <strong>Hesap gerekmez.</strong> <strong>Reklam yoktur</strong> ve reklam amaçlı
-izleme yapılmaz.</p>
-
-<h2>2. İşlenen veriler</h2>
+<p>Uygulama döviz çevirir; canlı kurlar, değerli metaller, geçmiş grafikleri, istatistikler,
+ana ekran widget’ı ve isteğe bağlı kur alarmları sunar.</p>
 <ul>
-  <li><strong>Döviz kurları:</strong> Canlı kurlar ücretsiz ExchangeRate-API uç noktasından alınır.
-    Geçmiş grafikler Frankfurter API (ECB verisi) kullanır. Yalnızca para birimi kodları (geçmiş için
-    tarih aralığı) gönderilir — ad, e-posta veya size atadığımız bir kimlik gönderilmez.</li>
-  <li><strong>Yerel depolama:</strong> Kurlar, favoriler, alarmlar, dil, tema ve son kullanılan
-    çiftler Room ve DataStore ile <em>yalnızca cihazınızda</em> saklanır.</li>
-  <li><strong>Girdiğiniz tutarlar</strong> cihazda kalır, bize gönderilmez.</li>
-  <li><strong>Bildirimler:</strong> Kur alarmı kurar ve izin verirseniz yerel sistem bildirimi
-    gösterilebilir. Bunun için bulut hesabı kullanılmaz.</li>
-  <li><strong>Güncellemeler:</strong> Google Play’den yüklendiyse uygulama, Play Uygulama İçi
-    Güncellemeler API’si ile yeni sürüm kontrol edebilir.</li>
+  <li><strong>Hesap gerekmez.</strong> Kayıt, giriş veya profil yoktur.</li>
+  <li><strong>Reklam yoktur</strong> ve reklam amaçlı izleme yapılmaz.</li>
+  <li><strong>Advertising ID toplanmaz</strong> (uygulamada kapatılmıştır).</li>
+  <li>Konum, rehber, mikrofon, kamera veya diğer uygulamaların listesi kullanılmaz.</li>
 </ul>
 
-<h2>3. Üçüncü taraflar</h2>
+<h2>2. Android izinleri</h2>
+<ul>
+  <li><strong>İnternet ve ağ durumu:</strong> kur ve metal fiyatlarını indirmek için.</li>
+  <li><strong>Bildirimler (isteğe bağlı):</strong> kur alarmı için. Android 13 ve üzerinde sistem
+    izni istenir; reddedebilirsiniz. İzin vermezseniz alarm özelliği bildirim gönderemez.</li>
+  <li><strong>Harici depolama (yalnızca Android 9 ve altı):</strong> geçmiş kurları CSV olarak
+    dışa aktarırsanız. Android 10+ MediaStore kullanır; bu izin istenmez.</li>
+</ul>
+
+<h2>3. İşlenen veriler</h2>
+<ul>
+  <li><strong>Döviz kurları:</strong> Canlı kurlar ücretsiz ExchangeRate-API uç noktasından
+    (<a href="https://open.er-api.com/">open.er-api.com</a>) alınır. Geçmiş grafikler Frankfurter API
+    (ECB verisi, <a href="https://www.frankfurter.app/">frankfurter.app</a> /
+    api.frankfurter.dev) kullanır. Gönderilen: para birimi kodları ve (geçmiş için) tarih aralığı.
+    Ad, e-posta veya size atadığımız bir kimlik gönderilmez.</li>
+  <li><strong>Değerli metaller:</strong> Altın, gümüş, platin ve paladyum fiyatları
+    <a href="https://gold-api.com/">Gold-API</a> (api.gold-api.com) ve yedek kaynak olarak
+    <a href="https://www.jsdelivr.com/">jsDelivr</a> üzerindeki Fawaz currency-api’den alınır.
+    Gönderilen: metal sembolü (ör. XAU) veya genel USD tablo isteği — kişisel bilgi değil.</li>
+  <li><strong>Yerel depolama:</strong> Kurlar, favoriler, alarmlar, dil, tema, widget ayarları ve
+    son kullanılan çiftler Room ve DataStore ile <em>yalnızca cihazınızda</em> saklanır.</li>
+  <li><strong>Girdiğiniz tutarlar</strong> cihazda kalır; bize veya kur API’lerine gönderilmez.</li>
+  <li><strong>Bildirimler:</strong> Kur alarmı kurar ve izin verirseniz yerel sistem bildirimi
+    gösterilebilir. Bunun için bulut hesabı kullanılmaz.</li>
+  <li><strong>Widget:</strong> Ana ekran widget’ı cihazdaki kayıtlı kurları gösterir; ayrı bir
+    sunucuya kullanıcı verisi göndermez.</li>
+  <li><strong>Analitik:</strong> Google Firebase Analytics, uygulamayı iyileştirmek için kullanım
+    olayları toplar. Kaydettiğimiz olaylar: ekran adı, dil etiketi, çevrilen para birimi kodları
+    (tutar değil). SDK ayrıca teknik bilgiler toplayabilir: cihaz modeli, Android sürümü, uygulama
+    sürümü, yaklaşık ülke ve uygulama örneği kimliği. <strong>Advertising ID toplanmaz.</strong>
+    Ayrıntılar: <a href="https://firebase.google.com/support/privacy">Firebase gizlilik</a>.</li>
+  <li><strong>Güncellemeler:</strong> Google Play’den yüklendiyse uygulama, Play Uygulama İçi
+    Güncellemeler API’si ile yeni sürüm kontrol edebilir.</li>
+  <li><strong>Geri bildirim (isteğe bağlı):</strong> Ayarlar’dan e-posta açarsanız taslakta uygulama
+    sürümü, üretici, model ve Android sürümü bulunur. Bu metin yalnızca siz gönderirseniz bize ulaşır.</li>
+  <li><strong>Paylaşım ve CSV:</strong> Çeviri sonucunu paylaşmak veya geçmişi CSV dışa aktarmak
+    sizin başlattığınız işlemlerdir; Hayhak sunucusuna yüklenmez.</li>
+  <li><strong>Cihaz yedekleme:</strong> Android yedekleme açıksa uygulama verileri (favoriler,
+    alarmlar, ayarlar) Google hesabınıza yedeklenebilir. Hayhak bu yedeğe erişmez.</li>
+</ul>
+<p>Tüm ağ istekleri HTTPS ile iletilir.</p>
+
+<h2>4. Üçüncü taraflar</h2>
 <ul>
   <li><strong>ExchangeRate-API</strong> (<a href="https://www.exchangerate-api.com/">exchangerate-api.com</a>): canlı kurlar.</li>
   <li><strong>Frankfurter</strong> (<a href="https://www.frankfurter.app/">frankfurter.app</a>): geçmiş kurlar.</li>
-  <li><strong>Google Play</strong>: dağıtım, güncelleme kontrolü ve Play hizmetleri.</li>
-  <li><strong>Firebase Analytics</strong>: anonim kullanım olayları (ekran, dil). Reklam yok, Advertising ID toplanmaz.</li>
+  <li><strong>Gold-API</strong> (<a href="https://gold-api.com/">gold-api.com</a>): metal fiyatları.</li>
+  <li><strong>jsDelivr / Fawaz currency-api:</strong> metal fiyatları için yedek kaynak.</li>
+  <li><strong>Google Play</strong>: dağıtım, güncelleme kontrolü ve Play hizmetleri.
+    <a href="https://policies.google.com/privacy">Google gizlilik politikası</a>.</li>
+  <li><strong>Firebase Analytics (Google LLC)</strong>: anonim kullanım olayları.
+    <a href="https://firebase.google.com/support/privacy">Firebase gizlilik</a>.</li>
 </ul>
-<p>Uygulama verileriniz için kendi sunucularımız yoktur.</p>
+<p>Uygulama verileriniz için kendi sunucularımız yoktur. Kur ve analitik istekleri ilgili
+sağlayıcıların sunucularına (AB dışında, örneğin ABD dahil) gidebilir.</p>
 
-<h2>4. Paylaşım</h2>
-<p>Verilerinizi satmıyoruz. Favoriler, alarmlar ve tutarlar Hayhak sunucularına yüklenmez.</p>
+<h2>5. Paylaşım</h2>
+<p>Verilerinizi satmıyoruz. Favoriler, alarmlar ve tutarlar Hayhak sunucularına yüklenmez.
+Yukarıdaki üçüncü taraflar yalnızca kur, metal fiyatı, güncelleme veya analitik için gereken
+teknik istekleri alır.</p>
 
-<h2>5. Saklama</h2>
-<p>Yerel veriler siz uygulamada değiştirene veya uygulamayı kaldırana kadar kalır. Kaldırma,
-cihazdaki uygulama verilerini siler.</p>
+<h2>6. Saklama ve silme</h2>
+<p>Hesap olmadığı için “hesap silme” geçerli değildir. Yerel veriler siz uygulamada değiştirene
+veya uygulamayı kaldırana kadar kalır. Kaldırma, cihazdaki uygulama verilerini siler.</p>
+<p>Firebase analitik kayıtları Google’ın saklama sürelerine tabidir. Silme veya bilgi talebi için
+<a href="mailto:thunderbascraft@gmail.com">thunderbascraft@gmail.com</a> adresine yazabilirsiniz.</p>
 
-<h2>6. Çocuklar</h2>
-<p>Uygulama 13 yaş altına yönelik değildir.</p>
+<h2>7. Çocuklar</h2>
+<p>Uygulama 13 yaş altına yönelik değildir. 13 yaş altından bilerek veri toplamayız.</p>
 
-<h2>7. İletişim</h2>
+<h2>8. Haklarınız (KVKK)</h2>
+<p>6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamındaysanız; verilerinizin işlenip
+işlenmediğini öğrenme, düzeltilmesini veya silinmesini isteme, aktarıldığı üçüncü kişileri
+bilme ve işleme itiraz etme haklarına sahipsiniz. Hesap ve sunucu tarafı kullanıcı profili
+tutmadığımız için silme kural olarak uygulamayı kaldırmakla gerçekleşir.</p>
+
+<h2>9. Değişiklikler</h2>
+<p>Bu politikayı uygulama davranışına göre güncelleyebiliriz. Güncel metin bu sayfada yer alır;
+tarih üstte belirtilir.</p>
+
+<h2>10. İletişim</h2>
 <p>Sorularınız için: <a href="mailto:thunderbascraft@gmail.com">thunderbascraft@gmail.com</a>.</p>
 
 </body>

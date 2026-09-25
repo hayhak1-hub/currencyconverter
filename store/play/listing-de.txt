@@ -1,6 +1,6 @@
 # Google Play — Deutsch
 
-applicationId: com.hayhak.currencyconverter
+applicationId: com.hayhak.currencyConverter
 category: Finanzen
 content_rating: Everyone
 
@@ -30,3 +30,13 @@ DATENSCHUTZ
 Kein Konto nötig. Keine Werbung. Details in der Datenschutzerklärung in der App.
 
 Von Hayhak entwickelt.
+
+## Versionshinweise (max 500)
+Erste Version.
+
+• Sofort-Umrechner für 160+ Währungen
+• Live-Kurse, Statistik und Verlaufscharts (1 Tag–5 Jahre)
+• Kursalarme und Startbildschirm-Widget
+• Edelmetalle (Gold, Silber, Platin, Palladium)
+• Offline-Cache, 20 Sprachen, Dunkelmodus
+• Keine Werbung, kein Konto

@@ -3,6 +3,7 @@ package com.hayhak.currencyconverter
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.hayhak.currencyconverter.worker.RateSyncScheduler
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
@@ -15,6 +16,7 @@ class CurrencyConverterApp : Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
+        FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(true)
         RateSyncScheduler.schedule(this)
     }
 
