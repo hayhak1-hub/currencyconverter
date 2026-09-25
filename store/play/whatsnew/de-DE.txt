@@ -1,0 +1,8 @@
+Erste Version.
+
+• Sofort-Umrechner für 160+ Währungen
+• Live-Kurse, Statistik und Verlaufscharts (1 Tag–5 Jahre)
+• Kursalarme und Startbildschirm-Widget
+• Edelmetalle (Gold, Silber, Platin, Palladium)
+• Offline-Cache, 20 Sprachen, Dunkelmodus
+• Keine Werbung, kein Konto

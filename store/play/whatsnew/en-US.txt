@@ -1,0 +1,8 @@
+First release.
+
+• Instant converter for 160+ currencies
+• Live rates, statistics, and history charts (1 day–5 years)
+• Rate alerts and home-screen widget
+• Precious metals (gold, silver, platinum, palladium)
+• Offline cache, 20 languages, dark mode
+• No ads, no account

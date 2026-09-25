@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">Fees, saved conversions &amp; travel</string>
+    <string name="tools_fees">Fees</string>
+    <string name="tools_history">Saved</string>
+    <string name="tools_travel">Travel</string>
+    <string name="tools_fee_explanation">Estimate only. Percentage and fixed fees are deducted from the converted amount in %1$s.</string>
+    <string name="tools_percent">Fee (%)</string>
+    <string name="tools_fixed">Fixed fee (%1$s)</string>
+    <string name="tools_net">Net: %1$s %2$s</string>
+    <string name="tools_invalid">Enter a valid amount and fees. Fees cannot exceed the converted amount.</string>
+    <string name="tools_save">Save conversion</string>
+    <string name="tools_history_note">Last 50 manually saved estimates, stored on this device. Reuse recalculates the amount at the currently available rate, without fees.</string>
+    <string name="tools_saved_fees">Saved fees: %1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">Could not save. Please try again.</string>
+    <string name="tools_empty">No saved conversions.</string>
+    <string name="tools_reuse">Reuse</string>
+    <string name="tools_delete">Delete</string>
+    <string name="tools_country">Search country or currency</string>
+    <string name="tools_travel_note">Select a destination to use its currency and pin it to your favorites.</string>
+    <string name="metal_amount">Metal amount</string>
+    <string name="metal_gram">Gram</string>
+    <string name="metal_ounce">Troy ounce</string>
+    <string name="metal_cache">Saved quote — refresh unavailable</string>
+    <string name="metal_retrieved">%1$s · Retrieved %2$s</string>
+    <string name="metal_estimate">Indicative metal value; excludes purity adjustments, dealer premiums and fees.</string>
+</resources>

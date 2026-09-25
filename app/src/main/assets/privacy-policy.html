@@ -10,48 +10,74 @@
   h2 { font-size: 1.3em; margin-top: 2em; }
   ul { padding-left: 1.3em; }
   .updated { color: #666; font-size: 0.9em; }
+  a { color: #1565c0; }
 </style>
 </head>
 <body>
 
 <h1>Privacy Policy</h1>
-<p class="updated">Last updated: August 18, 2026</p>
+<p class="updated">Last updated: September 8, 2026</p>
 
 <p>This Privacy Policy describes how the Currency Converter app (package
 com.hayhak.currencyconverter) handles information. The developer is Hayhak.</p>
 
 <h2>1. Overview</h2>
-<p>The App converts currencies and shows live rates, history charts, statistics, and optional rate
-alerts. No account is required. There are no ads and no advertising tracking.</p>
+<p>The App converts currencies and shows live rates, precious metals, history charts, statistics,
+a home-screen widget, and optional rate alerts. No account is required. There are no ads and no
+advertising tracking. Advertising ID is not collected. The App does not use location, contacts,
+microphone, or camera.</p>
 
-<h2>2. Data the App processes</h2>
+<h2>2. Android permissions</h2>
 <ul>
-  <li><strong>Exchange rates:</strong> Live rates from ExchangeRate-API. Historical charts from
-    Frankfurter (ECB data). Only currency codes and date ranges are sent.</li>
-  <li><strong>Local storage:</strong> Rates, favorites, alarms, language, theme, and last-used pairs
-    stay on your device.</li>
-  <li><strong>Amounts you enter</strong> stay on the device.</li>
-  <li><strong>Notifications:</strong> A local system notification may appear for rate alerts.</li>
-  <li><strong>App updates:</strong> Google Play In-App Updates when installed from the Play Store.</li>
-  <li><strong>Analytics:</strong> Google Firebase Analytics collects anonymous usage events (screen views, language). No amounts, names, or advertising IDs are sent. Advertising ID collection is disabled.</li>
+  <li><strong>Internet and network state:</strong> to download rates and metal prices.</li>
+  <li><strong>Notifications (optional):</strong> for rate alerts. Android 13+ asks for permission.</li>
+  <li><strong>External storage (Android 9 and below only):</strong> if you export history as CSV.</li>
 </ul>
 
-<h2>3. Third parties</h2>
+<h2>3. Data the App processes</h2>
+<ul>
+  <li><strong>Exchange rates:</strong> Live rates from ExchangeRate-API (open.er-api.com). Historical
+    charts from Frankfurter (ECB data). Only currency codes and date ranges are sent.</li>
+  <li><strong>Precious metals:</strong> Gold, silver, platinum, palladium from Gold-API, with
+    jsDelivr / Fawaz currency-api as fallback. Sent: metal symbol or a generic USD table.</li>
+  <li><strong>Local storage:</strong> Rates, favorites, alarms, language, theme, and widget settings
+    stay on your device.</li>
+  <li><strong>Amounts you enter</strong> stay on the device and are not sent to the APIs.</li>
+  <li><strong>Notifications:</strong> A local system notification may appear for rate alerts.</li>
+  <li><strong>Widget:</strong> Shows rates stored on the device; does not send user data to a separate server.</li>
+  <li><strong>Analytics:</strong> Google Firebase Analytics collects anonymous usage events (screen
+    views, language, currency codes). The SDK may collect technical data (device, Android version,
+    app-instance ID, approximate country). No amounts, names, or Advertising IDs are sent.</li>
+  <li><strong>App updates:</strong> Google Play In-App Updates when installed from the Play Store.</li>
+  <li><strong>Feedback (optional):</strong> An email draft may include version and device info; it
+    reaches us only if you send it.</li>
+  <li><strong>Share and CSV:</strong> User-initiated; not uploaded to Hayhak servers.</li>
+  <li><strong>Device backup:</strong> If Android backup is on, App data may be backed up to your
+    Google account. Hayhak cannot access it.</li>
+</ul>
+<p>Network requests use HTTPS.</p>
+
+<h2>4. Third parties</h2>
 <ul>
   <li><strong>ExchangeRate-API:</strong> live rates (base currency code only).</li>
   <li><strong>Frankfurter:</strong> historical rates (currency codes and date ranges).</li>
+  <li><strong>Gold-API:</strong> metal prices.</li>
+  <li><strong>jsDelivr / Fawaz currency-api:</strong> fallback metal prices.</li>
   <li><strong>Google Play:</strong> update checks when installed from the Play Store.</li>
   <li><strong>Firebase Analytics:</strong> anonymous usage events to improve the App (no ads, no Advertising ID).</li>
 </ul>
-<p>We do not run our own servers for your App data. We do not sell your data.</p>
+<p>We do not run our own servers for your App data. We do not sell your data. Rate and analytics
+requests may go to the providers’ servers (including outside the EEA).</p>
 
-<h2>4. Retention</h2>
-<p>Local data remains until you change it or uninstall the App.</p>
+<h2>5. Retention and deletion</h2>
+<p>There is no account. Local data remains until you change it or uninstall the App. Uninstalling
+removes App data from the device. For Firebase records, email
+<a href="mailto:thunderbascraft@gmail.com">thunderbascraft@gmail.com</a>.</p>
 
-<h2>5. Children</h2>
+<h2>6. Children</h2>
 <p>The App is not directed at children under 13.</p>
 
-<h2>6. Contact</h2>
+<h2>7. Contact</h2>
 <p>Questions: <a href="mailto:thunderbascraft@gmail.com">thunderbascraft@gmail.com</a>.</p>
 
 </body>

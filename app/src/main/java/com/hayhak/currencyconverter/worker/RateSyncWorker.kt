@@ -27,6 +27,7 @@ class RateSyncWorker @AssistedInject constructor(
             checkAlarms()
             Result.success()
         } catch (e: Exception) {
+            if (e is kotlinx.coroutines.CancellationException) throw e
             if (runAttemptCount < 3) Result.retry() else Result.failure()
         }
     }
@@ -60,7 +61,7 @@ class RateSyncWorker @AssistedInject constructor(
                     }
 
                     val msgRes = if (alarm.isAbove) R.string.notif_alarm_above else R.string.notif_alarm_below
-                    notificationHelper.showRateNotification(
+                    val posted = notificationHelper.showRateNotification(
                         title = context.getString(
                             R.string.notif_alarm_title,
                             alarm.baseCode,
@@ -70,6 +71,7 @@ class RateSyncWorker @AssistedInject constructor(
                         from = alarm.baseCode,
                         to = alarm.targetCode
                     )
+                    if (!posted) continue
                     if (alarm.repeating) {
                         userPrefs.updateAlarm(alarm.copy(lastFiredAt = System.currentTimeMillis()))
                     } else {
@@ -77,6 +79,7 @@ class RateSyncWorker @AssistedInject constructor(
                     }
                 }
             } catch (e: Exception) {
+                if (e is kotlinx.coroutines.CancellationException) throw e
                 e.printStackTrace()
             }
         }

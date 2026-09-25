@@ -1,0 +1,8 @@
+İlk sürüm.
+
+• 160+ para birimi için anında çevirici
+• Canlı kurlar, istatistik ve geçmiş grafikleri (1 gün–5 yıl)
+• Kur alarmları ve ana ekran widget’ı
+• Değerli metaller (altın, gümüş, platin, paladyum)
+• Çevrimdışı önbellek, 20 dil, karanlık mod
+• Reklam yok, hesap gerekmez

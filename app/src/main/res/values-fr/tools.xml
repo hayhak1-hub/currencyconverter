@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">Frais, conversions et voyages</string>
+    <string name="tools_fees">Frais</string>
+    <string name="tools_history">Enregistrés</string>
+    <string name="tools_travel">Voyages</string>
+    <string name="tools_fee_explanation">Estimation. Les frais fixes et en pourcentage sont déduits du montant converti en %1$s.</string>
+    <string name="tools_percent">Frais (%)</string>
+    <string name="tools_fixed">Frais fixes (%1$s)</string>
+    <string name="tools_net">Net : %1$s %2$s</string>
+    <string name="tools_invalid">Saisissez un montant et des frais valides, sans dépasser le montant converti.</string>
+    <string name="tools_save">Enregistrer</string>
+    <string name="tools_history_note">Les 50 dernières estimations sont stockées sur cet appareil. Réutiliser recalcule au taux disponible, sans frais.</string>
+    <string name="tools_saved_fees">Frais enregistrés : %1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">Échec de sauvegarde. Réessayez.</string>
+    <string name="tools_empty">Aucune conversion enregistrée.</string>
+    <string name="tools_reuse">Réutiliser</string>
+    <string name="tools_delete">Supprimer</string>
+    <string name="tools_country">Rechercher un pays ou une devise</string>
+    <string name="tools_travel_note">Choisissez une destination pour utiliser sa devise et la mettre en favori.</string>
+    <string name="metal_amount">Quantité de métal</string>
+    <string name="metal_gram">Gramme</string>
+    <string name="metal_ounce">Once troy</string>
+    <string name="metal_cache">Prix enregistré — actualisation indisponible</string>
+    <string name="metal_retrieved">%1$s · Consulté : %2$s</string>
+    <string name="metal_estimate">Valeur indicative ; hors ajustements de pureté, primes et frais.</string>
+</resources>

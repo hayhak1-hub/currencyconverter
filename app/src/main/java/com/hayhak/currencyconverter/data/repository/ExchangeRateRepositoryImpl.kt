@@ -22,7 +22,7 @@ class ExchangeRateRepositoryImpl @Inject constructor(
     private val dao: ExchangeRateDao
 ) : ExchangeRateRepository {
 
-    private val utcDayKey = SimpleDateFormat("yyyy-MM-dd", Locale.US).apply {
+    private fun utcDayKey() = SimpleDateFormat("yyyy-MM-dd", Locale.US).apply {
         timeZone = TimeZone.getTimeZone("UTC")
     }
 
@@ -40,16 +40,11 @@ class ExchangeRateRepositoryImpl @Inject constructor(
         target: String,
         daysBack: Int
     ): Flow<List<HistoricalRate>> {
-        val bufferDays = when {
-            daysBack > 400 -> 35L
-            daysBack > 90 -> 14L
-            else -> 2L
-        }
         val sinceTimestamp = System.currentTimeMillis() -
-            TimeUnit.DAYS.toMillis(daysBack.toLong() + bufferDays)
+            TimeUnit.DAYS.toMillis(daysBack.toLong())
         return dao.getHistoricalRates(base, target, sinceTimestamp).map { entities ->
             entities
-                .groupBy { utcDayKey.format(Date(it.timestamp)) }
+                .groupBy { utcDayKey().format(Date(it.timestamp)) }
                 .entries
                 .sortedBy { it.key }
                 .map { (_, group) ->
@@ -61,7 +56,7 @@ class ExchangeRateRepositoryImpl @Inject constructor(
 
     override suspend fun refreshHistoricalRates(base: String, target: String, daysBack: Int) {
         try {
-            val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            val sdf = utcDayKey()
             val fetchDays = when {
                 daysBack <= 1 -> 10
                 daysBack <= 7 -> daysBack.coerceAtLeast(7)
@@ -92,13 +87,7 @@ class ExchangeRateRepositoryImpl @Inject constructor(
             )
 
             if (entities.isNotEmpty()) {
-                dao.deletePairInRange(
-                    base = base,
-                    target = target,
-                    fromTimestamp = startMs,
-                    toTimestamp = endMs + TimeUnit.DAYS.toMillis(1)
-                )
-                dao.insertRates(entities)
+                dao.replaceHistory(base, entities.minOf { it.timestamp }, entities.maxOf { it.timestamp }, entities)
             }
         } catch (e: Exception) {
             android.util.Log.e("ExchangeRateRepo", "Failed to refresh history $base/$target ($daysBack d)", e)
@@ -153,6 +142,7 @@ class ExchangeRateRepositoryImpl @Inject constructor(
             refreshLiveRates(base)
         } catch (e: Exception) {
             android.util.Log.w("ExchangeRateRepo", "Live API failed for $base, using Frankfurter", e)
+            if (e is kotlinx.coroutines.CancellationException) throw e
             refreshFrankfurterRates(base)
         }
     }
@@ -181,7 +171,7 @@ class ExchangeRateRepositoryImpl @Inject constructor(
             }
 
         android.util.Log.d("ExchangeRateRepo", "Live API rows: ${entities.size}")
-        dao.insertRates(entities)
+        dao.replaceLatest(base, entities)
         pruneOldHistory(timestamp)
     }
 
@@ -197,10 +187,11 @@ class ExchangeRateRepositoryImpl @Inject constructor(
                     baseCurrency = base,
                     targetCurrency = row.quote,
                     rate = row.rate,
-                    timestamp = timestamp
+                    timestamp = utcDayKey().parse(row.date)?.time ?: timestamp
                 )
             }
-        dao.insertRates(entities)
+        if (entities.isEmpty()) throw IllegalStateException("No rates returned for $base")
+        dao.replaceLatest(base, entities)
         pruneOldHistory(timestamp)
     }
 

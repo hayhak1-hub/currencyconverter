@@ -10,51 +10,79 @@
   h2 { font-size: 1.3em; margin-top: 2em; }
   ul { padding-left: 1.3em; }
   .updated { color: #666; font-size: 0.9em; }
+  a { color: #1565c0; }
 </style>
 </head>
 <body>
 
 <h1>Datenschutzerklärung</h1>
-<p class="updated">Zuletzt aktualisiert: 18. August 2026</p>
+<p class="updated">Zuletzt aktualisiert: 8. September 2026</p>
 
 <p>Diese Datenschutzerklärung beschreibt, wie die Android-App Währungsrechner
 (Paketname com.hayhak.currencyconverter) personenbezogene Daten verarbeitet.
 Verantwortlich ist der Entwickler Hayhak.</p>
 
 <h2>1. Überblick</h2>
-<p>Die App rechnet Währungen um und zeigt Wechselkurse, Verlaufsgrafiken, Statistiken und optionale
-Kursalarme. Es ist kein Konto erforderlich. Es gibt keine Werbung und kein Tracking zu Werbezwecken.</p>
+<p>Die App rechnet Währungen um und zeigt Wechselkurse, Edelmetalle, Verlaufsgrafiken, Statistiken,
+ein Startbildschirm-Widget und optionale Kursalarme. Es ist kein Konto erforderlich. Es gibt keine
+Werbung und kein Tracking zu Werbezwecken. Die Advertising ID wird nicht erfasst. Standort,
+Kontakte, Mikrofon oder Kamera werden nicht verwendet.</p>
 
-<h2>2. Welche Daten verarbeitet werden</h2>
+<h2>2. Android-Berechtigungen</h2>
 <ul>
-  <li><strong>Wechselkurse:</strong> Aktuelle Kurse werden von ExchangeRate-API geladen.
-    Verlaufsdiagramme nutzen die Frankfurter-API (EZB-Daten). Übermittelt werden nur Währungscodes
-    und bei Verlauf Datumsbereiche — keine Namen oder E-Mail-Adressen.</li>
-  <li><strong>Lokaler Speicher:</strong> Kurse, Favoriten, Alarme, Sprache, Design und zuletzt
-    verwendete Währungspaare werden nur auf Ihrem Gerät gespeichert.</li>
-  <li><strong>Eingegebene Beträge</strong> bleiben auf dem Gerät.</li>
-  <li><strong>Benachrichtigungen:</strong> Bei gesetztem Kursalarm kann eine lokale
-    Systembenachrichtigung erscheinen.</li>
-  <li><strong>App-Updates:</strong> Aus Google Play kann die App auf neue Versionen prüfen.</li>
-  <li><strong>Analyse:</strong> Google Firebase Analytics erfasst anonyme Nutzungsereignisse (Bildschirmansichten, Sprache). Beträge, Namen und Werbe-IDs werden nicht gesendet. Die Erfassung der Advertising ID ist deaktiviert.</li>
+  <li><strong>Internet und Netzwerkstatus:</strong> zum Laden von Kursen und Metallpreisen.</li>
+  <li><strong>Benachrichtigungen (optional):</strong> für Kursalarme. Ab Android 13 fragt das System um Erlaubnis.</li>
+  <li><strong>Externer Speicher (nur Android 9 und älter):</strong> CSV-Export des Verlaufs.</li>
 </ul>
 
-<h2>3. Drittanbieter</h2>
+<h2>3. Welche Daten verarbeitet werden</h2>
+<ul>
+  <li><strong>Wechselkurse:</strong> Aktuelle Kurse von ExchangeRate-API (open.er-api.com).
+    Verlaufsdiagramme von Frankfurter (EZB-Daten). Übermittelt werden nur Währungscodes und
+    Datumsbereiche.</li>
+  <li><strong>Edelmetalle:</strong> Gold, Silber, Platin, Palladium über Gold-API, ersatzweise
+    jsDelivr / Fawaz currency-api. Übermittelt: Metallsymbol oder allgemeine USD-Tabelle.</li>
+  <li><strong>Lokaler Speicher:</strong> Kurse, Favoriten, Alarme, Sprache, Design und
+    Widget-Einstellungen nur auf Ihrem Gerät.</li>
+  <li><strong>Eingegebene Beträge</strong> bleiben auf dem Gerät und gehen nicht an die APIs.</li>
+  <li><strong>Benachrichtigungen:</strong> Bei gesetztem Kursalarm kann eine lokale
+    Systembenachrichtigung erscheinen.</li>
+  <li><strong>Widget:</strong> Zeigt lokal gespeicherte Kurse; sendet keine Nutzerdaten an einen eigenen Server.</li>
+  <li><strong>Analyse:</strong> Google Firebase Analytics erfasst anonyme Nutzungsereignisse
+    (Bildschirmansichten, Sprache, Währungscodes). Das SDK kann technische Daten erfassen (Gerät,
+    Android-Version, App-Instanz-ID, ungefähres Land). Beträge, Namen und Advertising IDs werden
+    nicht gesendet.</li>
+  <li><strong>App-Updates:</strong> Aus Google Play kann die App auf neue Versionen prüfen.</li>
+  <li><strong>Feedback (optional):</strong> Ein E-Mail-Entwurf kann Versions- und Geräteinfos
+    enthalten; er erreicht uns nur, wenn Sie senden.</li>
+  <li><strong>Teilen und CSV:</strong> Von Ihnen ausgelöst; nicht auf Server von Hayhak hochgeladen.</li>
+  <li><strong>Gerätesicherung:</strong> Ist die Android-Sicherung aktiv, können App-Daten in Ihrem
+    Google-Konto gesichert werden. Hayhak hat keinen Zugriff.</li>
+</ul>
+<p>Netzwerkanfragen erfolgen per HTTPS.</p>
+
+<h2>4. Drittanbieter</h2>
 <ul>
   <li><strong>ExchangeRate-API:</strong> Live-Kurse (nur Basiswährungscode).</li>
   <li><strong>Frankfurter:</strong> historische Kurse (Währungscodes und Datumsbereiche).</li>
+  <li><strong>Gold-API:</strong> Metallpreise.</li>
+  <li><strong>jsDelivr / Fawaz currency-api:</strong> Ersatzquelle für Metallpreise.</li>
   <li><strong>Google Play:</strong> Update-Prüfung, wenn die App aus dem Play Store stammt.</li>
-  <li><strong>Firebase Analytics:</strong> anonyme Nutzungsereignisse zur Verbesserung der App (keine Werbung, keine Advertising ID).</li>
+  <li><strong>Firebase Analytics:</strong> anonyme Nutzungsereignisse zur Verbesserung der App
+    (keine Werbung, keine Advertising ID).</li>
 </ul>
-<p>Wir betreiben keine eigenen Server für Ihre App-Daten. Wir verkaufen Ihre Daten nicht.</p>
+<p>Wir betreiben keine eigenen Server für Ihre App-Daten. Wir verkaufen Ihre Daten nicht.
+Kurs- und Analyseanfragen können an Server der Anbieter (auch außerhalb des EWR) gehen.</p>
 
-<h2>4. Speicherdauer</h2>
-<p>Lokal gespeicherte Daten bleiben, bis Sie sie ändern oder die App deinstallieren.</p>
+<h2>5. Speicherdauer und Löschung</h2>
+<p>Es gibt kein Konto. Lokal gespeicherte Daten bleiben, bis Sie sie ändern oder die App
+deinstallieren. Deinstallation löscht die App-Daten auf dem Gerät. Für Firebase-Aufzeichnungen:
+<a href="mailto:thunderbascraft@gmail.com">thunderbascraft@gmail.com</a>.</p>
 
-<h2>5. Kinder</h2>
+<h2>6. Kinder</h2>
 <p>Die App richtet sich nicht an Kinder unter 13 Jahren.</p>
 
-<h2>6. Kontakt</h2>
+<h2>7. Kontakt</h2>
 <p>Fragen: <a href="mailto:thunderbascraft@gmail.com">thunderbascraft@gmail.com</a>.</p>
 
 </body>

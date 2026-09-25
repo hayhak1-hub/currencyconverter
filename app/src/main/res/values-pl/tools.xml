@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">Opłaty, zapisane i podróże</string>
+    <string name="tools_fees">Opłaty</string>
+    <string name="tools_history">Zapisane</string>
+    <string name="tools_travel">Podróże</string>
+    <string name="tools_fee_explanation">Szacunek. Opłaty procentowe i stałe odejmowane są od kwoty w %1$s.</string>
+    <string name="tools_percent">Opłata (%)</string>
+    <string name="tools_fixed">Stała opłata (%1$s)</string>
+    <string name="tools_net">Netto: %1$s %2$s</string>
+    <string name="tools_invalid">Podaj prawidłową kwotę i opłaty nieprzekraczające przeliczonej kwoty.</string>
+    <string name="tools_save">Zapisz przeliczenie</string>
+    <string name="tools_history_note">Ostatnie 50 szacunków na tym urządzeniu. Ponowne użycie przelicza według dostępnego kursu bez opłat.</string>
+    <string name="tools_saved_fees">Zapisane opłaty: %1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">Nie udało się zapisać. Spróbuj ponownie.</string>
+    <string name="tools_empty">Brak zapisanych przeliczeń.</string>
+    <string name="tools_reuse">Użyj ponownie</string>
+    <string name="tools_delete">Usuń</string>
+    <string name="tools_country">Szukaj kraju lub waluty</string>
+    <string name="tools_travel_note">Wybierz cel podróży, aby użyć jego waluty i dodać ją do ulubionych.</string>
+    <string name="metal_amount">Ilość metalu</string>
+    <string name="metal_gram">Gram</string>
+    <string name="metal_ounce">Uncja trojańska</string>
+    <string name="metal_cache">Zapisana cena — aktualizacja niedostępna</string>
+    <string name="metal_retrieved">%1$s · Pobrano: %2$s</string>
+    <string name="metal_estimate">Wartość orientacyjna; bez korekt czystości, marży i opłat.</string>
+</resources>

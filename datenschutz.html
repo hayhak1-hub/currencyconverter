@@ -19,70 +19,125 @@
 <p class="langs"><strong>Deutsch</strong> · <a href="privacy-policy.html">English</a> · <a href="gizlilik.html">Türkçe</a></p>
 
 <h1>Datenschutzerklärung</h1>
-<p class="updated">Zuletzt aktualisiert: 18. August 2026</p>
+<p class="updated">Zuletzt aktualisiert: 8. September 2026</p>
 
 <p>Diese Datenschutzerklärung beschreibt, wie die Android-App <strong>Währungsrechner</strong>
-(Paketname <code>com.hayhak.currencyconverter</code>, „die App“) personenbezogene Daten verarbeitet.
-Verantwortlich ist der Entwickler <strong>Hayhak</strong>.</p>
+(Paketname <code>com.hayhak.currencyconverter</code>, „die App“) personenbezogene Daten verarbeitet.</p>
+<p><strong>Verantwortlich / Entwickler:</strong> Hayhak<br>
+<strong>Kontakt:</strong> <a href="mailto:thunderbascraft@gmail.com">thunderbascraft@gmail.com</a></p>
 
 <h2>1. Überblick</h2>
-<p>Die App rechnet Währungen um und zeigt Wechselkurse, Verlaufsgrafiken, Statistiken und optionale
-Kursalarme. Es ist <strong>kein Konto</strong> erforderlich. Es gibt <strong>keine Werbung</strong>
-und <strong>kein Tracking</strong> zu Werbezwecken.</p>
-
-<h2>2. Welche Daten verarbeitet werden</h2>
+<p>Die App rechnet Währungen um und zeigt Wechselkurse, Edelmetalle, Verlaufsgrafiken, Statistiken,
+ein Startbildschirm-Widget und optionale Kursalarme.</p>
 <ul>
-  <li><strong>Wechselkurse:</strong> Aktuelle Kurse werden von ExchangeRate-API geladen
-    (Endpunkt ohne API-Schlüssel). Verlaufsdiagramme nutzen die Frankfurter-API (EZB-Daten).
-    Übermittelt werden nur Währungscodes und bei Verlauf zusätzlich Datumsbereiche — keine Namen,
-    E-Mail-Adressen oder Gerätekennungen, die wir Ihnen zuordnen.</li>
-  <li><strong>Lokaler Speicher:</strong> Kurse, Favoriten, Alarme, Sprache, Design und zuletzt
-    verwendete Währungspaare werden mit Room und DataStore <em>nur auf Ihrem Gerät</em> gespeichert.</li>
-  <li><strong>Eingegebene Beträge:</strong> bleiben auf dem Gerät und werden nicht an uns gesendet.</li>
-  <li><strong>Benachrichtigungen:</strong> Wenn Sie einen Kursalarm setzen und die Berechtigung erteilen,
-    kann die App eine lokale Systembenachrichtigung anzeigen. Dafür wird kein Cloud-Konto genutzt.</li>
-  <li><strong>App-Updates:</strong> Ist die App aus Google Play installiert, kann sie über die
-    Play In-App-Updates-API prüfen, ob eine neue Version vorliegt.</li>
+  <li>Es ist <strong>kein Konto</strong> erforderlich. Es gibt keine Registrierung und kein Nutzerprofil.</li>
+  <li>Es gibt <strong>keine Werbung</strong> und <strong>kein Tracking</strong> zu Werbezwecken.</li>
+  <li>Die <strong>Advertising ID wird nicht erfasst</strong> (in der App deaktiviert).</li>
+  <li>Standort, Kontakte, Mikrofon, Kamera oder die Liste anderer Apps werden nicht verwendet.</li>
 </ul>
 
-<h2>3. Rechtsgrundlage (DSGVO)</h2>
+<h2>2. Android-Berechtigungen</h2>
+<ul>
+  <li><strong>Internet und Netzwerkstatus:</strong> zum Laden von Kursen und Metallpreisen.</li>
+  <li><strong>Benachrichtigungen (optional):</strong> für Kursalarme. Ab Android 13 fragt das System
+    um Erlaubnis; Sie können ablehnen. Ohne Erlaubnis erscheinen keine Alarm-Benachrichtigungen.</li>
+  <li><strong>Externer Speicher (nur Android 9 und älter):</strong> wenn Sie den Kursverlauf als CSV
+    exportieren. Ab Android 10 wird MediaStore genutzt; diese Berechtigung wird nicht angefragt.</li>
+</ul>
+
+<h2>3. Welche Daten verarbeitet werden</h2>
+<ul>
+  <li><strong>Wechselkurse:</strong> Aktuelle Kurse werden von ExchangeRate-API geladen
+    (<a href="https://open.er-api.com/">open.er-api.com</a>, Endpunkt ohne API-Schlüssel).
+    Verlaufsdiagramme nutzen die Frankfurter-API (EZB-Daten,
+    <a href="https://www.frankfurter.app/">frankfurter.app</a> / api.frankfurter.dev).
+    Übermittelt werden nur Währungscodes und bei Verlauf zusätzlich Datumsbereiche — keine Namen,
+    E-Mail-Adressen oder Gerätekennungen, die wir Ihnen zuordnen.</li>
+  <li><strong>Edelmetalle:</strong> Preise für Gold, Silber, Platin und Palladium kommen von
+    <a href="https://gold-api.com/">Gold-API</a> (api.gold-api.com), ersatzweise von der
+    Fawaz-currency-api über <a href="https://www.jsdelivr.com/">jsDelivr</a>. Übermittelt wird ein
+    Metallsymbol (z. B. XAU) oder eine allgemeine USD-Tabelle — keine personenbezogenen Daten.</li>
+  <li><strong>Lokaler Speicher:</strong> Kurse, Favoriten, Alarme, Sprache, Design, Widget-Einstellungen
+    und zuletzt verwendete Währungspaare werden mit Room und DataStore <em>nur auf Ihrem Gerät</em>
+    gespeichert.</li>
+  <li><strong>Eingegebene Beträge:</strong> bleiben auf dem Gerät und werden nicht an uns oder die
+    Kurs-APIs gesendet.</li>
+  <li><strong>Benachrichtigungen:</strong> Wenn Sie einen Kursalarm setzen und die Berechtigung erteilen,
+    kann die App eine lokale Systembenachrichtigung anzeigen. Dafür wird kein Cloud-Konto genutzt.</li>
+  <li><strong>Widget:</strong> Das Startbildschirm-Widget zeigt lokal gespeicherte Kurse und sendet
+    keine Nutzerdaten an einen eigenen Server.</li>
+  <li><strong>Analyse:</strong> Google Firebase Analytics erfasst Nutzungsereignisse zur Verbesserung
+    der App. Von uns protokolliert: Bildschirmname, Sprachkennzeichen, umgerechnete Währungscodes
+    (keine Beträge). Das SDK kann außerdem technische Daten erfassen: Gerätemodell, Android-Version,
+    App-Version, ungefähres Land und eine App-Instanz-ID. <strong>Die Advertising ID wird nicht
+    erfasst.</strong> Details:
+    <a href="https://firebase.google.com/support/privacy">Firebase-Datenschutz</a>.</li>
+  <li><strong>App-Updates:</strong> Ist die App aus Google Play installiert, kann sie über die
+    Play In-App-Updates-API prüfen, ob eine neue Version vorliegt.</li>
+  <li><strong>Feedback (optional):</strong> Wenn Sie aus den Einstellungen eine E-Mail öffnen, kann
+    der Entwurf App-Version, Hersteller, Modell und Android-Version enthalten. Dieser Text erreicht
+    uns nur, wenn Sie die Nachricht senden.</li>
+  <li><strong>Teilen und CSV:</strong> Das Teilen eines Umrechnungsergebnisses oder der CSV-Export
+    des Verlaufs wird von Ihnen ausgelöst und nicht auf Server von Hayhak hochgeladen.</li>
+  <li><strong>Gerätesicherung:</strong> Ist die Android-Sicherung aktiv, können App-Daten (Favoriten,
+    Alarme, Einstellungen) in Ihrem Google-Konto gesichert werden. Hayhak hat darauf keinen Zugriff.</li>
+</ul>
+<p>Netzwerkanfragen erfolgen per HTTPS.</p>
+
+<h2>4. Rechtsgrundlage (DSGVO)</h2>
 <p>Die Verarbeitung erfolgt zur Bereitstellung der von Ihnen angeforderten App-Funktionen
 (Art. 6 Abs. 1 lit. b DSGVO) bzw. auf Grundlage unseres berechtigten Interesses an einem
-stabilen, aktuellen Dienst (Art. 6 Abs. 1 lit. f DSGVO). Optionale Benachrichtigungen beruhen
-auf Ihrer Einwilligung über die Systemberechtigung (Art. 6 Abs. 1 lit. a DSGVO).</p>
+stabilen, aktuellen Dienst und an der Verbesserung der App (Art. 6 Abs. 1 lit. f DSGVO).
+Optionale Benachrichtigungen beruhen auf Ihrer Einwilligung über die Systemberechtigung
+(Art. 6 Abs. 1 lit. a DSGVO). Optionales Feedback per E-Mail erfolgt nur, wenn Sie die Nachricht
+absenden (Art. 6 Abs. 1 lit. a bzw. b DSGVO).</p>
 
-<h2>4. Drittanbieter</h2>
+<h2>5. Drittanbieter</h2>
 <ul>
   <li><strong>ExchangeRate-API</strong> (<a href="https://www.exchangerate-api.com/">exchangerate-api.com</a>):
     Live-Kurse. Es gilt deren Datenschutzerklärung.</li>
   <li><strong>Frankfurter</strong> (<a href="https://www.frankfurter.app/">frankfurter.app</a>):
     historische Kurse. Es gilt deren Datenschutzerklärung.</li>
+  <li><strong>Gold-API</strong> (<a href="https://gold-api.com/">gold-api.com</a>): Metallpreise.</li>
+  <li><strong>jsDelivr / Fawaz currency-api:</strong> Ersatzquelle für Metallpreise.</li>
   <li><strong>Google Play</strong>: Verteilung, Update-Prüfung und Play-Dienste, wenn die App
-    aus dem Play Store stammt. Es gilt die Datenschutzerklärung von Google.</li>
-  <li><strong>Firebase Analytics</strong>: anonyme Nutzungsereignisse (Bildschirmansichten, Sprache).
-    Keine Werbung, keine Advertising-ID-Erfassung.</li>
+    aus dem Play Store stammt. Es gilt die
+    <a href="https://policies.google.com/privacy">Datenschutzerklärung von Google</a>.</li>
+  <li><strong>Firebase Analytics (Google LLC)</strong>: anonyme Nutzungsereignisse.
+    <a href="https://firebase.google.com/support/privacy">Firebase-Datenschutz</a>.</li>
 </ul>
-<p>Wir betreiben keine eigenen Backend-Server für Ihre App-Daten.</p>
+<p>Wir betreiben keine eigenen Backend-Server für Ihre App-Daten. Kurs- und Analyseanfragen können
+an Server der Anbieter außerhalb des EWR (einschließlich der USA) gehen. Soweit Google als
+Auftragsverarbeiter tätig wird, gelten Googles Datenverarbeitungsbedingungen.</p>
 
-<h2>5. Weitergabe und Verkauf</h2>
+<h2>6. Weitergabe und Verkauf</h2>
 <p>Wir verkaufen Ihre Daten nicht. Favoriten, Alarme und Beträge werden nicht auf Server von Hayhak
-hochgeladen. An die oben genannten Dienste gehen nur die für Kurse bzw. Updates nötigen technischen
-Anfragen.</p>
+hochgeladen. An die oben genannten Dienste gehen nur die für Kurse, Metallpreise, Updates bzw.
+Analyse nötigen technischen Anfragen.</p>
 
-<h2>6. Speicherdauer</h2>
-<p>Lokal gespeicherte Daten bleiben, bis Sie sie in der App ändern oder die App deinstallieren.
-Deinstallation löscht die App-Daten auf dem Gerät.</p>
+<h2>7. Speicherdauer und Löschung</h2>
+<p>Es gibt kein Nutzerkonto; eine Kontolöschung entfällt daher. Lokal gespeicherte Daten bleiben,
+bis Sie sie in der App ändern oder die App deinstallieren. Deinstallation löscht die App-Daten
+auf dem Gerät.</p>
+<p>Firebase-Analyseaufzeichnungen unterliegen den Aufbewahrungsfristen von Google. Für Auskunft
+oder Löschung schreiben Sie an
+<a href="mailto:thunderbascraft@gmail.com">thunderbascraft@gmail.com</a>.</p>
 
-<h2>7. Kinder</h2>
-<p>Die App richtet sich nicht an Kinder unter 13 Jahren.</p>
+<h2>8. Kinder</h2>
+<p>Die App richtet sich nicht an Kinder unter 13 Jahren. Wir erheben wissentlich keine Daten von
+Kindern unter 13 Jahren.</p>
 
-<h2>8. Ihre Rechte</h2>
+<h2>9. Ihre Rechte</h2>
 <p>Soweit die DSGVO gilt, haben Sie u. a. Rechte auf Auskunft, Berichtigung, Löschung,
 Einschränkung der Verarbeitung und Widerspruch sowie Beschwerde bei einer Aufsichtsbehörde.
 Da wir keine Nutzerkonten und keine von uns gespeicherten Personenprofile führen, erfolgt die
 Löschung in der Regel durch Deinstallation der App.</p>
 
-<h2>9. Kontakt</h2>
+<h2>10. Änderungen</h2>
+<p>Wir können diese Erklärung anpassen, wenn sich das Verhalten der App ändert. Der aktuelle Text
+steht auf dieser Seite; das Datum steht oben.</p>
+
+<h2>11. Kontakt</h2>
 <p>Fragen zur Datenschutzerklärung: <a href="mailto:thunderbascraft@gmail.com">thunderbascraft@gmail.com</a>.</p>
 
 </body>
