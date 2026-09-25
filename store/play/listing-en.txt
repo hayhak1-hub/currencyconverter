@@ -1,6 +1,6 @@
 # Google Play — English (default)
 
-applicationId: com.hayhak.currencyconverter
+applicationId: com.hayhak.currencyConverter
 category: Finance
 content_rating: Everyone
 

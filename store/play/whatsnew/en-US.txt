@@ -1,8 +1,8 @@
-First release.
-
-• Instant converter for 160+ currencies
-• Live rates, statistics, and history charts (1 day–5 years)
-• Rate alerts and home-screen widget
-• Precious metals (gold, silver, platinum, palladium)
-• Offline cache, 20 languages, dark mode
-• No ads, no account
+• Precious metals now work offline: the last price is kept, with its source and update time
+• Enter metal amounts in ounces or grams
+• Comparison chart fixed: both pairs share one scale and show % change
+• The "1 day" range now really shows 1 day
+• Rate alerts stay on when a notification cannot be delivered
+• The widget can now be emptied of all currencies
+• Fixed a crash on Android 6 in Settings and Rates
+• More reliable rate cache

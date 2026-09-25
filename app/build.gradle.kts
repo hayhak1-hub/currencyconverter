@@ -25,7 +25,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.hayhak.currencyconverter"
+        applicationId = "com.hayhak.currencyConverter"
         minSdk = 23
         targetSdk = 36
         versionCode = 7

@@ -1,8 +1,8 @@
-Erste Version.
-
-• Sofort-Umrechner für 160+ Währungen
-• Live-Kurse, Statistik und Verlaufscharts (1 Tag–5 Jahre)
-• Kursalarme und Startbildschirm-Widget
-• Edelmetalle (Gold, Silber, Platin, Palladium)
-• Offline-Cache, 20 Sprachen, Dunkelmodus
-• Keine Werbung, kein Konto
+• Edelmetalle funktionieren jetzt offline: der letzte Preis bleibt erhalten, mit Quelle und Zeit
+• Metallmengen in Unzen oder Gramm eingeben
+• Vergleichsdiagramm korrigiert: gemeinsame Skala, Veränderung in %
+• Zeitraum „1 Tag" zeigt jetzt wirklich 1 Tag
+• Kursalarme bleiben aktiv, wenn eine Benachrichtigung nicht zugestellt werden kann
+• Im Widget lassen sich jetzt alle Währungen entfernen
+• Absturz unter Android 6 in Einstellungen und Kurse behoben
+• Zuverlässigerer Kurs-Cache

@@ -1,8 +1,8 @@
-İlk sürüm.
-
-• 160+ para birimi için anında çevirici
-• Canlı kurlar, istatistik ve geçmiş grafikleri (1 gün–5 yıl)
-• Kur alarmları ve ana ekran widget’ı
-• Değerli metaller (altın, gümüş, platin, paladyum)
-• Çevrimdışı önbellek, 20 dil, karanlık mod
-• Reklam yok, hesap gerekmez
+• Değerli metaller artık çevrimdışı çalışıyor: son fiyat, kaynağı ve güncelleme saatiyle birlikte saklanıyor
+• Metal miktarını ons veya gram olarak girebilme
+• Karşılaştırma grafiği düzeltildi: iki çift ortak ölçekte ve yüzde değişimle gösteriliyor
+• "1 gün" aralığı artık gerçekten 1 gün
+• Bildirim iletilemediğinde kur alarmı kapanmıyor
+• Widget'tan tüm para birimleri kaldırılabiliyor
+• Android 6'da Ayarlar ve Kurlar ekranlarındaki çökme giderildi
+• Daha güvenilir kur önbelleği

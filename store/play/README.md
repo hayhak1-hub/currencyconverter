@@ -1,6 +1,6 @@
 # Play Store materials — Currency Converter
 
-**Package:** `com.hayhak.currencyconverter`  
+**Package:** `com.hayhak.currencyConverter`  
 **Release AAB:** `app/build/outputs/bundle/release/currencyconverter-release.aab`
 
 ## Listing copy
@@ -41,7 +41,7 @@ Paste [release-notes.xml](release-notes.xml) into Play Console → Release → *
 ## Upload steps
 
 1. Build signed bundle: `./gradlew bundleRelease`
-2. Play Console → existing app `com.hayhak.currencyconverter` → **Create new release** (versionCode must stay above the last published 6)
+2. Play Console → app `com.hayhak.currencyConverter` → **Create new release** (versionCode must be higher than the last uploaded one)
 3. Upload AAB to **Production** or **Internal testing**
 4. Paste listing text from locale files
 5. Complete Data safety + Content rating before rollout

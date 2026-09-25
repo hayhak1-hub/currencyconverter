@@ -1,6 +1,6 @@
 # Firebase / Google Analytics
 
-`app/google-services.json` is required (package `com.hayhak.currencyconverter`).
+`app/google-services.json` is required (package `com.hayhak.currencyConverter`).
 Download it from Firebase Console if missing, then rebuild.
 
 Advertising ID collection is disabled in the manifest.
