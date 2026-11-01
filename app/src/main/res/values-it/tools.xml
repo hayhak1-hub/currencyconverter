@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">Commissioni, salvataggi e viaggi</string>
+    <string name="tools_fees">Commissioni</string>
+    <string name="tools_history">Salvati</string>
+    <string name="tools_travel">Viaggi</string>
+    <string name="tools_fee_explanation">Stima. Le commissioni percentuali e fisse vengono sottratte dal valore convertito in %1$s.</string>
+    <string name="tools_percent">Commissione (%)</string>
+    <string name="tools_fixed">Commissione fissa (%1$s)</string>
+    <string name="tools_net">Netto: %1$s %2$s</string>
+    <string name="tools_invalid">Inserisci importo e commissioni validi, non superiori al valore convertito.</string>
+    <string name="tools_save">Salva conversione</string>
+    <string name="tools_history_note">Ultime 50 stime salvate sul dispositivo. Riutilizza ricalcola al cambio disponibile, senza commissioni.</string>
+    <string name="tools_saved_fees">Commissioni salvate: %1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">Salvataggio non riuscito. Riprova.</string>
+    <string name="tools_empty">Nessuna conversione salvata.</string>
+    <string name="tools_reuse">Riutilizza</string>
+    <string name="tools_delete">Elimina</string>
+    <string name="tools_country">Cerca paese o valuta</string>
+    <string name="tools_travel_note">Scegli una destinazione per usare la sua valuta e aggiungerla ai preferiti.</string>
+    <string name="metal_amount">Quantità di metallo</string>
+    <string name="metal_gram">Grammo</string>
+    <string name="metal_ounce">Oncia troy</string>
+    <string name="metal_cache">Prezzo salvato — aggiornamento non disponibile</string>
+    <string name="metal_retrieved">%1$s · Recuperato: %2$s</string>
+    <string name="metal_estimate">Valore indicativo; esclusi adeguamenti di purezza, maggiorazioni e commissioni.</string>
+</resources>

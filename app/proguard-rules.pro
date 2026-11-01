@@ -24,6 +24,11 @@
 # Room entities
 -keep class com.hayhak.currencyconverter.data.local.entity.** { *; }
 
+# Persisted JSON must retain stable field names across releases.
+-keep class com.hayhak.currencyconverter.domain.model.SavedConversion { *; }
+-keep class com.hayhak.currencyconverter.ui.metals.CachedMetal { *; }
+-keep class com.hayhak.currencyconverter.domain.model.RateAlarm { *; }
+
 # Glance / WorkManager workers
 -keep class * extends androidx.work.Worker
 -keep class * extends androidx.work.CoroutineWorker

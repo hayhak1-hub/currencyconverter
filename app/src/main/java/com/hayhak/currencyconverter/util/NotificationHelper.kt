@@ -29,7 +29,11 @@ class NotificationHelper(private val context: Context) {
         }
     }
 
-    fun showRateNotification(title: String, message: String, from: String? = null, to: String? = null) {
+    fun showRateNotification(title: String, message: String, from: String? = null, to: String? = null): Boolean {
+        if (!androidx.core.app.NotificationManagerCompat.from(context).areNotificationsEnabled()) return false
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            notificationManager.getNotificationChannel(CHANNEL_ID)?.importance == NotificationManager.IMPORTANCE_NONE
+        ) return false
         val open = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             putExtra(MainActivity.EXTRA_NAV, MainActivity.NAV_CONVERTER)
@@ -52,7 +56,12 @@ class NotificationHelper(private val context: Context) {
             .setContentIntent(pending)
             .build()
 
-        notificationManager.notify(System.currentTimeMillis().toInt(), notification)
+        return try {
+            notificationManager.notify(System.currentTimeMillis().toInt(), notification)
+            true
+        } catch (_: SecurityException) {
+            false
+        }
     }
 
     companion object {

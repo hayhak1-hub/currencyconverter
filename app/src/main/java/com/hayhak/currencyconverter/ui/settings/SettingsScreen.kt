@@ -68,7 +68,7 @@ fun SettingsScreen(
     val dynamicColor by themeViewModel.dynamicColor.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val localeKey = LocalConfiguration.current.locales.toLanguageTags()
+    val localeKey = androidx.core.os.ConfigurationCompat.getLocales(LocalConfiguration.current).toLanguageTags()
 
     var checkingUpdate by remember { mutableStateOf(false) }
     var manualUpdateInfo by remember { mutableStateOf<PlayUpdateInfo?>(null) }

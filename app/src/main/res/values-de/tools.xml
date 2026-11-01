@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">Gebühren, gespeicherte Umrechnungen und Reisen</string>
+    <string name="tools_fees">Gebühren</string>
+    <string name="tools_history">Gespeichert</string>
+    <string name="tools_travel">Reisen</string>
+    <string name="tools_fee_explanation">Nur eine Schätzung. Prozentuale und feste Gebühren werden vom umgerechneten Betrag in %1$s abgezogen.</string>
+    <string name="tools_percent">Gebühr (%)</string>
+    <string name="tools_fixed">Feste Gebühr (%1$s)</string>
+    <string name="tools_net">Netto: %1$s %2$s</string>
+    <string name="tools_invalid">Gültigen Betrag und Gebühren eingeben. Gebühren dürfen den umgerechneten Betrag nicht übersteigen.</string>
+    <string name="tools_save">Umrechnung speichern</string>
+    <string name="tools_history_note">Die letzten 50 manuell gespeicherten Schätzungen bleiben auf diesem Gerät. Wiederverwenden berechnet den Betrag zum verfügbaren Kurs ohne Gebühren neu.</string>
+    <string name="tools_saved_fees">Gespeicherte Gebühren: %1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">Speichern fehlgeschlagen. Bitte erneut versuchen.</string>
+    <string name="tools_empty">Keine gespeicherten Umrechnungen.</string>
+    <string name="tools_reuse">Wiederverwenden</string>
+    <string name="tools_delete">Löschen</string>
+    <string name="tools_country">Land oder Währung suchen</string>
+    <string name="tools_travel_note">Reiseziel auswählen, um dessen Währung zu verwenden und als Favorit hinzuzufügen.</string>
+    <string name="metal_amount">Metallmenge</string>
+    <string name="metal_gram">Gramm</string>
+    <string name="metal_ounce">Feinunze</string>
+    <string name="metal_cache">Gespeicherter Preis — Aktualisierung nicht verfügbar</string>
+    <string name="metal_retrieved">%1$s · Abgerufen: %2$s</string>
+    <string name="metal_estimate">Unverbindlicher Metallwert; ohne Feinheitsanpassungen, Händleraufschläge und Gebühren.</string>
+</resources>

@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">Comisiones, guardados y viajes</string>
+    <string name="tools_fees">Comisiones</string>
+    <string name="tools_history">Guardados</string>
+    <string name="tools_travel">Viajes</string>
+    <string name="tools_fee_explanation">Estimación. Las comisiones porcentuales y fijas se restan del importe convertido en %1$s.</string>
+    <string name="tools_percent">Comisión (%)</string>
+    <string name="tools_fixed">Comisión fija (%1$s)</string>
+    <string name="tools_net">Neto: %1$s %2$s</string>
+    <string name="tools_invalid">Introduce un importe y comisiones válidos. No pueden superar el importe convertido.</string>
+    <string name="tools_save">Guardar conversión</string>
+    <string name="tools_history_note">Últimas 50 estimaciones guardadas en este dispositivo. Reutilizar calcula con el tipo disponible, sin comisiones.</string>
+    <string name="tools_saved_fees">Comisiones guardadas: %1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">No se pudo guardar. Inténtalo de nuevo.</string>
+    <string name="tools_empty">No hay conversiones guardadas.</string>
+    <string name="tools_reuse">Reutilizar</string>
+    <string name="tools_delete">Eliminar</string>
+    <string name="tools_country">Buscar país o moneda</string>
+    <string name="tools_travel_note">Selecciona un destino para usar su moneda y añadirla a favoritos.</string>
+    <string name="metal_amount">Cantidad de metal</string>
+    <string name="metal_gram">Gramo</string>
+    <string name="metal_ounce">Onza troy</string>
+    <string name="metal_cache">Precio guardado — actualización no disponible</string>
+    <string name="metal_retrieved">%1$s · Consultado: %2$s</string>
+    <string name="metal_estimate">Valor indicativo; no incluye ajustes de pureza, primas ni comisiones.</string>
+</resources>

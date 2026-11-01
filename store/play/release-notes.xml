@@ -1,0 +1,223 @@
+# Google Play — release notes (max 500 chars per locale)
+# Paste into Play Console → Release → Release notes
+# Version 1.0.6 (versionCode 7) — update, not a first release
+
+<en-US>
+• Precious metals now work offline: the last price is kept, with its source and update time
+• Enter metal amounts in ounces or grams
+• Comparison chart fixed: both pairs share one scale and show % change
+• The "1 day" range now really shows 1 day
+• Rate alerts stay on when a notification cannot be delivered
+• The widget can now be emptied of all currencies
+• Fixed a crash on Android 6 in Settings and Rates
+• More reliable rate cache
+</en-US>
+
+<de-DE>
+• Edelmetalle funktionieren jetzt offline: der letzte Preis bleibt erhalten, mit Quelle und Zeit
+• Metallmengen in Unzen oder Gramm eingeben
+• Vergleichsdiagramm korrigiert: gemeinsame Skala, Veränderung in %
+• Zeitraum „1 Tag" zeigt jetzt wirklich 1 Tag
+• Kursalarme bleiben aktiv, wenn eine Benachrichtigung nicht zugestellt werden kann
+• Im Widget lassen sich jetzt alle Währungen entfernen
+• Absturz unter Android 6 in Einstellungen und Kurse behoben
+• Zuverlässigerer Kurs-Cache
+</de-DE>
+
+<tr-TR>
+• Değerli metaller artık çevrimdışı çalışıyor: son fiyat, kaynağı ve güncelleme saatiyle birlikte saklanıyor
+• Metal miktarını ons veya gram olarak girebilme
+• Karşılaştırma grafiği düzeltildi: iki çift ortak ölçekte ve yüzde değişimle gösteriliyor
+• "1 gün" aralığı artık gerçekten 1 gün
+• Bildirim iletilemediğinde kur alarmı kapanmıyor
+• Widget'tan tüm para birimleri kaldırılabiliyor
+• Android 6'da Ayarlar ve Kurlar ekranlarındaki çökme giderildi
+• Daha güvenilir kur önbelleği
+</tr-TR>
+
+<fr-FR>
+• Les métaux précieux fonctionnent hors ligne : le dernier cours est conservé, avec sa source et son heure
+• Saisie des quantités en onces ou en grammes
+• Graphique de comparaison corrigé : échelle commune et variation en %
+• La période « 1 jour » affiche vraiment 1 jour
+• Les alertes restent actives si une notification ne peut pas être remise
+• Le widget peut désormais être vidé de toutes les devises
+• Plantage corrigé sous Android 6 dans Paramètres et Taux
+• Cache des taux plus fiable
+</fr-FR>
+
+<es-ES>
+• Los metales preciosos ya funcionan sin conexión: se guarda el último precio con su fuente y hora de actualización
+• Introduce cantidades en onzas o gramos
+• Gráfico de comparación corregido: escala común y variación en %
+• El periodo «1 día» ahora muestra realmente 1 día
+• Las alertas no se desactivan si una notificación no se puede entregar
+• Ahora puedes quitar todas las monedas del widget
+• Corregido un fallo en Android 6 en Ajustes y Tasas
+• Caché de tasas más fiable
+</es-ES>
+
+<it-IT>
+• I metalli preziosi ora funzionano offline: l'ultimo prezzo viene conservato con fonte e ora di aggiornamento
+• Inserisci le quantità in once o grammi
+• Grafico di confronto corretto: scala comune e variazione in %
+• L'intervallo "1 giorno" ora mostra davvero 1 giorno
+• Gli avvisi restano attivi se una notifica non può essere consegnata
+• Ora il widget può essere svuotato di tutte le valute
+• Risolto un arresto anomalo su Android 6 in Impostazioni e Tassi
+• Cache dei tassi più affidabile
+</it-IT>
+
+<pt-BR>
+• Os metais preciosos agora funcionam offline: o último preço é mantido, com fonte e horário de atualização
+• Informe quantidades em onças ou gramas
+• Gráfico de comparação corrigido: escala comum e variação em %
+• O período "1 dia" agora mostra realmente 1 dia
+• Os alertas continuam ativos quando uma notificação não pode ser entregue
+• Agora o widget pode ficar sem nenhuma moeda
+• Corrigida uma falha no Android 6 em Configurações e Taxas
+• Cache de taxas mais confiável
+</pt-BR>
+
+<ru-RU>
+• Драгоценные металлы работают офлайн: последняя цена сохраняется вместе с источником и временем обновления
+• Ввод количества в унциях или граммах
+• Исправлен график сравнения: общая шкала и изменение в %
+• Диапазон «1 день» теперь действительно показывает 1 день
+• Оповещения о курсе не отключаются, если уведомление не доставлено
+• Из виджета теперь можно убрать все валюты
+• Исправлен сбой на Android 6 в разделах «Настройки» и «Курсы»
+• Более надёжный кеш курсов
+</ru-RU>
+
+<pl-PL>
+• Metale szlachetne działają teraz offline: ostatnia cena jest zapisywana wraz ze źródłem i czasem aktualizacji
+• Wprowadzanie ilości w uncjach lub gramach
+• Poprawiony wykres porównania: wspólna skala i zmiana w %
+• Zakres „1 dzień" pokazuje teraz naprawdę 1 dzień
+• Alerty kursowe nie wyłączają się, gdy powiadomienie nie może zostać dostarczone
+• Z widżetu można teraz usunąć wszystkie waluty
+• Naprawiono awarię na Androidzie 6 w Ustawieniach i Kursach
+• Bardziej niezawodny bufor kursów
+</pl-PL>
+
+<ja-JP>
+• 貴金属がオフラインでも使えるようになりました。最終価格を出典と更新時刻とともに保存します
+• 金額をオンスまたはグラムで入力できます
+• 比較グラフを修正しました。2 つのペアを共通の目盛りと変化率（%）で表示します
+• 「1 日」の期間が正しく 1 日分を表示するようになりました
+• 通知を配信できなかった場合もレート通知がオフになりません
+• ウィジェットからすべての通貨を削除できるようになりました
+• Android 6 の「設定」「レート」画面のクラッシュを修正しました
+• レートのキャッシュをより確実にしました
+</ja-JP>
+
+<ko-KR>
+• 귀금속이 오프라인에서도 작동합니다. 마지막 가격이 출처 및 업데이트 시각과 함께 저장됩니다
+• 수량을 온스 또는 그램으로 입력할 수 있습니다
+• 비교 차트를 수정했습니다. 두 통화쌍이 공통 축과 변화율(%)로 표시됩니다
+• '1일' 기간이 이제 실제로 1일을 표시합니다
+• 알림을 전달하지 못한 경우에도 환율 알림이 꺼지지 않습니다
+• 위젯에서 모든 통화를 제거할 수 있습니다
+• Android 6의 설정 및 환율 화면 비정상 종료를 수정했습니다
+• 환율 캐시가 더 안정적입니다
+</ko-KR>
+
+<zh-CN>
+• 贵金属现在支持离线查看：保留最近价格，并显示来源和更新时间
+• 可按盎司或克输入数量
+• 修复对比图表：两组货币使用同一刻度并显示百分比变化
+• "1 天"区间现在真的只显示 1 天
+• 通知无法送达时，汇率提醒不再被关闭
+• 现在可以从微件中移除全部货币
+• 修复 Android 6 上"设置"和"汇率"页面的崩溃
+• 汇率缓存更可靠
+</zh-CN>
+
+<hi-IN>
+• कीमती धातुएँ अब ऑफ़लाइन काम करती हैं: अंतिम कीमत स्रोत और अपडेट समय के साथ सहेजी जाती है
+• मात्रा औंस या ग्राम में दर्ज करें
+• तुलना चार्ट ठीक किया गया: दोनों जोड़े एक ही पैमाने पर और % बदलाव के साथ
+• "1 दिन" अवधि अब वास्तव में 1 दिन दिखाती है
+• सूचना न पहुँच पाने पर दर अलर्ट बंद नहीं होते
+• अब विजेट से सभी मुद्राएँ हटाई जा सकती हैं
+• Android 6 पर सेटिंग्स और दरें स्क्रीन का क्रैश ठीक किया गया
+• दरों का कैश अधिक भरोसेमंद
+</hi-IN>
+
+<bn-BD>
+• মূল্যবান ধাতু এখন অফলাইনে কাজ করে: সর্বশেষ দাম উৎস ও হালনাগাদের সময়সহ সংরক্ষিত থাকে
+• পরিমাণ আউন্স বা গ্রামে লিখুন
+• তুলনা চার্ট ঠিক করা হয়েছে: দুটি জোড়াই একই স্কেলে ও শতকরা পরিবর্তনে
+• "১ দিন" পরিসর এখন সত্যিই ১ দিন দেখায়
+• বিজ্ঞপ্তি পৌঁছাতে না পারলে দরের সতর্কতা বন্ধ হয় না
+• উইজেট থেকে এখন সব মুদ্রা সরানো যায়
+• Android 6-এ সেটিংস ও দর স্ক্রিনের ক্র্যাশ ঠিক করা হয়েছে
+• দরের ক্যাশ আরও নির্ভরযোগ্য
+</bn-BD>
+
+<ar>
+• أصبحت المعادن الثمينة تعمل دون اتصال: يُحفظ آخر سعر مع مصدره ووقت تحديثه
+• أدخل الكمية بالأونصة أو بالغرام
+• تصحيح مخطط المقارنة: مقياس مشترك للزوجين مع عرض التغير بالنسبة المئوية
+• نطاق "يوم واحد" يعرض الآن يومًا واحدًا فعليًا
+• لا تتوقف تنبيهات السعر عند تعذر تسليم الإشعار
+• يمكن الآن إزالة جميع العملات من الأداة
+• إصلاح تعطل على Android 6 في شاشتَي الإعدادات والأسعار
+• ذاكرة تخزين مؤقت أكثر موثوقية للأسعار
+</ar>
+
+<th>
+• โลหะมีค่าใช้งานแบบออฟไลน์ได้แล้ว: บันทึกราคาล่าสุดพร้อมแหล่งที่มาและเวลาอัปเดต
+• กรอกปริมาณเป็นออนซ์หรือกรัม
+• แก้ไขกราฟเปรียบเทียบ: ทั้งสองคู่ใช้สเกลเดียวกันและแสดงการเปลี่ยนแปลงเป็น %
+• ช่วง "1 วัน" แสดงผล 1 วันจริง ๆ แล้ว
+• การแจ้งเตือนอัตราจะไม่ปิดเมื่อส่งการแจ้งเตือนไม่สำเร็จ
+• ตอนนี้ลบสกุลเงินทั้งหมดออกจากวิดเจ็ตได้
+• แก้ไขแอปขัดข้องบน Android 6 ในหน้าตั้งค่าและอัตรา
+• แคชอัตราแลกเปลี่ยนเสถียรขึ้น
+</th>
+
+<uk>
+• Дорогоцінні метали тепер працюють офлайн: остання ціна зберігається разом із джерелом і часом оновлення
+• Введення кількості в унціях або грамах
+• Виправлено графік порівняння: спільна шкала та зміна у %
+• Діапазон «1 день» тепер справді показує 1 день
+• Сповіщення про курс не вимикаються, якщо повідомлення не вдалося доставити
+• З віджета тепер можна прибрати всі валюти
+• Виправлено збій на Android 6 у розділах «Налаштування» та «Курси»
+• Надійніший кеш курсів
+</uk>
+
+<ur>
+• قیمتی دھاتیں اب آف لائن کام کرتی ہیں: آخری قیمت اپنے ماخذ اور وقتِ تجدید کے ساتھ محفوظ رہتی ہے
+• مقدار اونس یا گرام میں درج کریں
+• موازنہ چارٹ درست کیا گیا: دونوں جوڑے ایک ہی پیمانے پر اور فیصد تبدیلی کے ساتھ
+• "1 دن" کا دورانیہ اب واقعی 1 دن دکھاتا ہے
+• اطلاع نہ پہنچنے پر ریٹ الرٹ بند نہیں ہوتے
+• اب ویجٹ سے تمام کرنسیاں ہٹائی جا سکتی ہیں
+• Android 6 پر سیٹنگز اور ریٹس اسکرین کا کریش درست کیا گیا
+• ریٹ کیش زیادہ قابلِ اعتماد
+</ur>
+
+<vi>
+• Kim loại quý nay hoạt động ngoại tuyến: giá mới nhất được giữ lại kèm nguồn và thời điểm cập nhật
+• Nhập khối lượng theo ounce hoặc gram
+• Đã sửa biểu đồ so sánh: hai cặp dùng chung một thang đo và hiển thị thay đổi theo %
+• Khoảng "1 ngày" nay hiển thị đúng 1 ngày
+• Cảnh báo tỷ giá không bị tắt khi không gửi được thông báo
+• Nay có thể xóa toàn bộ tiền tệ khỏi tiện ích
+• Đã sửa lỗi treo trên Android 6 ở màn hình Cài đặt và Tỷ giá
+• Bộ nhớ đệm tỷ giá đáng tin cậy hơn
+</vi>
+
+<id>
+• Logam mulia kini bisa dilihat offline: harga terakhir disimpan beserta sumber dan waktu pembaruannya
+• Masukkan jumlah dalam ons atau gram
+• Grafik perbandingan diperbaiki: kedua pasangan memakai satu skala dan menampilkan perubahan dalam %
+• Rentang "1 hari" kini benar-benar menampilkan 1 hari
+• Notifikasi kurs tidak lagi mati saat pemberitahuan gagal dikirim
+• Kini semua mata uang bisa dihapus dari widget
+• Memperbaiki crash di Android 6 pada layar Setelan dan Kurs
+• Cache kurs lebih andal
+</id>

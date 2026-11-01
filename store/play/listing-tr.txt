@@ -1,6 +1,6 @@
 # Google Play — Türkçe
 
-applicationId: com.hayhak.currencyconverter
+applicationId: com.hayhak.currencyConverter
 category: Finans
 content_rating: Everyone
 
@@ -30,3 +30,13 @@ GİZLİLİK
 Hesap gerekmez. Reklam yok. Ayrıntılar uygulama içi gizlilik politikasında.
 
 Hayhak tarafından geliştirildi.
+
+## Sürüm notları (max 500)
+İlk sürüm.
+
+• 160+ para birimi için anında çevirici
+• Canlı kurlar, istatistik ve geçmiş grafikleri (1 gün–5 yıl)
+• Kur alarmları ve ana ekran widget’ı
+• Değerli metaller (altın, gümüş, platin, paladyum)
+• Çevrimdışı önbellek, 20 dil, karanlık mod
+• Reklam yok, hesap gerekmez

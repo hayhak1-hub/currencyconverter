@@ -57,7 +57,7 @@ fun DashboardScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     var searchQuery by remember { mutableStateOf("") }
     val context = LocalContext.current
-    val localeKey = LocalConfiguration.current.locales.toLanguageTags()
+    val localeKey = androidx.core.os.ConfigurationCompat.getLocales(LocalConfiguration.current).toLanguageTags()
     val notifPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {}
     fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= 33 &&
@@ -128,11 +128,11 @@ fun DashboardScreen(
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         contentWindowInsets = WindowInsets(0)
-    ) { _ ->
+    ) { contentPadding ->
         PullToRefreshBox(
             isRefreshing = state.isRefreshing,
             onRefresh    = viewModel::refresh,
-            modifier     = Modifier.fillMaxSize()
+            modifier     = Modifier.fillMaxSize().padding(contentPadding)
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
                 Row(
@@ -332,7 +332,7 @@ private fun BaseCurrencyDialog(
 ) {
     var query by remember { mutableStateOf("") }
     val context = LocalContext.current
-    val localeKey = LocalConfiguration.current.locales.toLanguageTags()
+    val localeKey = androidx.core.os.ConfigurationCompat.getLocales(LocalConfiguration.current).toLanguageTags()
     val filtered = remember(query, favorites, localeKey) {
         val q = query.trim()
         val matches = if (q.isBlank()) {

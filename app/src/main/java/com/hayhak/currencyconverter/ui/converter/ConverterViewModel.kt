@@ -128,6 +128,14 @@ class ConverterViewModel @Inject constructor(
         _uiState.update { it.copy(amount = "") }
     }
 
+    fun reuseConversion(entry: com.hayhak.currencyconverter.domain.model.SavedConversion) {
+        applyPair(entry.from, entry.to)
+        accumulator = null
+        pendingOp = null
+        replaceOnNextDigit = false
+        _uiState.update { it.copy(amount = entry.amount) }
+    }
+
     fun finishAmountEntry() {
         equals()
         _uiState.update { state ->

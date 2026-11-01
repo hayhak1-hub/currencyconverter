@@ -55,6 +55,7 @@ object CsvExporter {
         return sb.toString()
     }
 
+    @androidx.annotation.RequiresApi(Build.VERSION_CODES.Q)
     private fun writeViaMediaStore(context: Context, fileName: String, csv: String): String? {
         val values = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)

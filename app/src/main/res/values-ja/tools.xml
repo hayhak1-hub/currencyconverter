@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">手数料・保存・旅行</string>
+    <string name="tools_fees">手数料</string>
+    <string name="tools_history">保存済み</string>
+    <string name="tools_travel">旅行</string>
+    <string name="tools_fee_explanation">概算です。割合と固定の手数料を換算後の %1$s の金額から差し引きます。</string>
+    <string name="tools_percent">手数料 (%)</string>
+    <string name="tools_fixed">固定手数料 (%1$s)</string>
+    <string name="tools_net">差引額：%1$s %2$s</string>
+    <string name="tools_invalid">有効な金額と手数料を入力してください。手数料は換算額を超えられません。</string>
+    <string name="tools_save">換算を保存</string>
+    <string name="tools_history_note">手動保存した直近50件を端末に保存します。再利用時は利用可能なレートで手数料なしで再計算します。</string>
+    <string name="tools_saved_fees">保存した手数料：%1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">保存できませんでした。再試行してください。</string>
+    <string name="tools_empty">保存済みの換算はありません。</string>
+    <string name="tools_reuse">再利用</string>
+    <string name="tools_delete">削除</string>
+    <string name="tools_country">国または通貨を検索</string>
+    <string name="tools_travel_note">渡航先を選ぶと、その通貨を換算先に設定し、お気に入りに追加します。</string>
+    <string name="metal_amount">金属の数量</string>
+    <string name="metal_gram">グラム</string>
+    <string name="metal_ounce">トロイオンス</string>
+    <string name="metal_cache">保存済み価格 — 更新できません</string>
+    <string name="metal_retrieved">%1$s · 取得日時：%2$s</string>
+    <string name="metal_estimate">参考値です。純度調整、販売店の上乗せ額、手数料は含みません。</string>
+</resources>

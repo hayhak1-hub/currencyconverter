@@ -103,8 +103,8 @@ class UserPreferencesRepositoryImpl @Inject constructor(
 
     override val widgetCodes: Flow<List<String>> = context.dataStore.data.map { prefs ->
         val raw = prefs[PreferencesKeys.WIDGET_CODES]
-        if (raw.isNullOrBlank()) defaultWidgetCodes
-        else raw.split(",").map { it.trim() }.filter { it.isNotEmpty() }.ifEmpty { defaultWidgetCodes }
+        if (raw == null) defaultWidgetCodes
+        else raw.split(",").map { it.trim() }.filter { it.isNotEmpty() }
     }
 
     override suspend fun addAlarm(alarm: RateAlarm) {

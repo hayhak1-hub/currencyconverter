@@ -5,7 +5,7 @@ import com.hayhak.currencyconverter.domain.model.HistoricalRate
 import com.hayhak.currencyconverter.domain.model.currencyByCode
 
 enum class TimeRange(val labelRes: Int, val days: Int) {
-    ONE_DAY(com.hayhak.currencyconverter.R.string.range_1d, 5),
+    ONE_DAY(com.hayhak.currencyconverter.R.string.range_1d, 1),
     ONE_WEEK(com.hayhak.currencyconverter.R.string.range_1w, 7),
     ONE_MONTH(com.hayhak.currencyconverter.R.string.range_1m, 30),
     SIX_MONTHS(com.hayhak.currencyconverter.R.string.range_6m, 180),

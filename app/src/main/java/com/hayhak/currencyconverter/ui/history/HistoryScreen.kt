@@ -199,6 +199,23 @@ private fun RateChart(
 ) {
     if (data.isEmpty()) return
 
+    val comparing = compareData.isNotEmpty()
+    fun normalized(series: List<HistoricalRate>): List<HistoricalRate> {
+        val start = series.firstOrNull()?.rate ?: return emptyList()
+        if (!comparing || start <= 0.0) return series
+        return series.map { it.copy(rate = (it.rate / start - 1.0) * 100.0) }
+    }
+    val primary = normalized(data)
+    val secondary = normalized(compareData)
+    val allPoints = primary + secondary
+    val firstDate = allPoints.minOf { it.date }
+    val lastDate = allPoints.maxOf { it.date }
+    val timeSpan = (lastDate - firstDate).coerceAtLeast(1L)
+    val minRate = allPoints.minOf { it.rate }
+    val maxRate = allPoints.maxOf { it.rate }
+    val rateRange = (maxRate - minRate).takeIf { it > 0 } ?: 0.0001
+    fun axisLabel(value: Double) = if (comparing) "%.1f%%".format(value) else formatYLabel(value)
+
     val textMeasurer    = rememberTextMeasurer()
     val labelColor      = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
     val gridColor       = MaterialTheme.colorScheme.outline.copy(alpha = 0.12f)
@@ -221,34 +238,31 @@ private fun RateChart(
         chartH: Float
     ): List<Offset> {
         if (series.isEmpty()) return emptyList()
-        val minR = series.minOf { it.rate }
-        val maxR = series.maxOf { it.rate }
-        val range = (maxR - minR).takeIf { it > 0 } ?: (maxR * 0.01).coerceAtLeast(0.0001)
-        return if (series.size == 1) {
-            listOf(Offset(chartL + chartW / 2f, chartT + chartH / 2f))
-        } else {
-            series.mapIndexed { i, point ->
+        return series.map { point ->
                 Offset(
-                    chartL + (i.toFloat() / (series.size - 1)) * chartW,
-                    chartT + ((maxR - point.rate) / range * chartH).toFloat()
+                    chartL + ((point.date - firstDate).toDouble() / timeSpan * chartW).toFloat(),
+                    chartT + ((maxRate - point.rate) / rateRange * chartH).toFloat()
                 )
-            }
         }
     }
 
     Canvas(
         modifier = modifier
-            .pointerInput(data) {
+            .pointerInput(data, compareData) {
                 fun pick(x: Float): Int {
-                    val frac = (x / size.width).coerceIn(0f, 1f)
-                    return (frac * data.lastIndex).toInt().coerceIn(0, data.lastIndex)
+                    val left = textMeasurer.measure(axisLabel(maxRate), labelStyle).size.width + 10f
+                    val frac = ((x - left) / (size.width - left).coerceAtLeast(1f)).coerceIn(0f, 1f)
+                    val date = firstDate + frac * timeSpan
+                    return data.indices.minBy { kotlin.math.abs(data[it].date - date) }
                 }
                 detectTapGestures { selectedIndex = pick(it.x) }
             }
-            .pointerInput(data) {
+            .pointerInput(data, compareData) {
                 fun pick(x: Float): Int {
-                    val frac = (x / size.width).coerceIn(0f, 1f)
-                    return (frac * data.lastIndex).toInt().coerceIn(0, data.lastIndex)
+                    val left = textMeasurer.measure(axisLabel(maxRate), labelStyle).size.width + 10f
+                    val frac = ((x - left) / (size.width - left).coerceAtLeast(1f)).coerceIn(0f, 1f)
+                    val date = firstDate + frac * timeSpan
+                    return data.indices.minBy { kotlin.math.abs(data[it].date - date) }
                 }
                 detectDragGestures(
                     onDragStart = { selectedIndex = pick(it.x) },
@@ -256,11 +270,7 @@ private fun RateChart(
                 )
             }
     ) {
-        val minRate   = data.minOf { it.rate }
-        val maxRate   = data.maxOf { it.rate }
-        val rateRange = (maxRate - minRate).takeIf { it > 0 } ?: (maxRate * 0.01).coerceAtLeast(0.0001)
-
-        val sampleLabel   = formatYLabel(maxRate)
+        val sampleLabel   = axisLabel(maxRate)
         val sampleMeasure = textMeasurer.measure(sampleLabel, labelStyle)
         val yLabelW       = sampleMeasure.size.width.toFloat() + 10f
         val xLabelH       = sampleMeasure.size.height.toFloat() + 6f
@@ -278,7 +288,7 @@ private fun RateChart(
             val rateValue  = maxRate - frac * rateRange
             val y          = chartT + frac * chartH
             drawLine(gridColor, Offset(chartL, y), Offset(chartR, y), strokeWidth = 1f)
-            val label   = formatYLabel(rateValue)
+            val label   = axisLabel(rateValue)
             val measure = textMeasurer.measure(label, labelStyle)
             drawText(
                 textMeasurer = textMeasurer,
@@ -288,8 +298,8 @@ private fun RateChart(
             )
         }
 
-        val points = seriesPoints(data, chartL, chartT, chartW, chartH)
-        val comparePoints = seriesPoints(compareData, chartL, chartT, chartW, chartH)
+        val points = seriesPoints(primary, chartL, chartT, chartW, chartH)
+        val comparePoints = seriesPoints(secondary, chartL, chartT, chartW, chartH)
 
         fun drawSeries(pts: List<Offset>, color: Color, fill: Boolean) {
             if (pts.size >= 2) {
@@ -322,12 +332,12 @@ private fun RateChart(
 
         val idx = selectedIndex
         if (idx != null && idx in data.indices) {
-            val x = if (data.size == 1) chartL + chartW / 2f else chartL + (idx.toFloat() / (data.size - 1)) * chartW
+            val x = points[idx].x
             drawLine(lineColor.copy(alpha = 0.5f), Offset(x, chartT), Offset(x, chartB), strokeWidth = 2f)
             val point = data[idx]
-            val label = "${dateSdf.format(Date(point.date))}  ${formatYLabel(point.rate)}"
+            val label = "${dateSdf.format(Date(point.date))}  ${axisLabel(primary[idx].rate)}"
             val measure = textMeasurer.measure(label, scrubStyle)
-            val lx = (x - measure.size.width / 2f).coerceIn(chartL, chartR - measure.size.width)
+            val lx = (x - measure.size.width / 2f).coerceIn(chartL, (chartR - measure.size.width).coerceAtLeast(chartL))
             drawText(textMeasurer = textMeasurer, text = label, topLeft = Offset(lx, 0f), style = scrubStyle)
         }
 
@@ -341,14 +351,10 @@ private fun RateChart(
         val labelCount = minOf(4, data.size)
         repeat(labelCount) { i ->
             val di     = if (labelCount == 1) 0 else (i * (data.size - 1)) / (labelCount - 1)
-            val x       = if (data.size == 1) {
-                chartL + chartW / 2f
-            } else {
-                chartL + (di.toFloat() / (data.size - 1)) * chartW
-            }
+            val x = points[di].x
             val dateStr = dateSdf.format(Date(data[di].date))
             val measure = textMeasurer.measure(dateStr, labelStyle)
-            val labelX  = (x - measure.size.width / 2f).coerceIn(chartL, chartR - measure.size.width)
+            val labelX  = (x - measure.size.width / 2f).coerceIn(chartL, (chartR - measure.size.width).coerceAtLeast(chartL))
             drawText(
                 textMeasurer = textMeasurer,
                 text          = dateStr,

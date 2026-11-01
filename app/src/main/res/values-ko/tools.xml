@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">수수료, 저장 및 여행</string>
+    <string name="tools_fees">수수료</string>
+    <string name="tools_history">저장됨</string>
+    <string name="tools_travel">여행</string>
+    <string name="tools_fee_explanation">추정치입니다. 비율 및 고정 수수료는 환산된 %1$s 금액에서 차감됩니다.</string>
+    <string name="tools_percent">수수료 (%)</string>
+    <string name="tools_fixed">고정 수수료 (%1$s)</string>
+    <string name="tools_net">순액: %1$s %2$s</string>
+    <string name="tools_invalid">유효한 금액과 수수료를 입력하세요. 수수료는 환산 금액을 초과할 수 없습니다.</string>
+    <string name="tools_save">환산 저장</string>
+    <string name="tools_history_note">최근 수동 저장 50건을 이 기기에 보관합니다. 재사용 시 이용 가능한 환율로 수수료 없이 다시 계산합니다.</string>
+    <string name="tools_saved_fees">저장된 수수료: %1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">저장하지 못했습니다. 다시 시도하세요.</string>
+    <string name="tools_empty">저장된 환산이 없습니다.</string>
+    <string name="tools_reuse">재사용</string>
+    <string name="tools_delete">삭제</string>
+    <string name="tools_country">국가 또는 통화 검색</string>
+    <string name="tools_travel_note">목적지를 선택하면 해당 통화를 사용하고 즐겨찾기에 추가합니다.</string>
+    <string name="metal_amount">금속 수량</string>
+    <string name="metal_gram">그램</string>
+    <string name="metal_ounce">트로이 온스</string>
+    <string name="metal_cache">저장된 가격 — 새로 고침 불가</string>
+    <string name="metal_retrieved">%1$s · 조회: %2$s</string>
+    <string name="metal_estimate">참고용 금속 가치이며 순도 조정, 판매자 프리미엄 및 수수료는 제외됩니다.</string>
+</resources>

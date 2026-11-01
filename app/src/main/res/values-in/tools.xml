@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">Biaya, simpanan dan perjalanan</string>
+    <string name="tools_fees">Biaya</string>
+    <string name="tools_history">Tersimpan</string>
+    <string name="tools_travel">Perjalanan</string>
+    <string name="tools_fee_explanation">Perkiraan. Biaya persentase dan tetap dipotong dari jumlah hasil konversi dalam %1$s.</string>
+    <string name="tools_percent">Biaya (%)</string>
+    <string name="tools_fixed">Biaya tetap (%1$s)</string>
+    <string name="tools_net">Bersih: %1$s %2$s</string>
+    <string name="tools_invalid">Masukkan jumlah dan biaya yang valid. Biaya tidak boleh melebihi hasil konversi.</string>
+    <string name="tools_save">Simpan konversi</string>
+    <string name="tools_history_note">50 perkiraan terakhir disimpan di perangkat ini. Gunakan kembali menghitung dengan kurs tersedia, tanpa biaya.</string>
+    <string name="tools_saved_fees">Biaya tersimpan: %1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">Gagal menyimpan. Coba lagi.</string>
+    <string name="tools_empty">Tidak ada konversi tersimpan.</string>
+    <string name="tools_reuse">Gunakan kembali</string>
+    <string name="tools_delete">Hapus</string>
+    <string name="tools_country">Cari negara atau mata uang</string>
+    <string name="tools_travel_note">Pilih tujuan untuk menggunakan mata uangnya dan menambahkannya ke favorit.</string>
+    <string name="metal_amount">Jumlah logam</string>
+    <string name="metal_gram">Gram</string>
+    <string name="metal_ounce">Ons troy</string>
+    <string name="metal_cache">Harga tersimpan — pembaruan tidak tersedia</string>
+    <string name="metal_retrieved">%1$s · Diambil: %2$s</string>
+    <string name="metal_estimate">Nilai indikatif; tidak termasuk penyesuaian kemurnian, premi penjual dan biaya.</string>
+</resources>

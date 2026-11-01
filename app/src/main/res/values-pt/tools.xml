@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">Taxas, conversões e viagens</string>
+    <string name="tools_fees">Taxas</string>
+    <string name="tools_history">Salvos</string>
+    <string name="tools_travel">Viagens</string>
+    <string name="tools_fee_explanation">Estimativa. As taxas percentuais e fixas são deduzidas do valor convertido em %1$s.</string>
+    <string name="tools_percent">Taxa (%)</string>
+    <string name="tools_fixed">Taxa fixa (%1$s)</string>
+    <string name="tools_net">Líquido: %1$s %2$s</string>
+    <string name="tools_invalid">Insira valor e taxas válidos. As taxas não podem superar o valor convertido.</string>
+    <string name="tools_save">Salvar conversão</string>
+    <string name="tools_history_note">Últimas 50 estimativas salvas neste dispositivo. Reutilizar recalcula com a taxa disponível, sem tarifas.</string>
+    <string name="tools_saved_fees">Taxas salvas: %1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">Não foi possível salvar. Tente novamente.</string>
+    <string name="tools_empty">Nenhuma conversão salva.</string>
+    <string name="tools_reuse">Reutilizar</string>
+    <string name="tools_delete">Excluir</string>
+    <string name="tools_country">Buscar país ou moeda</string>
+    <string name="tools_travel_note">Selecione um destino para usar sua moeda e adicioná-la aos favoritos.</string>
+    <string name="metal_amount">Quantidade de metal</string>
+    <string name="metal_gram">Grama</string>
+    <string name="metal_ounce">Onça troy</string>
+    <string name="metal_cache">Preço salvo — atualização indisponível</string>
+    <string name="metal_retrieved">%1$s · Obtido: %2$s</string>
+    <string name="metal_estimate">Valor indicativo; exclui ajustes de pureza, margens e taxas.</string>
+</resources>
