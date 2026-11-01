@@ -1,8 +1,8 @@
-• Değerli metaller artık çevrimdışı çalışıyor: son fiyat, kaynağı ve güncelleme saatiyle birlikte saklanıyor
-• Metal miktarını ons veya gram olarak girebilme
-• Karşılaştırma grafiği düzeltildi: iki çift ortak ölçekte ve yüzde değişimle gösteriliyor
-• "1 gün" aralığı artık gerçekten 1 gün
-• Bildirim iletilemediğinde kur alarmı kapanmıyor
-• Widget'tan tüm para birimleri kaldırılabiliyor
-• Android 6'da Ayarlar ve Kurlar ekranlarındaki çökme giderildi
-• Daha güvenilir kur önbelleği
+• Alarmlar ekranında + düğmesiyle doğrudan kur alarmı ekleyin
+• Geçmiş: yeni 5 günlük aralık, CSV dışa aktarma, daha anlaşılır karşılaştırma grafiği; seçtiğiniz aralık hatırlanıyor
+• Günlük yüzde değişim artık kurulumdan hemen sonra görünüyor
+• Kurları değişime veya kura göre sıralayın
+• Metal fiyatları için para birimi seçilebiliyor
+• Çevirici sonuçları anında güncelleniyor ve tüm ekran kayıyor
+• Daha az ağ isteğiyle daha hızlı açılış
+• Tüm 20 dilde çeviriler tamamlandı

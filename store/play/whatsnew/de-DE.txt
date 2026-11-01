@@ -1,8 +1,8 @@
-• Edelmetalle funktionieren jetzt offline: der letzte Preis bleibt erhalten, mit Quelle und Zeit
-• Metallmengen in Unzen oder Gramm eingeben
-• Vergleichsdiagramm korrigiert: gemeinsame Skala, Veränderung in %
-• Zeitraum „1 Tag" zeigt jetzt wirklich 1 Tag
-• Kursalarme bleiben aktiv, wenn eine Benachrichtigung nicht zugestellt werden kann
-• Im Widget lassen sich jetzt alle Währungen entfernen
-• Absturz unter Android 6 in Einstellungen und Kurse behoben
-• Zuverlässigerer Kurs-Cache
+• Kursalarme direkt im Bereich Alarme mit + anlegen
+• Verlauf: neuer 5-Tage-Zeitraum, CSV-Export, klareres Vergleichsdiagramm; der Zeitraum wird gemerkt
+• Tägliche %-Änderung erscheint gleich nach der Installation
+• Kurse nach Änderung oder Kurs sortieren
+• Währung für Metallpreise wählbar
+• Rechner-Ergebnisse aktualisieren sich sofort, der ganze Bildschirm scrollt
+• Schnellerer Start mit weniger Netzwerkanfragen
+• Übersetzungen in allen 20 Sprachen vervollständigt
