@@ -41,7 +41,7 @@
     <string name="alarm_when_below">Altına düşünce</string>
     <string name="alarm_set">Alarm kur</string>
     <string name="alarm_repeating">Kapatana kadar tekrarla</string>
-    <string name="alerts_empty">Henüz kur alarmı yok. Kurlar ekranından ekleyin.</string>
+    <string name="alerts_empty">Henüz kur alarmı yok. + düğmesine dokunun veya Kurlar ekranındaki zili kullanın.</string>
     <string name="alerts_delete">Alarmı sil</string>
     <string name="alerts_edit">Alarmı düzenle</string>
     <string name="settings_widget_add">Para birimi ekle</string>
@@ -111,7 +111,7 @@
     <string name="update_dialog_positive">Güncelle</string>
     <string name="update_dialog_later">Sonra</string>
     <string name="help_welcome_title">Döviz Çevirici\'ye hoş geldiniz</string>
-    <string name="help_body">• Çevirici: Miktara dokunarak tuş takımını açın (varsayılan 1). + − × ÷ kullanın, sonucu paylaşın; kurlar çevrimdışı veya eskiyse banner görünür. Diğer birimler önce favoriler, sonra tam katalog.\n\n• Kurlar: Baz para biriminize göre canlı kurlar ve günlük yüzde değişim. Favorilere yıldız ekleyin. Satırdan kur alarmı kurun (Android 13+ bildirim izni ister).\n\n• Alarmlar: Listeleyin, düzenleyin veya silin. Tek seferlik alarm tetiklenince kapanır; tekrarlayanlar açık kalır. Bildirime dokununca ilgili çift çeviricide açılır.\n\n• İstatistik: Dünkü karşılaştırmayı Kurlar’daki baz paraya göre gösterir.\n\n• Geçmiş: Grafikte kaydırarak tarihi inceleyin, aralık yüzde değişimini görün, ikinci bir çifti karşılaştırın.\n\n• Metaller: Altın, gümüş, platin ve paladyum — Kurlar bazına göre.\n\n• Widget: Ayarlar’dan baz para ve en fazla dört kur seçin. Boyutu 1, 2 veya 4 satır için değiştirin. Satıra dokununca o çift çeviricide açılır.\n\n• Ayarlar: Dil, tema, favoriler, widget, güncelleme ve gizlilik.\n\nEkranlar sol üstteki menüden açılır. Canlı kurlar ExchangeRate-API’den. Geçmiş grafikler Frankfurter (ECB) kullanır. Veriler cihazda önbelleğe alınır.</string>
+    <string name="help_body">• Çevirici: Miktara dokunarak tuş takımını açın (varsayılan 1). + − × ÷ kullanın, sonucu paylaşın; kurlar çevrimdışı veya eskiyse banner görünür. Diğer birimler önce favoriler, sonra tam katalog.\n\n• Kurlar: Baz para biriminize göre canlı kurlar ve günlük yüzde değişim. Favorilere yıldız ekleyin. Satırdan kur alarmı kurun (Android 13+ bildirim izni ister).\n\n• Alarmlar: + düğmesiyle ekleyin, düzenleyin veya silin. Tek seferlik alarm tetiklenince kapanır; tekrarlayanlar açık kalır. Bildirime dokununca ilgili çift çeviricide açılır.\n\n• İstatistik: Dünkü karşılaştırmayı Kurlar’daki baz paraya göre gösterir.\n\n• Geçmiş: Grafikte kaydırarak tarihi inceleyin, aralık yüzde değişimini görün, ikinci bir çifti karşılaştırın ve veriyi CSV olarak dışa aktarın.\n\n• Metaller: Altın, gümüş, platin ve paladyum — seçtiğiniz para biriminde.\n\n• Widget: Ayarlar’dan baz para ve en fazla dört kur seçin. Boyutu 1, 2 veya 4 satır için değiştirin. Satıra dokununca o çift çeviricide açılır.\n\n• Ayarlar: Dil, tema, favoriler, widget, güncelleme ve gizlilik.\n\nEkranlar sol üstteki menüden açılır. Canlı kurlar ExchangeRate-API’den. Geçmiş grafikler Frankfurter (ECB) kullanır. Veriler cihazda önbelleğe alınır.</string>
     <string name="cd_back">Geri</string>
     <string name="widget_live_rates">Canlı kurlar</string>
     <string name="widget_no_data">Veri yok</string>
@@ -154,6 +154,12 @@
     <string name="currency_xag">Gümüş (ons)</string>
     <string name="currency_xpt">Platin</string>
     <string name="currency_xpd">Paladyum</string>
+    <string name="range_5d">5G</string>
+    <string name="alerts_add">Alarm ekle</string>
+    <string name="sort_default">Varsayılan</string>
+    <string name="sort_change">Değişim</string>
+    <string name="sort_rate">Kur</string>
+    <string name="metals_show_in">Para birimi</string>
     <plurals name="minutes_ago">
         <item quantity="one">%d dk önce</item>
         <item quantity="other">%d dk önce</item>

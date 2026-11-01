@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Currency Converter</string>
     <string name="nav_converter">Converter</string>
     <string name="nav_rates">Rates</string>
@@ -41,7 +41,7 @@
     <string name="alarm_when_below">When it goes below</string>
     <string name="alarm_set">Set alert</string>
     <string name="alarm_repeating">Repeat until I turn it off</string>
-    <string name="alerts_empty">No rate alerts yet. Set one from the Rates screen.</string>
+    <string name="alerts_empty">No rate alerts yet. Tap + or use the bell on the Rates screen.</string>
     <string name="alerts_delete">Delete alert</string>
     <string name="alerts_edit">Edit alert</string>
     <string name="settings_widget_add">Add a currency</string>
@@ -55,6 +55,7 @@
     <string name="history_change">Change</string>
     <string name="history_compare">Compare</string>
     <string name="range_1d">1D</string>
+    <string name="range_5d" tools:ignore="MissingTranslation">5D</string>
     <string name="range_1w">1W</string>
     <string name="range_1m">1M</string>
     <string name="range_6m">6M</string>
@@ -112,7 +113,7 @@
     <string name="update_dialog_positive">Update</string>
     <string name="update_dialog_later">Later</string>
     <string name="help_welcome_title">Welcome to Currency Converter</string>
-    <string name="help_body">• Converter: Tap the amount (default 1) to open the keypad. Use + − × ÷, share the result, and see a banner if rates are offline or stale. Other currencies lists favorites first, then the full catalog.\n\n• Rates: Live rates for your base currency, with daily percent change. Star favorites. Set a rate alert from any row (Android 13+ will ask for notification permission).\n\n• Alerts: List, edit, or delete alerts. A one-shot alert turns off after it fires; repeating alerts stay on. Tap a notification to open that pair in the converter.\n\n• Statistics: Daily change versus yesterday, quoted in the same base as Rates.\n\n• History: Drag the chart to inspect a date, see the range percent change, and compare a second pair.\n\n• Metals: Gold, silver, platinum, and palladium in your Rates base.\n\n• Widget: Choose quote currency and up to four rates in Settings. Resize for 1, 2, or 4 rows. Tap a row to open the converter for that pair.\n\n• Settings: Language, theme, favorites, widget, updates, and privacy.\n\nOpen screens from the menu at the top left. Live rates come from ExchangeRate-API. Historical charts use Frankfurter (ECB). Data is cached on your device.</string>
+    <string name="help_body">• Converter: Tap the amount (default 1) to open the keypad. Use + − × ÷, share the result, and see a banner if rates are offline or stale. Other currencies lists favorites first, then the full catalog.\n\n• Rates: Live rates for your base currency, with daily percent change. Star favorites. Set a rate alert from any row (Android 13+ will ask for notification permission).\n\n• Alerts: Add, edit, or delete alerts with the + button. A one-shot alert turns off after it fires; repeating alerts stay on. Tap a notification to open that pair in the converter.\n\n• Statistics: Daily change versus yesterday, quoted in the same base as Rates.\n\n• History: Drag the chart to inspect a date, see the range percent change, compare a second pair, and export the data as CSV.\n\n• Metals: Gold, silver, platinum, and palladium in the currency you pick.\n\n• Widget: Choose quote currency and up to four rates in Settings. Resize for 1, 2, or 4 rows. Tap a row to open the converter for that pair.\n\n• Settings: Language, theme, favorites, widget, updates, and privacy.\n\nOpen screens from the menu at the top left. Live rates come from ExchangeRate-API. Historical charts use Frankfurter (ECB). Data is cached on your device.</string>
     <string name="cd_back">Back</string>
     <string name="widget_live_rates">Live rates</string>
     <string name="widget_no_data">No data</string>
@@ -155,6 +156,11 @@
     <string name="currency_xag">Silver (troy ounce)</string>
     <string name="currency_xpt">Platinum</string>
     <string name="currency_xpd">Palladium</string>
+    <string name="alerts_add" tools:ignore="MissingTranslation">Add alert</string>
+    <string name="sort_default" tools:ignore="MissingTranslation">Default</string>
+    <string name="sort_change" tools:ignore="MissingTranslation">Change</string>
+    <string name="sort_rate" tools:ignore="MissingTranslation">Rate</string>
+    <string name="metals_show_in" tools:ignore="MissingTranslation">Show in</string>
     <plurals name="minutes_ago">
         <item quantity="one">%d minute ago</item>
         <item quantity="other">%d minutes ago</item>

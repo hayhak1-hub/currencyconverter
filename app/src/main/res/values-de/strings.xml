@@ -41,7 +41,7 @@
     <string name="alarm_when_below">Wenn er unterschreitet</string>
     <string name="alarm_set">Alarm setzen</string>
     <string name="alarm_repeating">Wiederholen, bis ich ihn ausschalte</string>
-    <string name="alerts_empty">Noch keine Kursalarme. Legen Sie einen auf dem Kurse-Bildschirm an.</string>
+    <string name="alerts_empty">Noch keine Kursalarme. Tippen Sie auf + oder nutzen Sie die Glocke auf dem Kurse-Bildschirm.</string>
     <string name="alerts_delete">Alarm löschen</string>
     <string name="alerts_edit">Alarm bearbeiten</string>
     <string name="settings_widget_add">Währung hinzufügen</string>
@@ -111,7 +111,7 @@
     <string name="update_dialog_positive">Aktualisieren</string>
     <string name="update_dialog_later">Später</string>
     <string name="help_welcome_title">Willkommen beim Währungsrechner</string>
-    <string name="help_body">• Rechner: Tippen Sie auf den Betrag (Standard 1), um das Ziffernfeld zu öffnen. Nutzen Sie + − × ÷, teilen Sie das Ergebnis; ein Banner erscheint bei Offline- oder alten Kursen. Weitere Währungen: zuerst Favoriten, dann der volle Katalog.\n\n• Kurse: Live-Kurse zur Basiswährung mit täglicher Prozentänderung. Favoriten mit Stern anheften. Kursalarm in jeder Zeile setzen (Android 13+ fragt nach Benachrichtigungen).\n\n• Alarme: Auflisten, bearbeiten oder löschen. Einmalalarme schalten nach dem Auslösen ab; wiederkehrende bleiben an. Tippen auf die Benachrichtigung öffnet das Paar im Rechner.\n\n• Statistik: Tagesänderung gegenüber gestern, in derselben Basis wie Kurse.\n\n• Verlauf: Im Diagramm wischen, Bereichsänderung in Prozent sehen, ein zweites Paar vergleichen.\n\n• Metalle: Gold, Silber, Platin und Palladium in Ihrer Kurs-Basis.\n\n• Widget: Notierung und bis zu vier Kurse in den Einstellungen. Größe für 1, 2 oder 4 Zeilen. Tippen auf eine Zeile öffnet den Rechner für dieses Paar.\n\n• Einstellungen: Sprache, Design, Favoriten, Widget, Updates und Datenschutz.\n\nBildschirme öffnen Sie über das Menü oben links. Live-Kurse von ExchangeRate-API. Verlaufsdiagramme nutzen Frankfurter (EZB). Daten werden lokal zwischengespeichert.</string>
+    <string name="help_body">• Rechner: Tippen Sie auf den Betrag (Standard 1), um das Ziffernfeld zu öffnen. Nutzen Sie + − × ÷, teilen Sie das Ergebnis; ein Banner erscheint bei Offline- oder alten Kursen. Weitere Währungen: zuerst Favoriten, dann der volle Katalog.\n\n• Kurse: Live-Kurse zur Basiswährung mit täglicher Prozentänderung. Favoriten mit Stern anheften. Kursalarm in jeder Zeile setzen (Android 13+ fragt nach Benachrichtigungen).\n\n• Alarme: Auflisten, bearbeiten oder löschen. Einmalalarme schalten nach dem Auslösen ab; wiederkehrende bleiben an. Tippen auf die Benachrichtigung öffnet das Paar im Rechner.\n\n• Statistik: Tagesänderung gegenüber gestern, in derselben Basis wie Kurse.\n\n• Verlauf: Im Diagramm wischen, Bereichsänderung in Prozent sehen, ein zweites Paar vergleichen und die Daten als CSV exportieren.\n\n• Metalle: Gold, Silber, Platin und Palladium in der gewählten Währung.\n\n• Widget: Notierung und bis zu vier Kurse in den Einstellungen. Größe für 1, 2 oder 4 Zeilen. Tippen auf eine Zeile öffnet den Rechner für dieses Paar.\n\n• Einstellungen: Sprache, Design, Favoriten, Widget, Updates und Datenschutz.\n\nBildschirme öffnen Sie über das Menü oben links. Live-Kurse von ExchangeRate-API. Verlaufsdiagramme nutzen Frankfurter (EZB). Daten werden lokal zwischengespeichert.</string>
     <string name="cd_back">Zurück</string>
     <string name="widget_live_rates">Live-Kurse</string>
     <string name="widget_no_data">Keine Daten</string>
@@ -158,4 +158,10 @@
         <item quantity="one">vor %d Minute</item>
         <item quantity="other">vor %d Minuten</item>
     </plurals>
+    <string name="range_5d">5T</string>
+    <string name="alerts_add">Alarm hinzufügen</string>
+    <string name="sort_default">Standard</string>
+    <string name="sort_change">Änderung</string>
+    <string name="sort_rate">Kurs</string>
+    <string name="metals_show_in">Anzeigen in</string>
 </resources>
