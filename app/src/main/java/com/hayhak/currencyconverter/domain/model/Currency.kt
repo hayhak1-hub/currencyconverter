@@ -1,5 +1,8 @@
 package com.hayhak.currencyconverter.domain.model
 
+/** Currency all stored rates are quoted against; other pairs are derived as cross rates. */
+const val BASE_CURRENCY = "USD"
+
 data class CurrencyInfo(
     val code: String,
     val name: String,

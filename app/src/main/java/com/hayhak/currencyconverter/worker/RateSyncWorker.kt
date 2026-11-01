@@ -1,10 +1,12 @@
 package com.hayhak.currencyconverter.worker
 
 import android.content.Context
+import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.hayhak.currencyconverter.R
+import com.hayhak.currencyconverter.domain.model.BASE_CURRENCY
 import com.hayhak.currencyconverter.domain.repository.ExchangeRateRepository
 import com.hayhak.currencyconverter.domain.repository.UserPreferencesRepository
 import com.hayhak.currencyconverter.util.NotificationHelper
@@ -23,7 +25,7 @@ class RateSyncWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         return try {
-            repository.refreshRates("USD")
+            repository.refreshRates(BASE_CURRENCY)
             checkAlarms()
             Result.success()
         } catch (e: Exception) {
@@ -42,7 +44,8 @@ class RateSyncWorker @AssistedInject constructor(
 
         for (base in bases) {
             try {
-                repository.refreshRates(base)
+                // BASE_CURRENCY was already refreshed in doWork().
+                if (base != BASE_CURRENCY) repository.refreshRates(base)
                 val rateData = repository.getLatestRates(base).first() ?: continue
 
                 val baseAlarms = alarms.filter { it.baseCode == base && it.isEnabled }
@@ -80,7 +83,7 @@ class RateSyncWorker @AssistedInject constructor(
                 }
             } catch (e: Exception) {
                 if (e is kotlinx.coroutines.CancellationException) throw e
-                e.printStackTrace()
+                Log.w(WORK_NAME, "Alarm check failed for $base", e)
             }
         }
     }

@@ -43,8 +43,9 @@ class ExchangeRateRepositoryImpl @Inject constructor(
         val sinceTimestamp = System.currentTimeMillis() -
             TimeUnit.DAYS.toMillis(daysBack.toLong())
         return dao.getHistoricalRates(base, target, sinceTimestamp).map { entities ->
+            val dayKey = utcDayKey()
             entities
-                .groupBy { utcDayKey().format(Date(it.timestamp)) }
+                .groupBy { dayKey.format(Date(it.timestamp)) }
                 .entries
                 .sortedBy { it.key }
                 .map { (_, group) ->
@@ -141,8 +142,8 @@ class ExchangeRateRepositoryImpl @Inject constructor(
         try {
             refreshLiveRates(base)
         } catch (e: Exception) {
-            android.util.Log.w("ExchangeRateRepo", "Live API failed for $base, using Frankfurter", e)
             if (e is kotlinx.coroutines.CancellationException) throw e
+            android.util.Log.w("ExchangeRateRepo", "Live API failed for $base, using Frankfurter", e)
             refreshFrankfurterRates(base)
         }
     }
@@ -180,6 +181,7 @@ class ExchangeRateRepositoryImpl @Inject constructor(
         val rows = frankfurterApi.getLatestRates(base = base)
         android.util.Log.d("ExchangeRateRepo", "Frankfurter rows: ${rows.size}")
         val timestamp = System.currentTimeMillis()
+        val dayKey = utcDayKey()
         val entities = rows
             .filter { !it.quote.equals(base, ignoreCase = true) }
             .map { row ->
@@ -187,7 +189,7 @@ class ExchangeRateRepositoryImpl @Inject constructor(
                     baseCurrency = base,
                     targetCurrency = row.quote,
                     rate = row.rate,
-                    timestamp = utcDayKey().parse(row.date)?.time ?: timestamp
+                    timestamp = dayKey.parse(row.date)?.time ?: timestamp
                 )
             }
         if (entities.isEmpty()) throw IllegalStateException("No rates returned for $base")

@@ -70,6 +70,9 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
     buildFeatures {
         compose = true
         buildConfig = true
@@ -141,7 +144,6 @@ dependencies {
     implementation(libs.datastore.preferences)
 
     // Play In-App Updates
-    implementation(libs.google.play.app.update)
     implementation(libs.google.play.app.update.ktx)
     implementation(libs.kotlinx.coroutines.play.services)
 

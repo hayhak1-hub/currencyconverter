@@ -1,17 +1,16 @@
 package com.hayhak.currencyconverter.ui.converter
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hayhak.currencyconverter.domain.model.BASE_CURRENCY
 import com.hayhak.currencyconverter.domain.model.CurrencyInfo
 import com.hayhak.currencyconverter.domain.model.SUPPORTED_CURRENCIES
 import com.hayhak.currencyconverter.domain.repository.ExchangeRateRepository
 import com.hayhak.currencyconverter.domain.repository.UserPreferencesRepository
 import com.hayhak.currencyconverter.domain.usecase.ConvertCurrencyUseCase
 import com.hayhak.currencyconverter.domain.usecase.GetExchangeRatesUseCase
-import com.hayhak.currencyconverter.util.AnalyticsHelper
+import com.hayhak.currencyconverter.util.AnalyticsTracker
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,6 +19,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -33,7 +33,7 @@ class ConverterViewModel @Inject constructor(
     private val convertCurrency: ConvertCurrencyUseCase,
     private val repository: ExchangeRateRepository,
     private val userPrefs: UserPreferencesRepository,
-    @ApplicationContext private val appContext: Context
+    private val analytics: AnalyticsTracker
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ConverterUiState(isLoading = true))
@@ -62,64 +62,51 @@ class ConverterViewModel @Inject constructor(
 
         refreshRates()
 
-        getExchangeRates("USD")
+        getExchangeRates(BASE_CURRENCY)
             .onEach { exchangeRate ->
                 _uiState.update { state ->
-                    val rates = exchangeRate?.rates ?: emptyMap()
-                    val result = recalculate(
-                        state.amount,
-                        state.fromCurrency.code,
-                        state.toCurrency.code,
-                        rates
-                    )
-                    val batchResults = calculateBatch(
-                        state.amount,
-                        state.fromCurrency.code,
-                        rates,
-                        state.favorites
-                    )
                     state.copy(
-                        rates = rates,
+                        rates = exchangeRate?.rates ?: emptyMap(),
                         isLoading = false,
                         lastUpdated = exchangeRate?.timestamp,
-                        error = if (exchangeRate == null) "offline" else null,
-                        result = result,
-                        batchResults = batchResults
+                        error = if (exchangeRate == null) "offline" else null
                     )
                 }
             }
             .launchIn(viewModelScope)
 
+        // Results follow input immediately; only the side effects below are debounced.
         _uiState
-            .debounce(500)
-            .distinctUntilChanged { old, new ->
-                old.amount == new.amount &&
-                    old.fromCurrency == new.fromCurrency &&
-                    old.toCurrency == new.toCurrency &&
-                    old.favorites == new.favorites
-            }
-            .onEach { state ->
-                val result = recalculate(
-                    state.amount,
-                    state.fromCurrency.code,
-                    state.toCurrency.code,
-                    state.rates
-                )
-                val batchResults = calculateBatch(
-                    state.amount,
-                    state.fromCurrency.code,
-                    state.rates,
-                    state.favorites
-                )
+            .map { CalcInput(it.amount, it.fromCurrency.code, it.toCurrency.code, it.favorites, it.rates) }
+            .distinctUntilChanged()
+            .onEach { input ->
+                val result = recalculate(input.amount, input.from, input.to, input.rates)
+                val batchResults = calculateBatch(input.amount, input.from, input.rates, input.favorites)
                 _uiState.update { it.copy(result = result, batchResults = batchResults) }
-                userPrefs.saveLastConverterCurrencies(state.fromCurrency.code, state.toCurrency.code)
-                AnalyticsHelper.logConversion(appContext, state.fromCurrency.code, state.toCurrency.code)
-                if (needsRefresh(state.fromCurrency.code, state.toCurrency.code, state.rates)) {
+            }
+            .launchIn(viewModelScope)
+
+        _uiState
+            .map { Triple(it.amount, it.fromCurrency.code, it.toCurrency.code) }
+            .distinctUntilChanged()
+            .debounce(500)
+            .onEach { (_, from, to) ->
+                userPrefs.saveLastConverterCurrencies(from, to)
+                analytics.logConversion(from, to)
+                if (needsRefresh(from, to, _uiState.value.rates)) {
                     refreshRates()
                 }
             }
             .launchIn(viewModelScope)
     }
+
+    private data class CalcInput(
+        val amount: String,
+        val from: String,
+        val to: String,
+        val favorites: Set<String>,
+        val rates: Map<String, Double>
+    )
 
     fun startAmountEntry() {
         accumulator = null
@@ -183,7 +170,7 @@ class ConverterViewModel @Inject constructor(
     fun refreshRates() {
         viewModelScope.launch {
             try {
-                repository.refreshRates("USD")
+                repository.refreshRates(BASE_CURRENCY)
             } catch (_: Exception) {
                 _uiState.update { it.copy(isLoading = false, error = it.error ?: "offline") }
             }
@@ -279,7 +266,7 @@ class ConverterViewModel @Inject constructor(
     }
 
     private fun needsRefresh(from: String, to: String, rates: Map<String, Double>): Boolean {
-        return listOf(from, to).any { code -> code != "USD" && code !in rates }
+        return listOf(from, to).any { code -> code != BASE_CURRENCY && code !in rates }
     }
 
     private fun recalculate(
@@ -289,7 +276,7 @@ class ConverterViewModel @Inject constructor(
         rates: Map<String, Double>
     ): Double? {
         val amount = parseAmount(amountStr) ?: return null
-        return convertCurrency(amount, from, to, rates, baseCurrency = "USD")
+        return convertCurrency(amount, from, to, rates, baseCurrency = BASE_CURRENCY)
     }
 
     private fun calculateBatch(
@@ -304,7 +291,7 @@ class ConverterViewModel @Inject constructor(
             .filter { it != from }
         val out = LinkedHashMap<String, Double>()
         for (to in ordered) {
-            val value = convertCurrency(amount, from, to, rates, baseCurrency = "USD") ?: continue
+            val value = convertCurrency(amount, from, to, rates, baseCurrency = BASE_CURRENCY) ?: continue
             out[to] = value
         }
         return out
