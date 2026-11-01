@@ -4,15 +4,18 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hayhak.currencyconverter.R
+import com.hayhak.currencyconverter.domain.model.BASE_CURRENCY
 import com.hayhak.currencyconverter.domain.model.SUPPORTED_CURRENCIES
 import com.hayhak.currencyconverter.domain.model.quotePerUnit
 import com.hayhak.currencyconverter.domain.repository.ExchangeRateRepository
 import com.hayhak.currencyconverter.domain.repository.UserPreferencesRepository
 import com.hayhak.currencyconverter.util.currencyName
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -34,15 +37,22 @@ class StatisticsViewModel @Inject constructor(
     val uiState: StateFlow<StatisticsUiState> = _uiState
 
     private val defaultCodes = listOf("USD", "EUR", "TRY", "CHF")
+
+    // Bumped after the recent history has been stored so the change column is recomputed.
+    private val historyLoaded = MutableStateFlow(0)
+
+    private fun trackedCodes(favorites: Set<String>, quote: String) =
+        favorites.ifEmpty { defaultCodes.toSet() }.filter { it != quote }
     private val dateFmt get() = SimpleDateFormat("dd MMMM yyyy, EEEE", Locale.getDefault())
 
     init {
         viewModelScope.launch {
             combine(
-                repository.getLatestRates("USD"),
+                repository.getLatestRates(BASE_CURRENCY),
                 userPrefs.favorites,
-                userPrefs.lastDashboardBase
-            ) { today, favorites, quote ->
+                userPrefs.lastDashboardBase,
+                historyLoaded
+            ) { today, favorites, quote, _ ->
                 Triple(today, favorites, quote)
             }.collect { (todayExchangeRate, favorites, quote) ->
                 val todayRates = todayExchangeRate?.rates ?: run {
@@ -51,9 +61,9 @@ class StatisticsViewModel @Inject constructor(
                 }
 
                 val cutoff = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(20)
-                val yesterdayRates = repository.getRatesBefore("USD", cutoff)?.rates
+                val yesterdayRates = repository.getRatesBefore(BASE_CURRENCY, cutoff)?.rates
 
-                val codes = favorites.ifEmpty { defaultCodes.toSet() }.filter { it != quote }
+                val codes = trackedCodes(favorites, quote)
 
                 val stats = codes
                     .sortedWith(compareBy { if (it in defaultCodes) defaultCodes.indexOf(it) else 999 })
@@ -86,13 +96,29 @@ class StatisticsViewModel @Inject constructor(
                 }
             }
         }
+
+        // A fresh install has no stored history, so "yesterday" would be missing for a day.
+        // Pull the last week once per tracked set of currencies instead of waiting.
+        viewModelScope.launch {
+            combine(userPrefs.favorites, userPrefs.lastDashboardBase) { favorites, quote ->
+                (trackedCodes(favorites, quote) + quote).filter { it != BASE_CURRENCY }.toSortedSet()
+            }.distinctUntilChanged().collect { targets ->
+                if (targets.isEmpty()) return@collect
+                try {
+                    repository.refreshHistoricalRates(BASE_CURRENCY, targets.joinToString(","), 7)
+                    historyLoaded.update { it + 1 }
+                } catch (e: Exception) {
+                    if (e is CancellationException) throw e
+                }
+            }
+        }
     }
 
     fun refresh() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
-                repository.refreshRates("USD")
+                repository.refreshRates(BASE_CURRENCY, force = true)
             } catch (e: Exception) {
                 _uiState.update { it.copy(isLoading = false, error = e.message) }
             }

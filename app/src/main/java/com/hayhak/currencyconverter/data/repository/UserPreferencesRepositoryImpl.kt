@@ -30,6 +30,9 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         val LAST_TO = stringPreferencesKey("last_to")
         val HISTORY_BASE = stringPreferencesKey("history_base")
         val HISTORY_TARGET = stringPreferencesKey("history_target")
+        val HISTORY_RANGE = stringPreferencesKey("history_range")
+        val HISTORY_COMPARE_BASE = stringPreferencesKey("history_compare_base")
+        val HISTORY_COMPARE_TARGET = stringPreferencesKey("history_compare_target")
         val DASHBOARD_BASE = stringPreferencesKey("dashboard_base")
         val ALARMS = stringPreferencesKey("alarms")
         val WIDGET_BASE = stringPreferencesKey("widget_base")
@@ -57,6 +60,14 @@ class UserPreferencesRepositoryImpl @Inject constructor(
 
     override val lastHistoryTarget: Flow<String> = context.dataStore.data.map {
         it[PreferencesKeys.HISTORY_TARGET] ?: "TRY"
+    }
+
+    override val historyRange: Flow<String> = context.dataStore.data.map {
+        it[PreferencesKeys.HISTORY_RANGE] ?: ""
+    }
+
+    override val historyCompare: Flow<Pair<String, String>> = context.dataStore.data.map {
+        (it[PreferencesKeys.HISTORY_COMPARE_BASE] ?: "EUR") to (it[PreferencesKeys.HISTORY_COMPARE_TARGET] ?: "USD")
     }
 
     override val lastDashboardBase: Flow<String> = context.dataStore.data.map {
@@ -88,6 +99,17 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         context.dataStore.edit { prefs ->
             prefs[PreferencesKeys.HISTORY_BASE] = base
             prefs[PreferencesKeys.HISTORY_TARGET] = target
+        }
+    }
+
+    override suspend fun saveHistoryRange(range: String) {
+        context.dataStore.edit { prefs -> prefs[PreferencesKeys.HISTORY_RANGE] = range }
+    }
+
+    override suspend fun saveHistoryCompare(base: String, target: String) {
+        context.dataStore.edit { prefs ->
+            prefs[PreferencesKeys.HISTORY_COMPARE_BASE] = base
+            prefs[PreferencesKeys.HISTORY_COMPARE_TARGET] = target
         }
     }
 

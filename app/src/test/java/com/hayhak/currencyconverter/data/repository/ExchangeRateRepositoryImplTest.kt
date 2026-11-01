@@ -59,8 +59,30 @@ class ExchangeRateRepositoryImplTest {
         }
     }
 
+    @Test
+    fun `repeated refreshes within the window hit the network once unless forced`() = runBlocking {
+        val live = FakeLive {
+            OpenErApiResponseDto("success", "USD", 1_700_000_000L, mapOf("EUR" to 0.9))
+        }
+        val repository = repo(live)
+
+        repository.refreshRates("USD")
+        repository.refreshRates("USD")
+        assertEquals(1, live.calls)
+
+        repository.refreshRates("USD", force = true)
+        assertEquals(2, live.calls)
+
+        repository.refreshRates("EUR")
+        assertEquals(3, live.calls)
+    }
+
     private class FakeLive(private val block: () -> OpenErApiResponseDto) : LiveExchangeRateApi {
-        override suspend fun getLatestRates(base: String) = block()
+        var calls = 0
+        override suspend fun getLatestRates(base: String): OpenErApiResponseDto {
+            calls++
+            return block()
+        }
     }
 
     private class FakeFrankfurter(

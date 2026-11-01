@@ -167,10 +167,12 @@ class ConverterViewModel @Inject constructor(
         _uiState.update { it.copy(fromCurrency = it.toCurrency, toCurrency = it.fromCurrency) }
     }
 
-    fun refreshRates() {
+    fun retryRates() = refreshRates(force = true)
+
+    fun refreshRates(force: Boolean = false) {
         viewModelScope.launch {
             try {
-                repository.refreshRates(BASE_CURRENCY)
+                repository.refreshRates(BASE_CURRENCY, force)
             } catch (_: Exception) {
                 _uiState.update { it.copy(isLoading = false, error = it.error ?: "offline") }
             }

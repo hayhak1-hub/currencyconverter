@@ -9,6 +9,8 @@ interface UserPreferencesRepository {
     val lastToCurrency: Flow<String>
     val lastHistoryBase: Flow<String>
     val lastHistoryTarget: Flow<String>
+    val historyRange: Flow<String>
+    val historyCompare: Flow<Pair<String, String>>
     val lastDashboardBase: Flow<String>
     val alarms: Flow<List<RateAlarm>>
     val widgetBase: Flow<String>
@@ -17,6 +19,8 @@ interface UserPreferencesRepository {
     suspend fun toggleFavorite(code: String)
     suspend fun saveLastConverterCurrencies(from: String, to: String)
     suspend fun saveLastHistoryCurrencies(base: String, target: String)
+    suspend fun saveHistoryRange(range: String)
+    suspend fun saveHistoryCompare(base: String, target: String)
     suspend fun saveLastDashboardBase(base: String)
     suspend fun addAlarm(alarm: RateAlarm)
     suspend fun updateAlarm(alarm: RateAlarm)

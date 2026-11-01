@@ -3,11 +3,18 @@ package com.hayhak.currencyconverter.ui.history
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectDragGestures
+import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FileDownload
 import androidx.compose.material.icons.filled.SwapHoriz
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,18 +55,29 @@ fun HistoryScreen(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val PAIRS = listOf(
-        "USD" to "TRY",
-        "EUR" to "TRY",
-        "GBP" to "TRY",
-        "USD" to "EUR",
-        "USD" to "GBP",
-        "EUR" to "GBP"
-    )
+    val context = LocalContext.current
+    val csvSaved = stringResource(R.string.history_csv_saved)
+    val csvFailed = stringResource(R.string.history_csv_failed)
+
+    // Fixed popular pairs, then the user's favorites against USD, and always the current pair.
+    val pairs = remember(state.favorites, state.baseCurrency, state.targetCurrency) {
+        val list = linkedSetOf(
+            "USD" to "TRY",
+            "EUR" to "TRY",
+            "GBP" to "TRY",
+            "USD" to "EUR",
+            "USD" to "GBP",
+            "EUR" to "GBP"
+        )
+        state.favorites.sorted().filter { it != "USD" }.forEach { list.add("USD" to it) }
+        list.add(state.baseCurrency to state.targetCurrency)
+        list.toList()
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp)
             .padding(top = 4.dp, bottom = 16.dp)
     ) {
@@ -89,12 +107,27 @@ fun HistoryScreen(
                 }
             }
 
-            FilterChip(
-                selected = state.compareEnabled,
-                onClick = { viewModel.setCompareEnabled(!state.compareEnabled) },
-                label = { Text(stringResource(R.string.history_compare)) },
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                FilterChip(
+                    selected = state.compareEnabled,
+                    onClick = { viewModel.setCompareEnabled(!state.compareEnabled) },
+                    label = { Text(stringResource(R.string.history_compare)) }
+                )
+                Spacer(Modifier.weight(1f))
+                IconButton(
+                    onClick = {
+                        viewModel.exportToCsv { path ->
+                            Toast.makeText(context, if (path != null) csvSaved else csvFailed, Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    enabled = state.hasData
+                ) {
+                    Icon(Icons.Default.FileDownload, contentDescription = stringResource(R.string.cd_export_csv))
+                }
+            }
             if (state.compareEnabled) {
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
@@ -103,7 +136,7 @@ fun HistoryScreen(
                 ) {
                     state.compareBaseInfo?.let { info ->
                         CurrencySelector(
-                            label = stringResource(R.string.history_compare),
+                            label = stringResource(R.string.converter_from),
                             currency = info,
                             onSelect = viewModel::selectCompareBase,
                             modifier = Modifier.weight(1f)
@@ -125,7 +158,7 @@ fun HistoryScreen(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(PAIRS) { (base, target) ->
+                items(pairs) { (base, target) ->
                     FilterChip(
                         selected = state.baseCurrency == base && state.targetCurrency == target,
                         onClick = { viewModel.selectPair(base, target) },
@@ -165,25 +198,44 @@ fun HistoryScreen(
                             data = state.data,
                             compareData = if (state.compareEnabled) state.compareData else emptyList(),
                             lineColor = MaterialTheme.colorScheme.primary,
-                            compareColor = MaterialTheme.colorScheme.tertiary,
+                            compareColor = CompareLineColor,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(if (isWide) 340.dp else 250.dp)
                         )
                         Spacer(Modifier.height(16.dp))
-                        RateSummary(state.data)
+                        if (state.compareEnabled && state.compareData.isNotEmpty()) {
+                            ComparisonSummary(
+                                primaryLabel = "${state.baseCurrency}/${state.targetCurrency}",
+                                primary = state.data,
+                                primaryColor = MaterialTheme.colorScheme.primary,
+                                compareLabel = "${state.compareBase}/${state.compareTarget}",
+                                compare = state.compareData,
+                                compareColor = CompareLineColor
+                            )
+                        } else {
+                            RateSummary(state.data)
+                        }
                     }
                 }
             } else {
-                Box(
-                    Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                Column(
+                    modifier = Modifier.fillMaxWidth().height(200.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        stringResource(R.string.history_no_data),
+                        if (state.error != null) {
+                            stringResource(R.string.dashboard_error_fetch)
+                        } else {
+                            stringResource(R.string.history_no_data)
+                        },
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
+                    TextButton(onClick = viewModel::reload) {
+                        Text(stringResource(R.string.converter_retry))
+                    }
                 }
             }
     }
@@ -214,7 +266,12 @@ private fun RateChart(
     val minRate = allPoints.minOf { it.rate }
     val maxRate = allPoints.maxOf { it.rate }
     val rateRange = (maxRate - minRate).takeIf { it > 0 } ?: 0.0001
-    fun axisLabel(value: Double) = if (comparing) "%.1f%%".format(value) else formatYLabel(value)
+    // Narrow percent ranges need a second decimal or neighbouring grid labels read the same.
+    fun axisLabel(value: Double) = when {
+        !comparing -> formatYLabel(value)
+        rateRange < 2.0 -> "%.2f%%".format(value)
+        else -> "%.1f%%".format(value)
+    }
 
     val textMeasurer    = rememberTextMeasurer()
     val labelColor      = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
@@ -392,6 +449,41 @@ private fun RateSummary(data: List<HistoricalRate>) {
         if (change != null) {
             SummaryItem(stringResource(R.string.history_change), "%+.2f%%".format(change))
         }
+    }
+}
+
+private val CompareLineColor = Color(0xFFFFB300)
+
+/** Percent change per series, colored like the lines, since the chart is normalized when comparing. */
+@Composable
+private fun ComparisonSummary(
+    primaryLabel: String,
+    primary: List<HistoricalRate>,
+    primaryColor: Color,
+    compareLabel: String,
+    compare: List<HistoricalRate>,
+    compareColor: Color
+) {
+    fun change(series: List<HistoricalRate>): String {
+        val first = series.firstOrNull()?.rate ?: return "—"
+        val last = series.last().rate
+        return if (first != 0.0) "%+.2f%%".format((last - first) / first * 100.0) else "—"
+    }
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+        LegendItem(primaryLabel, change(primary), primaryColor)
+        LegendItem(compareLabel, change(compare), compareColor)
+    }
+}
+
+@Composable
+private fun LegendItem(label: String, value: String, color: Color) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(10.dp).background(color, CircleShape))
+            Spacer(Modifier.width(6.dp))
+            Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f))
+        }
+        Text(value, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, color = color)
     }
 }
 

@@ -7,7 +7,11 @@ import kotlinx.coroutines.flow.Flow
 interface ExchangeRateRepository {
     fun getLatestRates(base: String = "USD"): Flow<ExchangeRate?>
     fun getHistoricalRates(base: String, target: String, daysBack: Int): Flow<List<HistoricalRate>>
-    suspend fun refreshRates(base: String = "USD")
+    /**
+     * Fetches the latest rates. Calls for the same [base] within a short window are coalesced
+     * so several screens starting together do not each hit the network; [force] bypasses that.
+     */
+    suspend fun refreshRates(base: String = "USD", force: Boolean = false)
     suspend fun refreshHistoricalRates(base: String, target: String, daysBack: Int)
     suspend fun getLastUpdateTime(base: String = "USD"): Long?
     suspend fun getRatesBefore(base: String, beforeTimestamp: Long): ExchangeRate?

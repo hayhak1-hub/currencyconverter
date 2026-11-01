@@ -28,6 +28,7 @@ class DashboardViewModel @Inject constructor(
     val uiState: StateFlow<DashboardUiState> = _uiState.asStateFlow()
 
     private var ratesJob: Job? = null
+    private val historyLoaded = MutableStateFlow(0)
 
     init {
         // Favorileri state'e yaz (SettingsScreen bunu okur)
@@ -95,8 +96,20 @@ class DashboardViewModel @Inject constructor(
             }
         }
 
+        // Without stored history there is no "yesterday" for the change column on a fresh install.
+        viewModelScope.launch {
+            val targets = userPrefs.favorites.first().filter { it != base }.sorted()
+            if (targets.isEmpty()) return@launch
+            try {
+                repository.refreshHistoricalRates(base, targets.joinToString(","), 7)
+                historyLoaded.update { it + 1 }
+            } catch (e: Exception) {
+                if (e is kotlinx.coroutines.CancellationException) throw e
+            }
+        }
+
         ratesJob = viewModelScope.launch {
-            combine(getExchangeRates(base), userPrefs.favorites) { exchangeRate, favorites ->
+            combine(getExchangeRates(base), userPrefs.favorites, historyLoaded) { exchangeRate, favorites, _ ->
                 exchangeRate to favorites
             }.collect { (exchangeRate, favorites) ->
                 if (exchangeRate == null) {
@@ -144,9 +157,11 @@ class DashboardViewModel @Inject constructor(
         
         viewModelScope.launch {
             try {
-                repository.refreshRates(base)
+                repository.refreshRates(base, force = true)
             } catch (e: Exception) {
-                _uiState.update { it.copy(error = application.getString(com.hayhak.currencyconverter.R.string.dashboard_error_refresh), isRefreshing = false) }
+                _uiState.update { it.copy(error = application.getString(com.hayhak.currencyconverter.R.string.dashboard_error_refresh)) }
+            } finally {
+                _uiState.update { it.copy(isRefreshing = false) }
             }
         }
     }

@@ -22,6 +22,20 @@ class AlertsViewModel @Inject constructor(
         emptyList()
     )
 
+    fun add(base: String, target: String, threshold: Double, isAbove: Boolean, repeating: Boolean) {
+        viewModelScope.launch {
+            userPrefs.addAlarm(
+                RateAlarm(
+                    baseCode = base,
+                    targetCode = target,
+                    threshold = threshold,
+                    isAbove = isAbove,
+                    repeating = repeating
+                )
+            )
+        }
+    }
+
     fun toggle(alarm: RateAlarm) {
         viewModelScope.launch {
             userPrefs.updateAlarm(alarm.copy(isEnabled = !alarm.isEnabled))

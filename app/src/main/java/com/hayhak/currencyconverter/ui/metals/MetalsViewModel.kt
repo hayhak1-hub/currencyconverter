@@ -63,6 +63,9 @@ class MetalsViewModel @Inject constructor(
     private val cache = application.getSharedPreferences("metal_quotes", android.content.Context.MODE_PRIVATE)
     private val gson = Gson()
     private var refreshJob: Job? = null
+    private var lastPrices: Map<String, CachedMetal> = emptyMap()
+    private var lastRates: Map<String, Double> = emptyMap()
+    private var lastCached: Set<String> = emptySet()
     private val _uiState = MutableStateFlow(MetalsUiState())
     val uiState: StateFlow<MetalsUiState> = _uiState
 
@@ -81,7 +84,7 @@ class MetalsViewModel @Inject constructor(
                 )
             }
             try {
-                val quote = userPrefs.lastDashboardBase.first()
+                val quote = cache.getString(KEY_QUOTE, null) ?: userPrefs.lastDashboardBase.first()
                 var rateSnapshot = getExchangeRates("USD").first()
                 var usdRates = rateSnapshot?.rates ?: emptyMap()
                 _uiState.update { it.copy(fxTimestamp = rateSnapshot?.timestamp) }
@@ -128,7 +131,20 @@ class MetalsViewModel @Inject constructor(
         }
     }
 
+    /** Re-prices the last fetched metals in another currency without hitting the network. */
+    fun setQuote(code: String) {
+        cache.edit().putString(KEY_QUOTE, code).apply()
+        if (lastPrices.isEmpty()) {
+            refresh()
+        } else {
+            publishQuotes(lastPrices, code, lastRates, lastCached, refreshing = _uiState.value.isRefreshing)
+        }
+    }
+
     private fun publishQuotes(prices: Map<String, CachedMetal>, quote: String, rates: Map<String, Double>, cached: Set<String>, refreshing: Boolean) {
+        lastPrices = prices
+        lastRates = rates
+        lastCached = cached
         val factor = if (quote == "USD") 1.0 else rates[quote]?.takeIf { it.isFinite() && it > 0 }
         val displayQuote = if (factor != null) quote else "USD"
         val metals = METAL_CODES.mapNotNull { code ->
@@ -171,6 +187,7 @@ class MetalsViewModel @Inject constructor(
     }.onFailure { if (it is CancellationException) throw it }.getOrDefault(emptyMap())
 
     companion object {
+        private const val KEY_QUOTE = "quote"
         private val METAL_ICONS = mapOf(
             "XAU" to "🥇",
             "XAG" to "🥈",

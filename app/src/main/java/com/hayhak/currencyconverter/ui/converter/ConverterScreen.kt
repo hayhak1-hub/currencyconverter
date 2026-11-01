@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -48,7 +49,7 @@ fun ConverterScreen(
             lastUpdated = state.lastUpdated,
             isLoading = state.isLoading,
             hasRates = state.rates.isNotEmpty(),
-            onRetry = viewModel::refreshRates
+            onRetry = viewModel::retryRates
         )
         AmountCard(
             amount = state.amount,
@@ -103,14 +104,25 @@ fun ConverterScreen(
             }
         }
     } else {
-        Column(
-            modifier = Modifier.fillMaxSize().padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+        // One scrolling list so the amount, selectors and result move up with the batch results.
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(16.dp)
         ) {
-            mainColumn()
-            HorizontalDivider()
-            Text(stringResource(R.string.converter_other_units), style = MaterialTheme.typography.titleSmall)
-            BatchList(state, Modifier.weight(1f))
+            item {
+                Column(verticalArrangement = Arrangement.spacedBy(16.dp), content = mainColumn)
+            }
+            item {
+                Column(modifier = Modifier.padding(top = 16.dp)) {
+                    HorizontalDivider()
+                    Text(
+                        stringResource(R.string.converter_other_units),
+                        style = MaterialTheme.typography.titleSmall,
+                        modifier = Modifier.padding(vertical = 16.dp)
+                    )
+                }
+            }
+            batchItems(state)
         }
     }
 
@@ -205,15 +217,20 @@ private fun RateStatusBanner(
 @Composable
 private fun BatchList(state: ConverterUiState, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        items(state.batchResults.entries.toList(), key = { it.key }) { (code, value) ->
-            val info = SUPPORTED_CURRENCIES.find { it.code == code }
-            ListItem(
-                headlineContent = { Text(code) },
-                supportingContent = { Text(info?.let { currencyName(it.code) } ?: "") },
-                leadingContent = { Text(info?.flag ?: "", fontSize = 20.sp) },
-                trailingContent = { Text(formatVal(value), fontWeight = FontWeight.Bold) }
-            )
-        }
+        batchItems(state)
+    }
+}
+
+private fun LazyListScope.batchItems(state: ConverterUiState) {
+    items(state.batchResults.entries.toList(), key = { it.key }) { (code, value) ->
+        val info = SUPPORTED_CURRENCIES.find { it.code == code }
+        ListItem(
+            headlineContent = { Text(code) },
+            supportingContent = { Text(info?.let { currencyName(it.code) } ?: "") },
+            leadingContent = { Text(info?.flag ?: "", fontSize = 20.sp) },
+            trailingContent = { Text(formatVal(value), fontWeight = FontWeight.Bold) },
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
     }
 }
 

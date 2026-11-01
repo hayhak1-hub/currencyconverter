@@ -9,10 +9,13 @@ import com.hayhak.currencyconverter.domain.model.HistoricalRate
 import com.hayhak.currencyconverter.domain.repository.ExchangeRateRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -138,13 +141,23 @@ class ExchangeRateRepositoryImpl @Inject constructor(
             .map { group -> group.last() }
     }
 
-    override suspend fun refreshRates(base: String) {
-        try {
-            refreshLiveRates(base)
-        } catch (e: Exception) {
-            if (e is kotlinx.coroutines.CancellationException) throw e
-            android.util.Log.w("ExchangeRateRepo", "Live API failed for $base, using Frankfurter", e)
-            refreshFrankfurterRates(base)
+    private val refreshLocks = ConcurrentHashMap<String, Mutex>()
+    private val lastRefreshAt = ConcurrentHashMap<String, Long>()
+
+    override suspend fun refreshRates(base: String, force: Boolean) {
+        refreshLocks.getOrPut(base) { Mutex() }.withLock {
+            val last = lastRefreshAt[base]
+            if (!force && last != null && System.currentTimeMillis() - last < MIN_REFRESH_INTERVAL_MS) {
+                return
+            }
+            try {
+                refreshLiveRates(base)
+            } catch (e: Exception) {
+                if (e is kotlinx.coroutines.CancellationException) throw e
+                android.util.Log.w("ExchangeRateRepo", "Live API failed for $base, using Frankfurter", e)
+                refreshFrankfurterRates(base)
+            }
+            lastRefreshAt[base] = System.currentTimeMillis()
         }
     }
 
@@ -211,5 +224,9 @@ class ExchangeRateRepositoryImpl @Inject constructor(
         val ts = entities.maxOf { it.timestamp }
         val rates = entities.associate { it.targetCurrency to it.rate }
         return ExchangeRate(base, rates, ts)
+    }
+
+    private companion object {
+        const val MIN_REFRESH_INTERVAL_MS = 30_000L
     }
 }

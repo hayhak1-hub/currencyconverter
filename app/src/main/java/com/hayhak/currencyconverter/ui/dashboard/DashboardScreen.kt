@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
@@ -46,6 +47,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+private enum class RateSort { DEFAULT, CHANGE, RATE }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
@@ -56,6 +59,7 @@ fun DashboardScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     var searchQuery by remember { mutableStateOf("") }
+    var sortMode by rememberSaveable { mutableStateOf(RateSort.DEFAULT) }
     val context = LocalContext.current
     val localeKey = androidx.core.os.ConfigurationCompat.getLocales(LocalConfiguration.current).toLanguageTags()
     val notifPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {}
@@ -114,15 +118,23 @@ fun DashboardScreen(
             (info?.name?.contains(query, ignoreCase = true) == true)
     }
 
-    val favoriteRows = remember(allRateRows, state.favorites, query) {
+    fun List<CurrencyRow>.sortedBy(mode: RateSort) = when (mode) {
+        RateSort.DEFAULT -> this
+        RateSort.CHANGE -> sortedByDescending { it.trend }
+        RateSort.RATE -> sortedByDescending { it.rateToTry }
+    }
+
+    val favoriteRows = remember(allRateRows, state.favorites, query, sortMode) {
         allRateRows
             .filter { it.code in state.favorites }
             .filter(::rowMatchesQuery)
+            .sortedBy(sortMode)
     }
-    val otherRows = remember(allRateRows, state.favorites, query) {
+    val otherRows = remember(allRateRows, state.favorites, query, sortMode) {
         allRateRows
             .filter { it.code !in state.favorites }
             .filter(::rowMatchesQuery)
+            .sortedBy(sortMode)
     }
 
     Scaffold(
@@ -179,6 +191,29 @@ fun DashboardScreen(
                     },
                     singleLine = true
                 )
+
+                Row(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    RateSort.entries.forEach { mode ->
+                        FilterChip(
+                            selected = sortMode == mode,
+                            onClick = { sortMode = mode },
+                            label = {
+                                Text(
+                                    stringResource(
+                                        when (mode) {
+                                            RateSort.DEFAULT -> R.string.sort_default
+                                            RateSort.CHANGE -> R.string.sort_change
+                                            RateSort.RATE -> R.string.sort_rate
+                                        }
+                                    )
+                                )
+                            }
+                        )
+                    }
+                }
 
                 if (state.isLoading) {
                     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

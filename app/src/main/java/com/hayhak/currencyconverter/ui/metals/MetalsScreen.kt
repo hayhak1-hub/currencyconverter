@@ -40,7 +40,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hayhak.currencyconverter.R
+import com.hayhak.currencyconverter.domain.model.SUPPORTED_CURRENCIES
 import com.hayhak.currencyconverter.domain.model.getFlagEmoji
+import com.hayhak.currencyconverter.ui.components.CurrencySelector
 import com.hayhak.currencyconverter.util.currencyName
 import java.text.NumberFormat
 import java.util.Locale
@@ -92,6 +94,13 @@ fun MetalsScreen(viewModel: MetalsViewModel = hiltViewModel(), isWide: Boolean =
                             OutlinedTextField(amount, { amount = it }, label = { Text(stringResource(R.string.metal_amount)) },
                                 singleLine = true, isError = quantity == null,
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), modifier = Modifier.fillMaxWidth())
+                            CurrencySelector(
+                                label = stringResource(R.string.metals_show_in),
+                                currency = SUPPORTED_CURRENCIES.firstOrNull { it.code == state.quote }
+                                    ?: SUPPORTED_CURRENCIES.first { it.code == "USD" },
+                                onSelect = { viewModel.setQuote(it.code) },
+                                modifier = Modifier.fillMaxWidth()
+                            )
                             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                                 FilterChip(selected = !grams, onClick = { grams = false }, label = { Text(stringResource(R.string.metal_ounce)) })
                                 FilterChip(selected = grams, onClick = { grams = true }, label = { Text(stringResource(R.string.metal_gram)) })
