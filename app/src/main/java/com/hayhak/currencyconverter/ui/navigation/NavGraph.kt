@@ -29,7 +29,9 @@ import androidx.compose.material.icons.automirrored.filled.ShowChart
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Contrast
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.AccountBalanceWallet
 import androidx.compose.material.icons.filled.Diamond
+import androidx.compose.material.icons.filled.Flight
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Menu
@@ -91,6 +93,8 @@ import com.hayhak.currencyconverter.ui.converter.ConverterViewModel
 import com.hayhak.currencyconverter.ui.dashboard.DashboardScreen
 import com.hayhak.currencyconverter.ui.history.HistoryScreen
 import com.hayhak.currencyconverter.ui.metals.MetalsScreen
+import com.hayhak.currencyconverter.ui.portfolio.PortfolioScreen
+import com.hayhak.currencyconverter.ui.trips.TripsScreen
 import com.hayhak.currencyconverter.ui.components.RatePromptDialog
 import com.hayhak.currencyconverter.ui.rate.RatePromptViewModel
 import com.hayhak.currencyconverter.ui.settings.HelpScreen
@@ -110,6 +114,8 @@ sealed class Screen(val route: String, val labelRes: Int, val icon: ImageVector)
     object History    : Screen("history",    R.string.nav_history,    Icons.Default.History)
     object Metals     : Screen("metals",     R.string.nav_metals,     Icons.Default.Diamond)
     object Alerts     : Screen("alerts",     R.string.nav_alerts,     Icons.Default.Notifications)
+    object Portfolio  : Screen("portfolio",  R.string.nav_portfolio,  Icons.Default.AccountBalanceWallet)
+    object Trips      : Screen("trips",      R.string.nav_trips,      Icons.Default.Flight)
     object Settings   : Screen("settings",   R.string.nav_settings,   Icons.Default.Settings)
 }
 
@@ -120,6 +126,8 @@ private val screens = listOf(
     Screen.History,
     Screen.Metals,
     Screen.Alerts,
+    Screen.Portfolio,
+    Screen.Trips,
     Screen.Settings
 )
 
@@ -417,6 +425,8 @@ fun CurrencyNavGraph(
                     composable(Screen.Statistics.route) { StatisticsScreen(isWide = isWide) }
                     composable(Screen.History.route) { HistoryScreen(isWide = isWide) }
                     composable(Screen.Metals.route) { MetalsScreen(isWide = isWide) }
+                    composable(Screen.Portfolio.route) { PortfolioScreen() }
+                    composable(Screen.Trips.route) { TripsScreen() }
                     composable(Screen.Alerts.route) {
                         AlertsScreen(
                             prefill = pendingAlert,

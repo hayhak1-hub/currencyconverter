@@ -12,7 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.core.os.ConfigurationCompat
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hayhak.currencyconverter.R
@@ -27,6 +29,7 @@ import java.util.Locale
 @Composable
 fun GoldJewelrySection(ouncePrice: Double, quote: String, modifier: Modifier = Modifier) {
     if (!ouncePrice.isFinite() || ouncePrice <= 0) return
+    val isTurkish = ConfigurationCompat.getLocales(LocalConfiguration.current)[0]?.language == "tr"
     val money = NumberFormat.getNumberInstance(Locale.getDefault()).apply {
         minimumFractionDigits = 2
         maximumFractionDigits = 2
@@ -47,23 +50,26 @@ fun GoldJewelrySection(ouncePrice: Double, quote: String, modifier: Modifier = M
                     value = "${money.format(goldGramValue(ouncePrice, karat))} $quote"
                 )
             }
-            HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
-            Text(
-                stringResource(R.string.gold_coins_title),
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.SemiBold
-            )
-            GoldCoin.entries.forEach { coin ->
-                ValueRow(
-                    label = stringResource(coinLabel(coin)),
-                    value = "${money.format(goldCoinValue(ouncePrice, coin))} $quote"
+            // Çeyrek, yarım, tam and Ata are Turkish market coins, so only Turkish users see them.
+            if (isTurkish) {
+                HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                Text(
+                    stringResource(R.string.gold_coins_title),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold
+                )
+                GoldCoin.entries.forEach { coin ->
+                    ValueRow(
+                        label = stringResource(coinLabel(coin)),
+                        value = "${money.format(goldCoinValue(ouncePrice, coin))} $quote"
+                    )
+                }
+                Text(
+                    stringResource(R.string.gold_coins_note),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )
             }
-            Text(
-                stringResource(R.string.gold_coins_note),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-            )
         }
     }
 }

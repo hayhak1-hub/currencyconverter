@@ -66,22 +66,23 @@ object VoiceCommandParser {
         val numberMatch = Regex("\\d+[.,]?\\d*").find(text)
         val amount = numberMatch?.value?.replace(",", ".")
 
-        // Find currencies mentioned in the text
-        val matchedCodes = mutableListOf<String>()
-
-        // Check longest match keys first
+        val matchesWithPos = mutableListOf<Pair<Int, String>>()
         val sortedKeys = currencyMap.keys.sortedByDescending { it.length }
         var searchArea = text
 
         for (key in sortedKeys) {
-            if (searchArea.contains(key)) {
+            val idx = searchArea.indexOf(key)
+            if (idx >= 0) {
                 val code = currencyMap[key]!!
-                if (code !in matchedCodes) {
-                    matchedCodes.add(code)
-                }
-                searchArea = searchArea.replace(key, " ")
+                matchesWithPos.add(idx to code)
+                searchArea = searchArea.replaceRange(idx, idx + key.length, " ".repeat(key.length))
             }
         }
+
+        val matchedCodes = matchesWithPos
+            .sortedBy { it.first }
+            .map { it.second }
+            .distinct()
 
         val fromCode = matchedCodes.getOrNull(0)
         val toCode = matchedCodes.getOrNull(1)

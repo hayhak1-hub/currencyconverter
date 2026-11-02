@@ -36,6 +36,9 @@
 -keep class com.hayhak.currencyconverter.domain.model.RateAlarm { *; }
 -keep class com.hayhak.currencyconverter.domain.model.AppBackup { *; }
 
+# Records saved by the JSON list stores (alert history, portfolio, trips).
+-keep class com.hayhak.currencyconverter.data.store.model.** { *; }
+
 # Glance / WorkManager workers
 -keep class * extends androidx.work.Worker
 -keep class * extends androidx.work.CoroutineWorker

@@ -59,7 +59,9 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hayhak.currencyconverter.R
+import com.hayhak.currencyconverter.data.store.model.AlarmEvent
 import com.hayhak.currencyconverter.domain.model.RateAlarm
+import com.hayhak.currencyconverter.util.formatMoney
 import com.hayhak.currencyconverter.domain.model.SUPPORTED_CURRENCIES
 import com.hayhak.currencyconverter.ui.components.AlarmDirectionChips
 import com.hayhak.currencyconverter.ui.components.CurrencySelector
@@ -73,6 +75,7 @@ fun AlertsScreen(
     onPrefillConsumed: () -> Unit = {}
 ) {
     val alarms by viewModel.alarms.collectAsStateWithLifecycle()
+    val events by viewModel.events.collectAsStateWithLifecycle()
     var editing by remember { mutableStateOf<RateAlarm?>(null) }
     var adding by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -116,7 +119,7 @@ fun AlertsScreen(
     }
 
     Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        if (alarms.isEmpty()) {
+        if (alarms.isEmpty() && events.isEmpty()) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text(
                     stringResource(R.string.alerts_empty),
@@ -138,6 +141,25 @@ fun AlertsScreen(
                         onDelete = { viewModel.remove(alarm.id) },
                         onOpen = { onOpenPair(alarm.baseCode, alarm.targetCode) }
                     )
+                }
+                if (events.isNotEmpty()) {
+                    item {
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                stringResource(R.string.alerts_history),
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.weight(1f)
+                            )
+                            TextButton(onClick = viewModel::clearHistory) {
+                                Text(stringResource(R.string.alerts_history_clear))
+                            }
+                        }
+                    }
+                    items(events.take(20), key = { it.id }) { event -> AlarmEventRow(event) }
                 }
                 item { Spacer(Modifier.height(72.dp)) }
             }
@@ -234,6 +256,35 @@ private fun AddAlarmDialog(
             TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) }
         }
     )
+}
+
+@Composable
+private fun AlarmEventRow(event: AlarmEvent) {
+    val whenText = remember(event.firedAt) {
+        java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT, java.text.DateFormat.SHORT)
+            .format(java.util.Date(event.firedAt))
+    }
+    val condition = if (event.percent) {
+        "%s %.1f%%".format(stringResource(if (event.isAbove) R.string.alarm_when_above else R.string.alarm_when_below), event.trigger)
+    } else {
+        "%s %s".format(stringResource(if (event.isAbove) R.string.alarm_when_above else R.string.alarm_when_below), formatMoney(event.trigger, event.targetCode))
+    }
+    Column(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                "${getFlagEmoji(event.baseCode)} ${event.baseCode} / ${getFlagEmoji(event.targetCode)} ${event.targetCode}",
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.weight(1f)
+            )
+            Text(formatMoney(event.rate, event.targetCode), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
+        }
+        Text(
+            "$condition · $whenText",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+        )
+    }
 }
 
 @Composable

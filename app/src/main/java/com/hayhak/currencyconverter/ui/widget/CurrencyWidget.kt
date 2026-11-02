@@ -19,6 +19,8 @@ import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.provideContent
+import androidx.glance.Image
+import androidx.glance.ImageProvider
 import androidx.glance.background
 import androidx.glance.color.ColorProvider
 import androidx.glance.layout.Alignment
@@ -29,6 +31,7 @@ import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
+import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
@@ -78,6 +81,12 @@ class CurrencyWidget : GlanceAppWidget() {
             userPrefs.widgetBase,
             userPrefs.widgetCodes
         ) { rates, base, codes -> Triple(rates, base, codes) }.first()
+
+        // Trend lines are drawn on the large layout only; they need a few days of stored history.
+        val sparkQuote = WidgetInstanceStore.load(context, appWidgetId)?.first ?: initial.second
+        val sparkCodes = (WidgetInstanceStore.load(context, appWidgetId)?.second ?: initial.third)
+            .filter { it != sparkQuote }.take(4)
+        val sparks = loadSparklines(repository, sparkCodes, sparkQuote)
 
         provideContent {
             val snapshot by combine(
@@ -147,7 +156,7 @@ class CurrencyWidget : GlanceAppWidget() {
                         putExtra(MainActivity.EXTRA_FROM, code)
                         putExtra(MainActivity.EXTRA_TARGET, quote)
                     }
-                    RateRow(getFlagEmoji(code), code, rate, quote, change, openPair)
+                    RateRow(getFlagEmoji(code), code, rate, quote, change, openPair, if (maxRows >= 4) sparks[code] else null)
                     if (i != rows.lastIndex) Spacer(GlanceModifier.height(5.dp))
                 }
 
@@ -188,7 +197,15 @@ class CurrencyWidget : GlanceAppWidget() {
 }
 
 @androidx.compose.runtime.Composable
-private fun RateRow(flag: String, code: String, rate: Double?, quote: String, change: Double?, openPair: Intent) {
+private fun RateRow(
+    flag: String,
+    code: String,
+    rate: Double?,
+    quote: String,
+    change: Double?,
+    openPair: Intent,
+    spark: android.graphics.Bitmap? = null
+) {
     Row(
         modifier = GlanceModifier.fillMaxWidth().clickable(actionStartActivity(openPair)),
         verticalAlignment = Alignment.CenterVertically
@@ -202,6 +219,13 @@ private fun RateRow(flag: String, code: String, rate: Double?, quote: String, ch
             ),
             modifier = GlanceModifier.defaultWeight()
         )
+        if (spark != null) {
+            Image(
+                provider = ImageProvider(spark),
+                contentDescription = null,
+                modifier = GlanceModifier.width(56.dp).height(22.dp).padding(end = 6.dp)
+            )
+        }
         Column(horizontalAlignment = Alignment.Horizontal.End) {
             Text(
                 text = if (rate != null && rate > 0) "%.4f %s".format(rate, quote) else "—",
@@ -251,4 +275,41 @@ class WidgetEditAction : ActionCallback {
         }
         context.startActivity(intent)
     }
+}
+
+private val SPARK_COLOR = android.graphics.Color.parseColor("#4FC3F7")
+
+/**
+ * Seven-day trend per row, rendered as bitmaps. A missing history is fetched once with a short
+ * limit so the widget never waits long on the network; rows without data simply get no line.
+ */
+private suspend fun loadSparklines(
+    repository: ExchangeRateRepository,
+    codes: List<String>,
+    quote: String
+): Map<String, android.graphics.Bitmap> {
+    if (codes.isEmpty()) return emptyMap()
+    suspend fun usdSeries(code: String) =
+        if (code == "USD") null else runCatching {
+            repository.getHistoricalRates("USD", code, 7).first()
+        }.getOrDefault(emptyList())
+
+    var quoteSeries = usdSeries(quote)
+    var codeSeries = codes.associateWith { usdSeries(it) }
+    val missing = (codes + quote).filter { it != "USD" && ((if (it == quote) quoteSeries else codeSeries[it])?.size ?: 0) < 3 }
+    if (missing.isNotEmpty()) {
+        kotlinx.coroutines.withTimeoutOrNull(8_000) {
+            runCatching { repository.refreshHistoricalRates("USD", missing.distinct().joinToString(","), 7) }
+        }
+        quoteSeries = usdSeries(quote)
+        codeSeries = codes.associateWith { usdSeries(it) }
+    }
+
+    val density = 3 // fixed render scale; the image is scaled to its dp size
+    val out = LinkedHashMap<String, android.graphics.Bitmap>()
+    codes.forEach { code ->
+        val series = com.hayhak.currencyconverter.domain.model.crossSeries(codeSeries[code], quoteSeries)
+        renderSparkline(series.map { it.rate }, 56 * density, 22 * density, SPARK_COLOR)?.let { out[code] = it }
+    }
+    return out
 }

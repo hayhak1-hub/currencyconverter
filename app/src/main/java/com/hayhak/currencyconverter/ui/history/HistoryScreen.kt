@@ -33,6 +33,8 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
@@ -215,7 +217,15 @@ fun HistoryScreen(
                     )
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
+                        val chartDescription = stringResource(
+                            R.string.history_chart_description,
+                            "${state.baseCurrency}/${state.targetCurrency}",
+                            "%.4f".format(state.data.minOf { it.rate }),
+                            "%.4f".format(state.data.maxOf { it.rate }),
+                            "%.4f".format(state.data.last().rate)
+                        )
                         RateChart(
+                            description = chartDescription,
                             data = state.data,
                             compareData = if (state.compareEnabled) state.compareData else emptyList(),
                             lineColor = MaterialTheme.colorScheme.primary,
@@ -281,6 +291,7 @@ private fun SmaChip(label: String, color: Color, selected: Boolean, onToggle: (B
 
 @Composable
 private fun RateChart(
+    description: String,
     data: List<HistoricalRate>,
     compareData: List<HistoricalRate>,
     lineColor: Color,
@@ -344,6 +355,8 @@ private fun RateChart(
 
     Canvas(
         modifier = modifier
+            // Screen readers cannot follow a drawn line, so describe the range and the latest value.
+            .semantics { contentDescription = description }
             .pointerInput(data, compareData) {
                 fun pick(x: Float): Int {
                     val left = textMeasurer.measure(axisLabel(maxRate), labelStyle).size.width + 10f

@@ -236,9 +236,14 @@ fun DashboardScreen(
                         columns = GridCells.Fixed(if (isWide) 2 else 1),
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        val movers = if (query.isBlank()) topMovers(allRateRows) else null
-                        if (movers != null && !movers.isEmpty) {
-                            item(span = { GridItemSpan(maxLineSpan) }) { MoversCard(movers) }
+                        if (query.isBlank()) {
+                            val vsBase = topMovers(allRateRows)
+                            val strength = strengthMovers(allRateRows, state.baseCurrency)
+                            if (!vsBase.isEmpty || !strength.isEmpty) {
+                                item(span = { GridItemSpan(maxLineSpan) }) {
+                                    MoversCard(vsBase, strength, state.baseCurrency)
+                                }
+                            }
                         }
 
                         if (favoriteRows.isNotEmpty()) {

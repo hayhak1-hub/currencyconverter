@@ -2,6 +2,8 @@ package com.hayhak.currencyconverter.ui.alerts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hayhak.currencyconverter.data.store.AlarmHistoryStore
+import com.hayhak.currencyconverter.data.store.model.AlarmEvent
 import com.hayhak.currencyconverter.domain.model.RateAlarm
 import com.hayhak.currencyconverter.domain.repository.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AlertsViewModel @Inject constructor(
-    private val userPrefs: UserPreferencesRepository
+    private val userPrefs: UserPreferencesRepository,
+    private val history: AlarmHistoryStore
 ) : ViewModel() {
 
     val alarms: StateFlow<List<RateAlarm>> = userPrefs.alarms.stateIn(
@@ -21,6 +24,16 @@ class AlertsViewModel @Inject constructor(
         SharingStarted.WhileSubscribed(5_000),
         emptyList()
     )
+
+    val events: StateFlow<List<AlarmEvent>> = history.events.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5_000),
+        emptyList()
+    )
+
+    fun clearHistory() {
+        viewModelScope.launch { history.clear() }
+    }
 
     fun add(
         base: String,

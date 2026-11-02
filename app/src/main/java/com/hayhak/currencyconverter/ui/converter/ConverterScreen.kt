@@ -1,5 +1,10 @@
 package com.hayhak.currencyconverter.ui.converter
 
+import android.content.Intent
+import android.speech.RecognizerIntent
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -53,10 +58,57 @@ fun ConverterScreen(
     onAlertPair: (String, String) -> Unit = { _, _ -> }
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
     var showNumberPad by remember { mutableStateOf(false) }
     var showTools by remember { mutableStateOf(false) }
     var showDatePicker by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    val voiceLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val spokenList = result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+        val spokenText = spokenList?.firstOrNull() ?: return@rememberLauncherForActivityResult
+        val parsed = com.hayhak.currencyconverter.util.VoiceCommandParser.parse(spokenText)
+        if (parsed.amount != null || parsed.fromCode != null) {
+            if (parsed.fromCode != null && parsed.toCode != null) {
+                viewModel.applyPair(parsed.fromCode, parsed.toCode)
+            } else if (parsed.fromCode != null) {
+                val fromInfo = SUPPORTED_CURRENCIES.find { it.code == parsed.fromCode }
+                if (fromInfo != null) viewModel.onFromCurrencyChange(fromInfo)
+            }
+            if (parsed.amount != null) {
+                viewModel.startAmountEntry()
+                parsed.amount.forEach { ch ->
+                    viewModel.onNumpadClick(ch.toString())
+                }
+                viewModel.finishAmountEntry()
+            }
+            Toast.makeText(
+                context,
+                context.getString(R.string.converter_voice_recognized, spokenText),
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            Toast.makeText(
+                context,
+                context.getString(R.string.converter_voice_error),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    fun launchVoice() {
+        try {
+            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                putExtra(RecognizerIntent.EXTRA_PROMPT, context.getString(R.string.converter_voice_input))
+            }
+            voiceLauncher.launch(intent)
+        } catch (_: Exception) {
+            Toast.makeText(context, context.getString(R.string.converter_voice_error), Toast.LENGTH_SHORT).show()
+        }
+    }
 
     val mainColumn: @Composable ColumnScope.() -> Unit = {
         RateStatusBanner(
@@ -70,7 +122,8 @@ fun ConverterScreen(
             onOpenPad = {
                 viewModel.startAmountEntry()
                 showNumberPad = true
-            }
+            },
+            onVoiceClick = ::launchVoice
         )
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -214,7 +267,11 @@ fun ConverterScreen(
 }
 
 @Composable
-private fun AmountCard(amount: String, onOpenPad: () -> Unit) {
+private fun AmountCard(
+    amount: String,
+    onOpenPad: () -> Unit,
+    onVoiceClick: () -> Unit
+) {
     OutlinedCard(onClick = onOpenPad, modifier = Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
@@ -240,7 +297,14 @@ private fun AmountCard(amount: String, onOpenPad: () -> Unit) {
                     )
                 }
             }
-            Spacer(Modifier.width(12.dp))
+            Spacer(Modifier.width(8.dp))
+            IconButton(onClick = onVoiceClick) {
+                Icon(
+                    Icons.Default.Mic,
+                    contentDescription = stringResource(R.string.converter_voice_input),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
             Icon(
                 Icons.Default.Dialpad,
                 contentDescription = stringResource(R.string.cd_open_numpad),
@@ -306,7 +370,10 @@ private fun ResultDisplay(state: ConverterUiState, onEditResult: () -> Unit) {
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
     ) {
-        Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Text(
                 "${state.fromCurrency.flag} ${state.fromCurrency.code} -> ${state.toCurrency.flag} ${state.toCurrency.code}",
                 style = MaterialTheme.typography.labelMedium
@@ -355,12 +422,8 @@ private fun ResultDisplay(state: ConverterUiState, onEditResult: () -> Unit) {
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Medium,
                         color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.85f),
-                        modifier = Modifier.padding(vertical = 4.dp)
                     )
                 }
-            }
-            if (state.result != null) {
-                TextButton(onClick = onEditResult) { Text(stringResource(R.string.converter_edit_result)) }
             }
             val todayValue = state.amount.replace(',', '.').toDoubleOrNull()?.let { amount ->
                 if (state.historicalDate == null) null
@@ -380,17 +443,6 @@ private fun ResultDisplay(state: ConverterUiState, onEditResult: () -> Unit) {
                         color = if (change >= 0) Color(0xFF2E7D32) else MaterialTheme.colorScheme.error
                     )
                 }
-            }
-            val spread = state.result?.let { buySell(it, state.spreadPercent) }
-            if (spread != null) {
-                Text(
-                    stringResource(R.string.converter_buy, formatMoney(spread.first, state.toCurrency.code)),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    stringResource(R.string.converter_sell, formatMoney(spread.second, state.toCurrency.code)),
-                    style = MaterialTheme.typography.bodyMedium
-                )
             }
             val historical = state.historicalLabel?.let(::formatIsoDate)
             if (historical != null) {
