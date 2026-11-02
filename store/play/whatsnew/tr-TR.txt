@@ -1,5 +1,7 @@
-• Canlı Wi-Fi ve ağ durum takibi ile çevrimdışı (offline) kullanım desteği
-• Çeviricide ters kur gösterimi (1 EUR = 1.08 USD) ve hızlı kopyalama/paylaşma
-• İstatistik ekranında kişiselleştirilebilir para birimi ekleme ve çıkarma
-• Kurlar ekranında İsim, Kur ve Değişime göre sıralama filtreleri
-• Arka plan hesaplamalarında performans ve akıcılık iyileştirmeleri
+• Kar/zarar takibi yapan portföy ve seyahat bütçeleri
+• Alarmlar: yüzde değişim, sessiz saatler ve alarm geçmişi
+• Geçmiş tarihte çeviri, kayıtlı çiftler ve sabah kur özeti
+• Çeviricide sesli giriş
+• En çok yükselen ve düşenler, para gücü, çapraz kur matrisi
+• Geçmiş: 5 günlük aralık, SMA 50/200 ve CSV dışa aktarma
+• Ayara göre altın ve ziynet, widget'ta eğilim çizgileri, yedekleme

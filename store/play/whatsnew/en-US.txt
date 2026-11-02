@@ -1,5 +1,7 @@
-• Live Wi-Fi & network status monitoring with full offline support
-• Inverse conversion rates (1 EUR = 1.08 USD) & quick copy/share in converter
-• Customizable currency selection on the Statistics screen
-• Sort live rates by Name, Rate, and 24h Change
-• Performance and responsiveness optimizations
+• Portfolio with profit/loss and trip budgets
+• Alerts: percent change, quiet hours and an alert history
+• Convert at a past date, saved pairs and a morning rate digest
+• Voice input in the converter
+• Top gainers and losers, currency strength, cross-rate matrix
+• History: 5-day range, SMA 50/200 and CSV export
+• Gold by purity, trend lines in the widget, backup and restore

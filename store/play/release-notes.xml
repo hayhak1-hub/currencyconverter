@@ -1,163 +1,203 @@
 # Google Play — release notes (max 500 chars per locale)
 # Paste into Play Console → Release → Release notes
-# Version 1.0.8 (versionCode 11) — update, not a first release
+# Version 1.2.0 (versionCode 13) — update, not a first release
 
 <en-US>
-• Live Wi-Fi & network status monitoring with full offline support
-• Inverse conversion rates (1 EUR = 1.08 USD) & quick copy/share in converter
-• Customizable currency selection on the Statistics screen
-• Sort live rates by Name, Rate, and 24h Change
-• Performance and responsiveness optimizations
+• Portfolio with profit/loss and trip budgets
+• Alerts: percent change, quiet hours and an alert history
+• Convert at a past date, saved pairs and a morning rate digest
+• Voice input in the converter
+• Top gainers and losers, currency strength, cross-rate matrix
+• History: 5-day range, SMA 50/200 and CSV export
+• Gold by purity, trend lines in the widget, backup and restore
 </en-US>
 
 <de-DE>
-• Live-WLAN- und Netzwerkanzeige mit vollwertiger Offline-Unterstützung
-• Umgekehrte Wechselkurse (1 EUR = 1,08 USD) und schnelles Kopieren und Teilen im Rechner
-• Anpassbare Währungsauswahl auf dem Statistik-Bildschirm
-• Live-Kurse nach Name, Kurs und 24-Stunden-Änderung sortieren
-• Leistungs- und Reaktionsoptimierungen
+• Portfolio mit Gewinn/Verlust und Reisebudgets
+• Alarme: prozentuale Änderung, Ruhezeiten und Alarmverlauf
+• Umrechnung zu einem früheren Datum, gespeicherte Paare, morgendliche Kursübersicht
+• Spracheingabe im Rechner
+• Größte Gewinner und Verlierer, Währungsstärke, Kreuzkurs-Matrix
+• Verlauf: 5-Tage-Zeitraum, SMA 50/200 und CSV-Export
+• Gold nach Reinheit, Trendlinien im Widget, Sichern und Wiederherstellen
 </de-DE>
 
 <tr-TR>
-• Canlı Wi-Fi ve ağ durum takibi ile çevrimdışı (offline) kullanım desteği
-• Çeviricide ters kur gösterimi (1 EUR = 1.08 USD) ve hızlı kopyalama/paylaşma
-• İstatistik ekranında kişiselleştirilebilir para birimi ekleme ve çıkarma
-• Kurlar ekranında İsim, Kur ve Değişime göre sıralama filtreleri
-• Arka plan hesaplamalarında performans ve akıcılık iyileştirmeleri
+• Kar/zarar takibi yapan portföy ve seyahat bütçeleri
+• Alarmlar: yüzde değişim, sessiz saatler ve alarm geçmişi
+• Geçmiş tarihte çeviri, kayıtlı çiftler ve sabah kur özeti
+• Çeviricide sesli giriş
+• En çok yükselen ve düşenler, para gücü, çapraz kur matrisi
+• Geçmiş: 5 günlük aralık, SMA 50/200 ve CSV dışa aktarma
+• Ayara göre altın ve ziynet, widget'ta eğilim çizgileri, yedekleme
 </tr-TR>
 
 <fr-FR>
-• Suivi en direct du Wi-Fi et du réseau, avec prise en charge hors ligne
-• Taux inverses (1 EUR = 1,08 USD) et copie ou partage rapide dans le convertisseur
-• Choix personnalisable des devises sur l’écran Statistiques
-• Triez les cours en direct par nom, cours et variation sur 24 h
-• Optimisations des performances et de la réactivité
+• Portefeuille avec gains/pertes et budgets de voyage
+• Alertes : variation en %, heures calmes et historique
+• Conversion à une date passée, paires enregistrées, résumé matinal des cours
+• Saisie vocale dans le convertisseur
+• Plus fortes hausses et baisses, force des devises, matrice de cours croisés
+• Historique : période de 5 jours, SMA 50/200 et export CSV
+• Or selon la pureté, courbes dans le widget, sauvegarde et restauration
 </fr-FR>
 
 <es-ES>
-• Seguimiento en vivo del Wi-Fi y de la red, con soporte sin conexión
-• Tipos de cambio inversos (1 EUR = 1,08 USD) y copiar o compartir al instante en el conversor
-• Selección personalizable de divisas en Estadísticas
-• Ordena los tipos en vivo por nombre, tipo y cambio de 24 h
-• Mejoras de rendimiento y de respuesta
+• Cartera con ganancias/pérdidas y presupuestos de viaje
+• Alertas: cambio porcentual, horas de silencio e historial
+• Conversión a una fecha pasada, pares guardados y resumen matinal de tipos
+• Entrada por voz en el conversor
+• Mayores subidas y bajadas, fortaleza de divisas, matriz de tipos cruzados
+• Historial: período de 5 días, SMA 50/200 y exportación CSV
+• Oro por pureza, líneas de tendencia en el widget, copia y restauración
 </es-ES>
 
 <it-IT>
-• Monitoraggio live di Wi-Fi e rete, con pieno supporto offline
-• Cambi inversi (1 EUR = 1,08 USD) e copia o condivisione rapida nel convertitore
-• Scelta personalizzabile delle valute nella schermata Statistiche
-• Ordina i cambi in tempo reale per nome, cambio e variazione sulle 24 ore
-• Ottimizzazioni di prestazioni e reattività
+• Portafoglio con guadagni/perdite e budget di viaggio
+• Avvisi: variazione percentuale, ore silenziose e cronologia
+• Conversione a una data passata, coppie salvate e riepilogo mattutino dei cambi
+• Input vocale nel convertitore
+• Maggiori rialzi e ribassi, forza delle valute, matrice dei cambi incrociati
+• Cronologia: periodo di 5 giorni, SMA 50/200 ed esportazione CSV
+• Oro per purezza, linee di tendenza nel widget, backup e ripristino
 </it-IT>
 
 <pt-BR>
-• Monitoramento ao vivo de Wi-Fi e rede, com suporte offline completo
-• Taxas inversas (1 EUR = 1,08 USD) e copiar ou compartilhar rápido no conversor
-• Seleção personalizável de moedas na tela Estatísticas
-• Ordene as taxas ao vivo por nome, taxa e variação em 24 h
-• Otimizações de desempenho e de resposta
+• Carteira com ganhos/perdas e orçamentos de viagem
+• Alertas: variação percentual, horário silencioso e histórico
+• Conversão em data passada, pares salvos e resumo matinal de câmbio
+• Entrada por voz no conversor
+• Maiores altas e quedas, força das moedas, matriz de câmbio cruzado
+• Histórico: período de 5 dias, SMA 50/200 e exportação CSV
+• Ouro por pureza, linhas de tendência no widget, backup e restauração
 </pt-BR>
 
 <ru-RU>
-• Отслеживание Wi-Fi и сети в реальном времени и полная работа офлайн
-• Обратные курсы (1 EUR = 1,08 USD) и быстрое копирование и отправка в конвертере
-• Настраиваемый выбор валют на экране «Статистика»
-• Сортировка курсов по имени, курсу и изменению за 24 ч
-• Оптимизация производительности и отклика
+• Портфель с прибылью/убытком и бюджеты поездок
+• Оповещения: изменение в %, тихие часы и история
+• Конвертация на прошлую дату, сохранённые пары, утренняя сводка курсов
+• Голосовой ввод в конвертере
+• Лидеры роста и падения, сила валют, матрица кросс-курсов
+• История: период 5 дней, SMA 50/200 и экспорт в CSV
+• Золото по пробе, линии тренда в виджете, резервное копирование
 </ru-RU>
 
 <pl-PL>
-• Bieżące monitorowanie Wi-Fi i sieci oraz pełna obsługa offline
-• Odwrotne kursy (1 EUR = 1,08 USD) oraz szybkie kopiowanie i udostępnianie w przeliczniku
-• Wybór walut na ekranie Statystyki
-• Sortuj kursy na żywo według nazwy, kursu i zmiany z 24 h
-• Optymalizacje wydajności i płynności
+• Portfel z zyskiem/stratą i budżety podróży
+• Alerty: zmiana procentowa, godziny ciszy i historia
+• Przeliczanie na dzień z przeszłości, zapisane pary i poranne podsumowanie kursów
+• Wprowadzanie głosowe w przeliczniku
+• Najwięksi wygrani i przegrani, siła walut, macierz kursów krzyżowych
+• Historia: zakres 5 dni, SMA 50/200 i eksport CSV
+• Złoto według próby, linie trendu w widżecie, kopia zapasowa
 </pl-PL>
 
 <ja-JP>
-• Wi-Fiと通信状態をリアルタイム表示し、オフラインでも利用できます
-• 逆レート表示（1 EUR = 1.08 USD）と換算画面でのすばやいコピー／共有
-• 統計画面で表示する通貨を自由に選べます
-• ライブレートを名前、レート、24時間の変動で並べ替え
-• 動作と応答性を改善
+• 損益を表示するポートフォリオと旅行予算
+• 通知：変動率、サイレント時間、通知履歴
+• 過去の日付での換算、保存した通貨ペア、毎朝のレート要約
+• 換算画面での音声入力
+• 上昇・下落率上位、通貨の強さ、クロスレート表
+• 履歴：5日間表示、SMA 50/200、CSV出力
+• 純度別の金、ウィジェットの推移線、バックアップと復元
 </ja-JP>
 
 <ko-KR>
-• Wi-Fi와 네트워크 상태를 실시간으로 표시하고 오프라인에서도 이용
-• 역환율 표시(1 EUR = 1.08 USD)와 변환 화면에서 빠른 복사 및 공유
-• 통계 화면에서 표시할 통화를 직접 선택
-• 실시간 환율을 이름, 환율, 24시간 변동순으로 정렬
-• 성능과 반응 속도 개선
+• 손익을 보여 주는 포트폴리오와 여행 예산
+• 알림: 변동률, 방해 금지 시간, 알림 기록
+• 과거 날짜 환산, 저장한 통화쌍, 아침 환율 요약
+• 변환기 음성 입력
+• 상승·하락률 상위, 통화 강도, 교차 환율 표
+• 기록: 5일 기간, SMA 50/200, CSV 내보내기
+• 순도별 금, 위젯 추세선, 백업 및 복원
 </ko-KR>
 
 <zh-CN>
-• 实时显示 Wi-Fi 与网络状态，并完整支持离线使用
-• 反向汇率（1 EUR = 1.08 USD），可在换算页快速复制和分享
-• 可在统计页自定义要显示的货币
-• 实时汇率可按名称、汇率和 24 小时涨跌排序
-• 性能与响应速度优化
+• 带盈亏的投资组合和旅行预算
+• 提醒：涨跌幅、免打扰时段和提醒记录
+• 按过去日期换算、保存货币对、早间汇率摘要
+• 换算器语音输入
+• 涨跌幅榜、货币强弱、交叉汇率表
+• 历史：5 天区间、SMA 50/200 和 CSV 导出
+• 按成色计价的黄金、小部件趋势线、备份与恢复
 </zh-CN>
 
 <hi-IN>
-• लाइव Wi-Fi और नेटवर्क स्थिति, साथ में पूरा ऑफ़लाइन समर्थन
-• उलटी दरें (1 EUR = 1.08 USD) और कन्वर्टर में तेज़ कॉपी/शेयर
-• आँकड़े स्क्रीन पर मुद्राएँ अपनी पसंद से चुनें
-• लाइव दरों को नाम, दर और 24 घंटे के बदलाव से क्रमबद्ध करें
-• प्रदर्शन और प्रतिक्रिया में सुधार
+• लाभ/हानि वाला पोर्टफ़ोलियो और यात्रा बजट
+• अलर्ट: प्रतिशत बदलाव, शांत समय और अलर्ट इतिहास
+• पिछली तारीख पर रूपांतरण, सहेजी जोड़ियाँ और सुबह का दर सारांश
+• कन्वर्टर में आवाज़ से इनपुट
+• सबसे ज़्यादा बढ़त/गिरावट, मुद्रा की मज़बूती, क्रॉस रेट मैट्रिक्स
+• इतिहास: 5 दिन की अवधि, SMA 50/200 और CSV निर्यात
+• कैरेट के अनुसार सोना, विजेट में ट्रेंड लाइन, बैकअप और रीस्टोर
 </hi-IN>
 
 <bn-BD>
-• লাইভ ওয়াই-ফাই ও নেটওয়ার্ক অবস্থা, পূর্ণ অফলাইন সমর্থনসহ
-• উল্টো হার (১ EUR = ১.০৮ USD) এবং রূপান্তরে দ্রুত কপি/শেয়ার
-• পরিসংখ্যান স্ক্রিনে মুদ্রা নিজের মতো বেছে নিন
-• লাইভ হার নাম, হার ও ২৪ ঘণ্টার পরিবর্তন অনুযায়ী সাজান
-• কর্মক্ষমতা ও সাড়ার উন্নতি
+• লাভ/ক্ষতিসহ পোর্টফোলিও ও ভ্রমণ বাজেট
+• সতর্কতা: শতাংশ পরিবর্তন, নীরব সময় ও সতর্কতার ইতিহাস
+• অতীত তারিখে রূপান্তর, সংরক্ষিত জোড়া ও সকালের হার সারসংক্ষেপ
+• রূপান্তরকারীতে ভয়েস ইনপুট
+• সবচেয়ে বেশি বৃদ্ধি ও পতন, মুদ্রার শক্তি, ক্রস রেট ম্যাট্রিক্স
+• ইতিহাস: ৫ দিনের সময়সীমা, SMA 50/200 ও CSV এক্সপোর্ট
+• ক্যারেট অনুযায়ী সোনা, উইজেটে ট্রেন্ড লাইন, ব্যাকআপ ও রিস্টোর
 </bn-BD>
 
 <ar>
-• مراقبة حالة Wi-Fi والشبكة مباشرة مع دعم كامل دون اتصال
-• أسعار عكسية (1 EUR = 1.08 USD) ونسخ ومشاركة سريعة في المحول
-• اختيار العملات بحرية في شاشة الإحصاءات
-• رتّب الأسعار المباشرة حسب الاسم أو السعر أو تغيّر 24 ساعة
-• تحسينات في الأداء وسرعة الاستجابة
+• محفظة بالأرباح والخسائر وميزانيات الرحلات
+• التنبيهات: نسبة التغيّر وأوقات الهدوء وسجل التنبيهات
+• التحويل بتاريخ سابق والأزواج المحفوظة وملخص صباحي للأسعار
+• الإدخال الصوتي في المحول
+• الأكثر ارتفاعًا وانخفاضًا وقوة العملات ومصفوفة الأسعار المتقاطعة
+• السجل: نطاق 5 أيام وSMA 50/200 وتصدير CSV
+• الذهب حسب العيار وخطوط الاتجاه في الأداة ونسخ احتياطي واستعادة
 </ar>
 
 <th>
-• แสดงสถานะ Wi-Fi และเครือข่ายแบบเรียลไทม์ พร้อมใช้งานออฟไลน์ได้เต็มรูปแบบ
-• อัตราผกผัน (1 EUR = 1.08 USD) และคัดลอกหรือแชร์อย่างรวดเร็วในหน้าแปลง
-• เลือกสกุลเงินเองได้ในหน้าสถิติ
-• เรียงอัตราสดตามชื่อ อัตรา และการเปลี่ยนแปลง 24 ชม.
-• ปรับประสิทธิภาพและการตอบสนองให้ดีขึ้น
+• พอร์ตโฟลิโอแสดงกำไร/ขาดทุนและงบประมาณทริป
+• การแจ้งเตือน: เปอร์เซ็นต์การเปลี่ยนแปลง ช่วงเงียบ และประวัติ
+• แปลงตามวันที่ย้อนหลัง คู่ที่บันทึก และสรุปอัตราตอนเช้า
+• ป้อนด้วยเสียงในตัวแปลง
+• ขึ้น/ลงมากที่สุด ความแข็งค่าของสกุลเงิน ตารางอัตราไขว้
+• ประวัติ: ช่วง 5 วัน SMA 50/200 และส่งออก CSV
+• ทองคำตามความบริสุทธิ์ เส้นแนวโน้มในวิดเจ็ต สำรองและกู้คืน
 </th>
 
 <uk>
-• Відстеження Wi-Fi і мережі в реальному часі та повна робота офлайн
-• Зворотні курси (1 EUR = 1,08 USD) і швидке копіювання та надсилання в конвертері
-• Налаштовуваний вибір валют на екрані «Статистика»
-• Сортування курсів за назвою, курсом і зміною за 24 год
-• Оптимізація швидкодії та відгуку
+• Портфель із прибутком/збитком і бюджети поїздок
+• Сповіщення: зміна у %, тихі години та історія
+• Конвертація на минулу дату, збережені пари, ранкове зведення курсів
+• Голосовий ввід у конвертері
+• Лідери зростання й падіння, сила валют, матриця крос-курсів
+• Історія: період 5 днів, SMA 50/200 і експорт у CSV
+• Золото за пробою, лінії тренду у віджеті, резервне копіювання
 </uk>
 
 <ur>
-• لائیو Wi-Fi اور نیٹ ورک کی صورتحال، مکمل آف لائن تعاون کے ساتھ
-• الٹی شرحیں (1 EUR = 1.08 USD) اور کنورٹر میں فوری کاپی/شیئر
-• شماریات کی اسکرین پر کرنسیاں اپنی مرضی سے منتخب کریں
-• لائیو ریٹس کو نام، ریٹ اور 24 گھنٹے کی تبدیلی کے مطابق ترتیب دیں
-• کارکردگی اور ردعمل میں بہتری
+• منافع/نقصان والا پورٹ فولیو اور سفری بجٹ
+• الرٹس: فیصد تبدیلی، خاموش اوقات اور الرٹ ہسٹری
+• پرانی تاریخ پر تبدیلی، محفوظ جوڑیاں اور صبح کا ریٹ خلاصہ
+• کنورٹر میں آواز سے اندراج
+• سب سے زیادہ اضافہ/کمی، کرنسی کی مضبوطی، کراس ریٹ میٹرکس
+• تاریخ: 5 دن کی مدت، SMA 50/200 اور CSV ایکسپورٹ
+• عیار کے مطابق سونا، ویجٹ میں رجحان لائن، بیک اپ اور بحالی
 </ur>
 
 <vi>
-• Theo dõi Wi-Fi và mạng theo thời gian thực, dùng được đầy đủ khi ngoại tuyến
-• Tỷ giá nghịch (1 EUR = 1,08 USD) và sao chép hoặc chia sẻ nhanh trong phần chuyển đổi
-• Tự chọn tiền tệ trên màn hình Thống kê
-• Sắp xếp tỷ giá trực tiếp theo tên, tỷ giá và thay đổi 24 giờ
-• Tối ưu hiệu năng và độ phản hồi
+• Danh mục đầu tư có lãi/lỗ và ngân sách chuyến đi
+• Cảnh báo: % thay đổi, giờ yên tĩnh và lịch sử cảnh báo
+• Quy đổi theo ngày trong quá khứ, cặp đã lưu, tóm tắt tỷ giá buổi sáng
+• Nhập bằng giọng nói trong trình chuyển đổi
+• Tăng/giảm mạnh nhất, sức mạnh tiền tệ, bảng tỷ giá chéo
+• Lịch sử: khoảng 5 ngày, SMA 50/200 và xuất CSV
+• Vàng theo độ tinh khiết, đường xu hướng trong tiện ích, sao lưu và khôi phục
 </vi>
 
 <id>
-• Pemantauan Wi-Fi dan jaringan secara langsung, dengan dukungan offline penuh
-• Kurs terbalik (1 EUR = 1,08 USD) serta salin atau bagikan cepat di konverter
-• Pilihan mata uang yang bisa diatur di layar Statistik
-• Urutkan kurs langsung menurut nama, kurs, dan perubahan 24 jam
-• Optimisasi kinerja dan respons
+• Portofolio dengan untung/rugi dan anggaran perjalanan
+• Peringatan: perubahan persen, jam tenang, dan riwayat
+• Konversi di tanggal lampau, pasangan tersimpan, ringkasan kurs pagi
+• Input suara di konverter
+• Kenaikan dan penurunan terbesar, kekuatan mata uang, matriks kurs silang
+• Riwayat: rentang 5 hari, SMA 50/200, dan ekspor CSV
+• Emas menurut kadar, garis tren di widget, cadangan dan pemulihan
 </id>

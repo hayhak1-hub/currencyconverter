@@ -1,5 +1,7 @@
-• Live-WLAN- und Netzwerkanzeige mit vollwertiger Offline-Unterstützung
-• Umgekehrte Wechselkurse (1 EUR = 1,08 USD) und schnelles Kopieren und Teilen im Rechner
-• Anpassbare Währungsauswahl auf dem Statistik-Bildschirm
-• Live-Kurse nach Name, Kurs und 24-Stunden-Änderung sortieren
-• Leistungs- und Reaktionsoptimierungen
+• Portfolio mit Gewinn/Verlust und Reisebudgets
+• Alarme: prozentuale Änderung, Ruhezeiten und Alarmverlauf
+• Umrechnung zu einem früheren Datum, gespeicherte Paare, morgendliche Kursübersicht
+• Spracheingabe im Rechner
+• Größte Gewinner und Verlierer, Währungsstärke, Kreuzkurs-Matrix
+• Verlauf: 5-Tage-Zeitraum, SMA 50/200 und CSV-Export
+• Gold nach Reinheit, Trendlinien im Widget, Sichern und Wiederherstellen

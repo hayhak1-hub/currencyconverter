@@ -29,8 +29,8 @@ android {
         applicationId = "com.hayhak.currencyConverter"
         minSdk = 24
         targetSdk = 36
-        versionCode = 12
-        versionName = "1.1.0"
+        versionCode = 13
+        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -73,6 +73,8 @@ android {
     }
     testOptions {
         unitTests.isReturnDefaultValues = true
+        // StringResourcesTest reads the resource files directly, so changes to them must re-run it.
+        unitTests.all { it.inputs.dir("src/main/res").withPropertyName("stringResources") }
     }
     buildFeatures {
         compose = true
