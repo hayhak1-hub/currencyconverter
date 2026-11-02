@@ -33,6 +33,7 @@ fun ConverterToolsSheet(
 ) {
     var percent by rememberSaveable { mutableStateOf("") }
     var fixed by rememberSaveable { mutableStateOf("") }
+    var peopleText by rememberSaveable { mutableStateOf("1") }
     var search by rememberSaveable { mutableStateOf("") }
     var tab by rememberSaveable { mutableIntStateOf(0) }
     val history by viewModel.history.collectAsStateWithLifecycle()
@@ -42,6 +43,8 @@ fun ConverterToolsSheet(
         ConvertCurrencyUseCase()(it, state.fromCurrency.code, state.toCurrency.code, state.rates)
     }
     val net = gross?.let { netAfterFees(it, percent, fixed) }
+    val people = peopleText.toIntOrNull()?.coerceIn(1, 99) ?: 1
+    val each = net?.let { if (people > 1) it / people else null }
     val format = NumberFormat.getNumberInstance().apply { maximumFractionDigits = 4 }
     val locale = Locale.getDefault()
     val countries = remember(locale) {
@@ -71,8 +74,18 @@ fun ConverterToolsSheet(
                             singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), modifier = Modifier.fillMaxWidth())
                     }
                     item {
+                        OutlinedTextField(peopleText, { raw -> peopleText = raw.filter { it.isDigit() }.take(2) },
+                            label = { Text(stringResource(R.string.tools_people)) },
+                            singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), modifier = Modifier.fillMaxWidth())
+                    }
+                    item {
                         Text(net?.let { stringResource(R.string.tools_net, format.format(it), state.toCurrency.code) }
                             ?: stringResource(R.string.tools_invalid), style = MaterialTheme.typography.titleMedium)
+                    }
+                    if (each != null) {
+                        item {
+                            Text(stringResource(R.string.tools_each, format.format(each), state.toCurrency.code), style = MaterialTheme.typography.titleMedium)
+                        }
                     }
                     item {
                         Button(enabled = ready && net != null, onClick = {

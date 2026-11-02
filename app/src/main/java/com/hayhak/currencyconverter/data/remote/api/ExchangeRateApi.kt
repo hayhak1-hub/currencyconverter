@@ -13,6 +13,14 @@ interface ExchangeRateApi {
     ): List<FrankfurterRateDto>
 
     @GET("rates")
+    suspend fun getRatesBetween(
+        @Query("base") base: String,
+        @Query("from") from: String,
+        @Query("to") to: String,
+        @Query("quotes") quotes: String? = null
+    ): List<FrankfurterRateDto>
+
+    @GET("rates")
     suspend fun getHistoricalRates(
         @Query("base") base: String,
         @Query("quotes") quotes: String,

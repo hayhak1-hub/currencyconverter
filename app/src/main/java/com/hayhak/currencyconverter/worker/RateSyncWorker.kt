@@ -10,9 +10,11 @@ import com.hayhak.currencyconverter.domain.model.BASE_CURRENCY
 import com.hayhak.currencyconverter.domain.repository.ExchangeRateRepository
 import com.hayhak.currencyconverter.domain.repository.UserPreferencesRepository
 import com.hayhak.currencyconverter.util.NotificationHelper
+import com.hayhak.currencyconverter.util.isQuietNow
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 @HiltWorker
@@ -37,6 +39,7 @@ class RateSyncWorker @AssistedInject constructor(
     private suspend fun checkAlarms() {
         val alarms = userPrefs.alarms.first()
         if (alarms.isEmpty()) return
+        if (isQuietNow(userPrefs.quietHours.first())) return
 
         val notificationHelper = NotificationHelper(context)
         val bases = alarms.map { it.baseCode }.distinct()
@@ -47,11 +50,21 @@ class RateSyncWorker @AssistedInject constructor(
                 // BASE_CURRENCY was already refreshed in doWork().
                 if (base != BASE_CURRENCY) repository.refreshRates(base)
                 val rateData = repository.getLatestRates(base).first() ?: continue
+                val previous = repository.getRatesBefore(
+                    base,
+                    System.currentTimeMillis() - TimeUnit.HOURS.toMillis(20)
+                )?.rates
 
                 val baseAlarms = alarms.filter { it.baseCode == base && it.isEnabled }
                 for (alarm in baseAlarms) {
                     val currentRate = rateData.rates[alarm.targetCode] ?: continue
-                    val triggered = if (alarm.isAbove) {
+                    val dayChange = previous?.get(alarm.targetCode)?.takeIf { it != 0.0 }?.let { prev ->
+                        (currentRate - prev) / prev * 100.0
+                    }
+                    val triggered = if (alarm.isPercent) {
+                        val change = dayChange ?: continue
+                        if (alarm.isAbove) change >= alarm.percent else change <= -alarm.percent
+                    } else if (alarm.isAbove) {
                         currentRate >= alarm.threshold
                     } else {
                         currentRate <= alarm.threshold
@@ -63,14 +76,24 @@ class RateSyncWorker @AssistedInject constructor(
                         continue
                     }
 
-                    val msgRes = if (alarm.isAbove) R.string.notif_alarm_above else R.string.notif_alarm_below
+                    val message = if (alarm.isPercent) {
+                        val res = if (alarm.isAbove) R.string.notif_alarm_percent_up else R.string.notif_alarm_percent_down
+                        context.getString(
+                            res,
+                            String.format(Locale.getDefault(), "%.1f", alarm.percent),
+                            String.format(Locale.getDefault(), "%.1f", dayChange ?: 0.0)
+                        )
+                    } else {
+                        val msgRes = if (alarm.isAbove) R.string.notif_alarm_above else R.string.notif_alarm_below
+                        context.getString(msgRes, alarm.threshold.toString(), currentRate.toString())
+                    }
                     val posted = notificationHelper.showRateNotification(
                         title = context.getString(
                             R.string.notif_alarm_title,
                             alarm.baseCode,
                             alarm.targetCode
                         ),
-                        message = context.getString(msgRes, alarm.threshold.toString(), currentRate.toString()),
+                        message = message,
                         from = alarm.baseCode,
                         to = alarm.targetCode
                     )

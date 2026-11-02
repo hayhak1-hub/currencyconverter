@@ -4,7 +4,11 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -27,21 +31,31 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hayhak.currencyconverter.R
 import com.hayhak.currencyconverter.domain.model.SUPPORTED_CURRENCIES
 import com.hayhak.currencyconverter.ui.components.CurrencySelector
+import com.hayhak.currencyconverter.domain.usecase.ConvertCurrencyUseCase
+import com.hayhak.currencyconverter.domain.model.BASE_CURRENCY
 import com.hayhak.currencyconverter.util.ShareHelper
+import com.hayhak.currencyconverter.util.buySell
 import com.hayhak.currencyconverter.util.currencyName
+import com.hayhak.currencyconverter.util.formatMoney
 import com.hayhak.currencyconverter.util.formatRelativeTime
-import java.text.NumberFormat
-import java.util.Locale
+import com.hayhak.currencyconverter.util.profitPercent
+import java.text.DateFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneOffset
+import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConverterScreen(
     viewModel: ConverterViewModel = hiltViewModel(),
-    isWide: Boolean = false
+    isWide: Boolean = false,
+    onAlertPair: (String, String) -> Unit = { _, _ -> }
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     var showNumberPad by remember { mutableStateOf(false) }
     var showTools by remember { mutableStateOf(false) }
+    var showDatePicker by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     val mainColumn: @Composable ColumnScope.() -> Unit = {
@@ -79,10 +93,38 @@ fun ConverterScreen(
                 modifier = Modifier.weight(1f)
             )
         }
-        if (state.isLoading && state.result == null) {
+        HistoricalDateRow(
+            label = state.historicalLabel,
+            loading = state.historicalLoading,
+            error = state.historicalError,
+            onPick = { showDatePicker = true },
+            onClear = { viewModel.setHistoricalDate(null) }
+        )
+        SavedPairsRow(
+            pairs = state.savedPairs,
+            current = state.fromCurrency.code to state.toCurrency.code,
+            onApply = viewModel::applyPair,
+            onSave = viewModel::saveCurrentPair,
+            onRemove = viewModel::removePair,
+            onAlert = onAlertPair
+        )
+        if (state.isLoading && state.result == null && state.historicalDate == null) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         } else {
-            ResultDisplay(state)
+            ResultDisplay(
+                state = state,
+                onEditResult = {
+                    viewModel.beginTargetEntry()
+                    showNumberPad = true
+                }
+            )
+            if (state.sparkline.size >= 2) {
+                Text(stringResource(R.string.converter_sparkline), style = MaterialTheme.typography.labelMedium)
+                Sparkline(
+                    points = state.sparkline,
+                    modifier = Modifier.fillMaxWidth().height(56.dp)
+                )
+            }
         }
         TextButton(onClick = { showTools = true }) { Text(stringResource(R.string.tools_title)) }
     }
@@ -129,19 +171,41 @@ fun ConverterScreen(
     if (showTools) {
         ConverterToolsSheet(state, { showTools = false }, viewModel::reuseConversion, viewModel::onToCurrencyChange)
     }
+    if (showDatePicker) {
+        val pickerState = rememberDatePickerState(
+            initialSelectedDateMillis = state.historicalDate ?: System.currentTimeMillis(),
+            selectableDates = object : SelectableDates {
+                override fun isSelectableDate(utcTimeMillis: Long): Boolean =
+                    utcTimeMillis <= System.currentTimeMillis()
+            }
+        )
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    pickerState.selectedDateMillis?.let(viewModel::setHistoricalDate)
+                    showDatePicker = false
+                }) { Text(stringResource(R.string.converter_done)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDatePicker = false }) { Text(stringResource(R.string.cancel)) }
+            }
+        ) { DatePicker(state = pickerState) }
+    }
     if (showNumberPad) {
         ModalBottomSheet(
             onDismissRequest = {
-                viewModel.finishAmountEntry()
+                if (state.targetDraft != null) viewModel.cancelTargetEntry() else viewModel.finishAmountEntry()
                 showNumberPad = false
             },
             sheetState = sheetState
         ) {
+            val editingResult = state.targetDraft != null
             NumberPalette(
-                amount = state.amount,
-                onKey = viewModel::onNumpadClick,
+                amount = if (editingResult) state.targetDraft.orEmpty() else state.amount,
+                onKey = if (editingResult) viewModel::onTargetKey else viewModel::onNumpadClick,
                 onDone = {
-                    viewModel.finishAmountEntry()
+                    if (editingResult) viewModel.finishTargetEntry() else viewModel.finishAmountEntry()
                     showNumberPad = false
                 }
             )
@@ -228,14 +292,14 @@ private fun LazyListScope.batchItems(state: ConverterUiState) {
             headlineContent = { Text(code) },
             supportingContent = { Text(info?.let { currencyName(it.code) } ?: "") },
             leadingContent = { Text(info?.flag ?: "", fontSize = 20.sp) },
-            trailingContent = { Text(formatVal(value), fontWeight = FontWeight.Bold) },
+            trailingContent = { Text(formatMoney(value, code), fontWeight = FontWeight.Bold) },
             modifier = Modifier.padding(bottom = 4.dp)
         )
     }
 }
 
 @Composable
-private fun ResultDisplay(state: ConverterUiState) {
+private fun ResultDisplay(state: ConverterUiState, onEditResult: () -> Unit) {
     val clip = LocalClipboardManager.current
     val context = LocalContext.current
     Card(
@@ -247,7 +311,7 @@ private fun ResultDisplay(state: ConverterUiState) {
                 "${state.fromCurrency.flag} ${state.fromCurrency.code} -> ${state.toCurrency.flag} ${state.toCurrency.code}",
                 style = MaterialTheme.typography.labelMedium
             )
-            val res = state.result?.let { formatVal(it) } ?: "—"
+            val res = state.result?.let { formatMoney(it, state.toCurrency.code) } ?: "—"
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(res, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
                 if (state.result != null) {
@@ -285,7 +349,7 @@ private fun ResultDisplay(state: ConverterUiState) {
                         stringResource(
                             R.string.converter_inverse_rate,
                             state.toCurrency.code,
-                            formatVal(inv),
+                            formatMoney(inv, state.fromCurrency.code),
                             state.fromCurrency.code
                         ),
                         style = MaterialTheme.typography.bodyMedium,
@@ -295,18 +359,158 @@ private fun ResultDisplay(state: ConverterUiState) {
                     )
                 }
             }
-            state.lastUpdated?.let { ts ->
+            if (state.result != null) {
+                TextButton(onClick = onEditResult) { Text(stringResource(R.string.converter_edit_result)) }
+            }
+            val todayValue = state.amount.replace(',', '.').toDoubleOrNull()?.let { amount ->
+                if (state.historicalDate == null) null
+                else ConvertCurrencyUseCase()(amount, state.fromCurrency.code, state.toCurrency.code, state.rates, BASE_CURRENCY)
+            }
+            if (state.result != null && todayValue != null) {
+                val change = profitPercent(state.result, todayValue)
                 Text(
-                    stringResource(R.string.converter_updated, formatRelativeTime(context, ts)),
+                    stringResource(R.string.converter_pnl_today, formatMoney(todayValue, state.toCurrency.code)),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                if (change != null) {
+                    Text(
+                        stringResource(R.string.converter_pnl_change, "%+.2f%%".format(change)),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Medium,
+                        color = if (change >= 0) Color(0xFF2E7D32) else MaterialTheme.colorScheme.error
+                    )
+                }
+            }
+            val spread = state.result?.let { buySell(it, state.spreadPercent) }
+            if (spread != null) {
+                Text(
+                    stringResource(R.string.converter_buy, formatMoney(spread.first, state.toCurrency.code)),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    stringResource(R.string.converter_sell, formatMoney(spread.second, state.toCurrency.code)),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+            val historical = state.historicalLabel?.let(::formatIsoDate)
+            if (historical != null) {
+                Text(
+                    stringResource(R.string.converter_as_of, historical),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
                 )
+            } else {
+                state.lastUpdated?.let { ts ->
+                    Text(
+                        stringResource(R.string.converter_updated, formatRelativeTime(context, ts)),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
+                    )
+                }
             }
         }
     }
 }
 
-private fun formatVal(v: Double) = NumberFormat.getNumberInstance(Locale.getDefault()).apply {
-    minimumFractionDigits = 2
-    maximumFractionDigits = 2
-}.format(v)
+@Composable
+private fun HistoricalDateRow(
+    label: String?,
+    loading: Boolean,
+    error: Boolean,
+    onPick: () -> Unit,
+    onClear: () -> Unit
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            OutlinedButton(onClick = onPick) {
+                Icon(Icons.Default.CalendarMonth, contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.width(8.dp))
+                Text(label?.let(::formatIsoDate) ?: stringResource(R.string.converter_pick_date))
+            }
+            if (label != null || error) {
+                TextButton(onClick = onClear) { Text(stringResource(R.string.converter_latest)) }
+            }
+            if (loading) CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+        }
+        if (error) {
+            Text(
+                stringResource(R.string.converter_history_missing),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun SavedPairsRow(
+    pairs: List<Pair<String, String>>,
+    current: Pair<String, String>,
+    onApply: (String, String) -> Unit,
+    onSave: () -> Unit,
+    onRemove: (String, String) -> Unit,
+    onAlert: (String, String) -> Unit
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                stringResource(R.string.pairs_saved),
+                style = MaterialTheme.typography.labelMedium,
+                modifier = Modifier.weight(1f)
+            )
+            if (current !in pairs && current.first != current.second) {
+                TextButton(onClick = onSave) { Text(stringResource(R.string.pairs_save)) }
+            }
+        }
+        if (pairs.isNotEmpty()) {
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                pairs.forEach { (from, to) ->
+                    FilterChip(
+                        selected = current == from to to,
+                        onClick = { onApply(from, to) },
+                        label = { Text("$from → $to") }
+                    )
+                    IconButton(onClick = { onAlert(from, to) }) {
+                        Icon(Icons.Default.Notifications, stringResource(R.string.pairs_alert))
+                    }
+                    IconButton(onClick = { onRemove(from, to) }) {
+                        Icon(Icons.Default.Close, stringResource(R.string.pairs_remove))
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun Sparkline(points: List<Double>, modifier: Modifier = Modifier) {
+    val color = MaterialTheme.colorScheme.primary
+    Canvas(modifier) {
+        val min = points.min()
+        val max = points.max()
+        val span = (max - min).takeIf { it > 0.0 } ?: 1.0
+        val step = if (points.size == 1) 0f else size.width / (points.size - 1)
+        val offsets = points.mapIndexed { index, value ->
+            Offset(
+                x = step * index,
+                y = size.height - ((value - min) / span * size.height).toFloat()
+            )
+        }
+        for (index in 0 until offsets.lastIndex) {
+            drawLine(
+                color = color,
+                start = offsets[index],
+                end = offsets[index + 1],
+                strokeWidth = 4f,
+                cap = StrokeCap.Round
+            )
+        }
+    }
+}
+
+private fun formatIsoDate(iso: String): String {
+    val date = runCatching { LocalDate.parse(iso) }.getOrNull() ?: return iso
+    val millis = date.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
+    return DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date.from(Instant.ofEpochMilli(millis)))
+}

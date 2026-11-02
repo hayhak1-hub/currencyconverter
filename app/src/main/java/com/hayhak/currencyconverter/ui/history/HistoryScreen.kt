@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +44,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hayhak.currencyconverter.R
 import com.hayhak.currencyconverter.domain.model.HistoricalRate
 import com.hayhak.currencyconverter.domain.model.getFlagEmoji
+import com.hayhak.currencyconverter.domain.model.movingAverage
 import com.hayhak.currencyconverter.ui.components.CurrencySelector
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -54,6 +56,8 @@ fun HistoryScreen(
     isWide: Boolean = false
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    var showSma50 by rememberSaveable { mutableStateOf(false) }
+    var showSma200 by rememberSaveable { mutableStateOf(false) }
 
     val context = LocalContext.current
     val csvSaved = stringResource(R.string.history_csv_saved)
@@ -62,12 +66,12 @@ fun HistoryScreen(
     // Fixed popular pairs, then the user's favorites against USD, and always the current pair.
     val pairs = remember(state.favorites, state.baseCurrency, state.targetCurrency) {
         val list = linkedSetOf(
-            "USD" to "TRY",
-            "EUR" to "TRY",
-            "GBP" to "TRY",
             "USD" to "EUR",
+            "EUR" to "USD",
             "USD" to "GBP",
-            "EUR" to "GBP"
+            "USD" to "JPY",
+            "EUR" to "GBP",
+            "GBP" to "JPY"
         )
         state.favorites.sorted().filter { it != "USD" }.forEach { list.add("USD" to it) }
         list.add(state.baseCurrency to state.targetCurrency)
@@ -182,6 +186,23 @@ fun HistoryScreen(
                 }
             }
 
+            // Moving averages need enough history and are not drawn on the normalized comparison chart.
+            val sma50 = remember(state.data) { movingAverage(state.data, 50) }
+            val sma200 = remember(state.data) { movingAverage(state.data, 200) }
+            if (!state.compareEnabled && (sma50.isNotEmpty() || sma200.isNotEmpty())) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    if (sma50.isNotEmpty()) {
+                        SmaChip("SMA 50", Sma50Color, showSma50) { showSma50 = it }
+                    }
+                    if (sma200.isNotEmpty()) {
+                        SmaChip("SMA 200", Sma200Color, showSma200) { showSma200 = it }
+                    }
+                }
+            }
+
             if (state.isLoading) {
                 Box(Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
@@ -199,6 +220,10 @@ fun HistoryScreen(
                             compareData = if (state.compareEnabled) state.compareData else emptyList(),
                             lineColor = MaterialTheme.colorScheme.primary,
                             compareColor = CompareLineColor,
+                            overlays = if (state.compareEnabled) emptyList() else listOfNotNull(
+                                if (showSma50 && sma50.isNotEmpty()) sma50 to Sma50Color else null,
+                                if (showSma200 && sma200.isNotEmpty()) sma200 to Sma200Color else null
+                            ),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(if (isWide) 340.dp else 250.dp)
@@ -241,13 +266,27 @@ fun HistoryScreen(
     }
 }
 
+private val Sma50Color = Color(0xFF9CCC65)
+private val Sma200Color = Color(0xFFBA68C8)
+
+@Composable
+private fun SmaChip(label: String, color: Color, selected: Boolean, onToggle: (Boolean) -> Unit) {
+    FilterChip(
+        selected = selected,
+        onClick = { onToggle(!selected) },
+        label = { Text(label) },
+        leadingIcon = { Box(Modifier.size(10.dp).background(color, CircleShape)) }
+    )
+}
+
 @Composable
 private fun RateChart(
     data: List<HistoricalRate>,
     compareData: List<HistoricalRate>,
     lineColor: Color,
     compareColor: Color,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    overlays: List<Pair<List<HistoricalRate>, Color>> = emptyList()
 ) {
     if (data.isEmpty()) return
 
@@ -386,6 +425,11 @@ private fun RateChart(
 
         drawSeries(points, lineColor, fill = true)
         drawSeries(comparePoints, compareColor, fill = false)
+        if (!comparing) {
+            overlays.forEach { (series, color) ->
+                drawSeries(seriesPoints(series, chartL, chartT, chartW, chartH), color, fill = false)
+            }
+        }
 
         val idx = selectedIndex
         if (idx != null && idx in data.indices) {
@@ -430,6 +474,7 @@ private fun formatYLabel(rate: Double): String = when {
     else           -> "%.4f".format(rate)
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun RateSummary(data: List<HistoricalRate>) {
     if (data.isEmpty()) return
@@ -439,9 +484,11 @@ private fun RateSummary(data: List<HistoricalRate>) {
     val first = data.first()
     val change = if (first.rate != 0.0) (last.rate - first.rate) / first.rate * 100.0 else null
 
-    Row(
+    // Wraps to a second line instead of letting long labels and values run into each other.
+    FlowRow(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         SummaryItem(stringResource(R.string.history_low), "%.4f".format(min))
         SummaryItem(stringResource(R.string.history_high), "%.4f".format(max))
@@ -455,6 +502,7 @@ private fun RateSummary(data: List<HistoricalRate>) {
 private val CompareLineColor = Color(0xFFFFB300)
 
 /** Percent change per series, colored like the lines, since the chart is normalized when comparing. */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun ComparisonSummary(
     primaryLabel: String,
@@ -469,7 +517,11 @@ private fun ComparisonSummary(
         val last = series.last().rate
         return if (first != 0.0) "%+.2f%%".format((last - first) / first * 100.0) else "—"
     }
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
         LegendItem(primaryLabel, change(primary), primaryColor)
         LegendItem(compareLabel, change(compare), compareColor)
     }

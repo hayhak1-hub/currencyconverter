@@ -37,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hayhak.currencyconverter.R
 import com.hayhak.currencyconverter.domain.model.SUPPORTED_CURRENCIES
+import com.hayhak.currencyconverter.ui.components.AlarmDirectionChips
 import com.hayhak.currencyconverter.ui.theme.TrendDown
 import com.hayhak.currencyconverter.ui.theme.TrendDownDark
 import com.hayhak.currencyconverter.ui.theme.TrendUp
@@ -49,7 +50,7 @@ import java.util.Locale
 
 private enum class RateSort { DEFAULT, CHANGE, RATE }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel = hiltViewModel(),
@@ -124,11 +125,20 @@ fun DashboardScreen(
         RateSort.RATE -> sortedByDescending { it.rateToTry }
     }
 
-    val favoriteRows = remember(allRateRows, state.favorites, query, sortMode) {
+    val favoriteRows = remember(allRateRows, state.favorites, state.favoriteOrder, query, sortMode) {
         allRateRows
             .filter { it.code in state.favorites }
             .filter(::rowMatchesQuery)
-            .sortedBy(sortMode)
+            .let { rows ->
+                if (sortMode == RateSort.DEFAULT) {
+                    rows.sortedBy { code ->
+                        val index = state.favoriteOrder.indexOf(code.code)
+                        if (index < 0) Int.MAX_VALUE else index
+                    }
+                } else {
+                    rows.sortedBy(sortMode)
+                }
+            }
     }
     val otherRows = remember(allRateRows, state.favorites, query, sortMode) {
         allRateRows
@@ -161,9 +171,6 @@ fun DashboardScreen(
                         onSelect = viewModel::onBaseCurrencyChange,
                         modifier = Modifier.weight(1f)
                     )
-                    TextButton(onClick = onNavigateToAlerts) {
-                        Text(stringResource(R.string.nav_alerts))
-                    }
                     state.lastUpdated?.let { ts ->
                         Text(
                             text  = formatRelativeTime(ts),
@@ -192,9 +199,11 @@ fun DashboardScreen(
                     singleLine = true
                 )
 
-                Row(
+                // A flow layout keeps long translations and large fonts from squeezing a chip to nothing.
+                FlowRow(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(0.dp)
                 ) {
                     RateSort.entries.forEach { mode ->
                         FilterChip(
@@ -213,6 +222,9 @@ fun DashboardScreen(
                             }
                         )
                     }
+                    TextButton(onClick = onNavigateToAlerts) {
+                        Text(stringResource(R.string.nav_alerts))
+                    }
                 }
 
                 if (state.isLoading) {
@@ -224,6 +236,11 @@ fun DashboardScreen(
                         columns = GridCells.Fixed(if (isWide) 2 else 1),
                         modifier = Modifier.fillMaxSize()
                     ) {
+                        val movers = if (query.isBlank()) topMovers(allRateRows) else null
+                        if (movers != null && !movers.isEmpty) {
+                            item(span = { GridItemSpan(maxLineSpan) }) { MoversCard(movers) }
+                        }
+
                         if (favoriteRows.isNotEmpty()) {
                             item(span = { GridItemSpan(maxLineSpan) }) {
                                 Text(
@@ -443,10 +460,7 @@ private fun AlarmDialog(
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    FilterChip(selected = isAbove, onClick = { isAbove = true }, label = { Text(stringResource(R.string.alarm_when_above)) })
-                    FilterChip(selected = !isAbove, onClick = { isAbove = false }, label = { Text(stringResource(R.string.alarm_when_below)) })
-                }
+                AlarmDirectionChips(isAbove = isAbove, onChange = { isAbove = it })
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Checkbox(checked = repeating, onCheckedChange = { repeating = it })
                     Text(stringResource(R.string.alarm_repeating), style = MaterialTheme.typography.bodyMedium)

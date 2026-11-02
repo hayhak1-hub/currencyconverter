@@ -89,6 +89,7 @@ class ExchangeRateRepositoryImplTest {
         private val latest: List<FrankfurterRateDto> = emptyList()
     ) : ExchangeRateApi {
         override suspend fun getLatestRates(base: String) = latest
+        override suspend fun getRatesBetween(base: String, from: String, to: String, quotes: String?) = emptyList<FrankfurterRateDto>()
         override suspend fun getHistoricalRates(
             base: String, quotes: String, from: String, to: String, group: String?
         ) = emptyList<FrankfurterRateDto>()

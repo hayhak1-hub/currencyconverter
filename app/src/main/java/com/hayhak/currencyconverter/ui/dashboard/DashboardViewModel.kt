@@ -32,8 +32,8 @@ class DashboardViewModel @Inject constructor(
 
     init {
         // Favorileri state'e yaz (SettingsScreen bunu okur)
-        userPrefs.favorites
-            .onEach { favs -> _uiState.update { it.copy(favorites = favs) } }
+        userPrefs.favoriteOrder
+            .onEach { order -> _uiState.update { it.copy(favorites = order.toSet(), favoriteOrder = order) } }
             .launchIn(viewModelScope)
 
         viewModelScope.launch {
@@ -80,6 +80,10 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    fun moveFavorite(fromIndex: Int, toIndex: Int) {
+        viewModelScope.launch { userPrefs.moveFavorite(fromIndex, toIndex) }
+    }
+
     fun showAlarmDialog(row: CurrencyRow?) {
         _uiState.update { it.copy(showAlarmDialog = row) }
     }
@@ -112,11 +116,16 @@ class DashboardViewModel @Inject constructor(
         }
 
         // Without stored history there is no "yesterday" for the change column on a fresh install.
+        // One request covers every listed currency (needed for the top gainers and losers), and a
+        // process-wide timestamp keeps reopening the screen from repeating it.
         viewModelScope.launch {
-            val targets = userPrefs.favorites.first().filter { it != base }.sorted()
+            val recent = historyFetchedAt[base]?.let { System.currentTimeMillis() - it < HISTORY_MIN_AGE_MS } == true
+            if (recent) return@launch
+            val targets = SUPPORTED_CURRENCIES.map { it.code }.filter { it != base }.sorted()
             if (targets.isEmpty()) return@launch
             try {
                 repository.refreshHistoricalRates(base, targets.joinToString(","), 7)
+                historyFetchedAt[base] = System.currentTimeMillis()
                 historyLoaded.update { it + 1 }
             } catch (e: Exception) {
                 if (e is kotlinx.coroutines.CancellationException) throw e
@@ -183,5 +192,10 @@ class DashboardViewModel @Inject constructor(
 
     fun clearError() {
         _uiState.update { it.copy(error = null) }
+    }
+
+    private companion object {
+        val historyFetchedAt = java.util.concurrent.ConcurrentHashMap<String, Long>()
+        const val HISTORY_MIN_AGE_MS = 6 * 60 * 60 * 1000L
     }
 }

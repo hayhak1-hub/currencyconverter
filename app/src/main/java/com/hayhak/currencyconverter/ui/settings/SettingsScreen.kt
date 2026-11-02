@@ -212,6 +212,13 @@ fun SettingsScreen(
                     leadingIcon    = { Icon(Icons.Default.Search, null) },
                     singleLine     = true
                 )
+                if (searchQuery.isBlank()) {
+                    FavoriteReorderList(
+                        codes = favState.favoriteOrder,
+                        onMove = favViewModel::moveFavorite,
+                        modifier = Modifier.padding(bottom = 12.dp)
+                    )
+                }
 
                 Surface(
                     shape = MaterialTheme.shapes.medium,
@@ -271,6 +278,10 @@ fun SettingsScreen(
         Spacer(Modifier.height(16.dp))
         HorizontalDivider()
         Spacer(Modifier.height(16.dp))
+        SettingsToolsSection()
+        Spacer(Modifier.height(16.dp))
+        HorizontalDivider()
+        Spacer(Modifier.height(16.dp))
         AboutSection(
             checkingUpdate = checkingUpdate,
             onCheckUpdate = {
@@ -314,7 +325,7 @@ private fun WidgetSettingsSection(viewModel: WidgetConfigViewModel = hiltViewMod
     val base by viewModel.base.collectAsStateWithLifecycle()
     val codes by viewModel.codes.collectAsStateWithLifecycle()
     val favorites by viewModel.favorites.collectAsStateWithLifecycle()
-    val majors = listOf("USD", "EUR", "GBP", "CHF", "TRY", "JPY", "CAD", "AUD")
+    val majors = listOf("USD", "EUR", "GBP", "JPY", "CHF", "CAD", "AUD", "CNY")
     val options = (codes + favorites + majors).distinct().filter { it != base }
     val baseInfo = SUPPORTED_CURRENCIES.find { it.code == base } ?: return
     val addCurrency = SUPPORTED_CURRENCIES.find { it.code !in codes && it.code != base } ?: SUPPORTED_CURRENCIES.first()

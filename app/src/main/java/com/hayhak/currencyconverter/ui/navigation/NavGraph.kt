@@ -146,6 +146,8 @@ fun CurrencyNavGraph(
     val density = LocalDensity.current
     val isWide = windowWidth == WindowWidthSizeClass.Expanded
     var pendingPair by remember { mutableStateOf<Pair<String, String>?>(null) }
+    var pendingAmount by remember { mutableStateOf<String?>(null) }
+    var pendingAlert by remember { mutableStateOf<Pair<String, String>?>(null) }
 
     val networkMonitor = remember(context) { NetworkMonitor(context) }
     val isOnline by networkMonitor.isOnline.collectAsStateWithLifecycle(initialValue = true)
@@ -155,6 +157,7 @@ fun CurrencyNavGraph(
         if (!extras.from.isNullOrBlank() && !extras.target.isNullOrBlank()) {
             pendingPair = extras.from to extras.target
         }
+        if (!extras.amount.isNullOrBlank()) pendingAmount = extras.amount
         when (extras.route) {
             MainActivity.NAV_ALERTS -> navController.navigate(Screen.Alerts.route) {
                 launchSingleTop = true
@@ -386,13 +389,24 @@ fun CurrencyNavGraph(
                     ) {
                     composable(Screen.Converter.route) {
                         val converterVm: ConverterViewModel = hiltViewModel()
-                        LaunchedEffect(launchExtras?.from, launchExtras?.target, pendingPair) {
+                        LaunchedEffect(launchExtras?.from, launchExtras?.target, launchExtras?.amount, pendingPair, pendingAmount) {
                             val from = pendingPair?.first ?: launchExtras?.from
                             val to = pendingPair?.second ?: launchExtras?.target
-                            if (from != null && to != null) converterVm.applyPair(from, to)
+                            val amount = pendingAmount ?: launchExtras?.amount
+                            if (from != null || to != null || amount != null) {
+                                converterVm.applyLaunch(from, to, amount)
+                            }
                             pendingPair = null
+                            pendingAmount = null
                         }
-                        ConverterScreen(viewModel = converterVm, isWide = isWide)
+                        ConverterScreen(
+                            viewModel = converterVm,
+                            isWide = isWide,
+                            onAlertPair = { from, to ->
+                                pendingAlert = from to to
+                                navigateTo(Screen.Alerts)
+                            }
+                        )
                     }
                     composable(Screen.Dashboard.route) {
                         DashboardScreen(
@@ -405,6 +419,8 @@ fun CurrencyNavGraph(
                     composable(Screen.Metals.route) { MetalsScreen(isWide = isWide) }
                     composable(Screen.Alerts.route) {
                         AlertsScreen(
+                            prefill = pendingAlert,
+                            onPrefillConsumed = { pendingAlert = null },
                             onOpenPair = { from, to ->
                                 pendingPair = from to to
                                 navigateTo(Screen.Converter)

@@ -34,6 +34,7 @@
 -keep class com.hayhak.currencyconverter.domain.model.SavedConversion { *; }
 -keep class com.hayhak.currencyconverter.ui.metals.CachedMetal { *; }
 -keep class com.hayhak.currencyconverter.domain.model.RateAlarm { *; }
+-keep class com.hayhak.currencyconverter.domain.model.AppBackup { *; }
 
 # Glance / WorkManager workers
 -keep class * extends androidx.work.Worker

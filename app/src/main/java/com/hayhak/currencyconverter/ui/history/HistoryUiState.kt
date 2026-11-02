@@ -16,9 +16,9 @@ enum class TimeRange(val labelRes: Int, val days: Int) {
 
 data class HistoryUiState(
     val baseCurrency: String = "USD",
-    val targetCurrency: String = "TRY",
+    val targetCurrency: String = "EUR",
     val baseInfo: CurrencyInfo? = currencyByCode("USD"),
-    val targetInfo: CurrencyInfo? = currencyByCode("TRY"),
+    val targetInfo: CurrencyInfo? = currencyByCode("EUR"),
     val timeRange: TimeRange = TimeRange.ONE_WEEK,
     val data: List<HistoricalRate> = emptyList(),
     val compareEnabled: Boolean = false,

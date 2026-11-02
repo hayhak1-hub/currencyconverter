@@ -2,11 +2,15 @@ package com.hayhak.currencyconverter.data.repository
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.hayhak.currencyconverter.domain.model.AppBackup
+import com.hayhak.currencyconverter.domain.model.QuietHours
 import com.hayhak.currencyconverter.domain.model.RateAlarm
 import com.hayhak.currencyconverter.domain.model.RatePromptState
 import com.hayhak.currencyconverter.domain.repository.UserPreferencesRepository
@@ -30,6 +34,13 @@ class UserPreferencesRepositoryImpl @Inject constructor(
 
     private object PreferencesKeys {
         val FAVORITES = stringSetPreferencesKey("favorites")
+        val FAVORITE_ORDER = stringPreferencesKey("favorite_order")
+        val SPREAD_PERCENT = doublePreferencesKey("spread_percent")
+        val QUIET_ENABLED = booleanPreferencesKey("quiet_hours_enabled")
+        val QUIET_START = intPreferencesKey("quiet_hours_start")
+        val QUIET_END = intPreferencesKey("quiet_hours_end")
+        val SAVED_PAIRS = stringPreferencesKey("saved_pairs")
+        val MORNING_DIGEST = booleanPreferencesKey("morning_digest")
         val LAST_FROM = stringPreferencesKey("last_from")
         val LAST_TO = stringPreferencesKey("last_to")
         val HISTORY_BASE = stringPreferencesKey("history_base")
@@ -46,11 +57,35 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         val RATE_PROMPT_ACCEPTED = booleanPreferencesKey("rate_prompt_accepted")
     }
 
-    private val defaultFavorites = setOf("USD", "EUR", "GBP", "TRY")
+    private val defaultFavorites = setOf("USD", "EUR", "GBP", "JPY")
     private val defaultWidgetCodes = listOf("USD", "EUR", "GBP", "CHF")
 
     override val favorites: Flow<Set<String>> = context.dataStore.data.map {
         it[PreferencesKeys.FAVORITES] ?: defaultFavorites
+    }
+
+    override val favoriteOrder: Flow<List<String>> = context.dataStore.data.map { prefs ->
+        orderedFavorites(prefs[PreferencesKeys.FAVORITES] ?: defaultFavorites, prefs[PreferencesKeys.FAVORITE_ORDER])
+    }
+
+    override val spreadPercent: Flow<Double> = context.dataStore.data.map {
+        (it[PreferencesKeys.SPREAD_PERCENT] ?: 1.0).coerceIn(0.0, 20.0)
+    }
+
+    override val quietHours: Flow<QuietHours> = context.dataStore.data.map {
+        QuietHours(
+            enabled = it[PreferencesKeys.QUIET_ENABLED] ?: false,
+            startMinute = it[PreferencesKeys.QUIET_START] ?: (23 * 60),
+            endMinute = it[PreferencesKeys.QUIET_END] ?: (8 * 60)
+        )
+    }
+
+    override val savedPairs: Flow<List<Pair<String, String>>> = context.dataStore.data.map {
+        decodePairs(it[PreferencesKeys.SAVED_PAIRS])
+    }
+
+    override val morningDigest: Flow<Boolean> = context.dataStore.data.map {
+        it[PreferencesKeys.MORNING_DIGEST] ?: true
     }
 
     override val lastFromCurrency: Flow<String> = context.dataStore.data.map {
@@ -58,7 +93,7 @@ class UserPreferencesRepositoryImpl @Inject constructor(
     }
 
     override val lastToCurrency: Flow<String> = context.dataStore.data.map {
-        it[PreferencesKeys.LAST_TO] ?: "TRY"
+        it[PreferencesKeys.LAST_TO] ?: "EUR"
     }
 
     override val lastHistoryBase: Flow<String> = context.dataStore.data.map {
@@ -66,7 +101,7 @@ class UserPreferencesRepositoryImpl @Inject constructor(
     }
 
     override val lastHistoryTarget: Flow<String> = context.dataStore.data.map {
-        it[PreferencesKeys.HISTORY_TARGET] ?: "TRY"
+        it[PreferencesKeys.HISTORY_TARGET] ?: "EUR"
     }
 
     override val historyRange: Flow<String> = context.dataStore.data.map {
@@ -92,7 +127,125 @@ class UserPreferencesRepositoryImpl @Inject constructor(
             val current = prefs[PreferencesKeys.FAVORITES] ?: defaultFavorites
             val next = if (current.contains(code)) current - code else current + code
             prefs[PreferencesKeys.FAVORITES] = next
+            val order = orderedFavorites(current, prefs[PreferencesKeys.FAVORITE_ORDER]).toMutableList()
+            if (code in current) order.remove(code) else if (code !in order) order.add(code)
+            prefs[PreferencesKeys.FAVORITE_ORDER] = order.filter { it in next }.joinToString(",")
         }
+    }
+
+    override suspend fun moveFavorite(fromIndex: Int, toIndex: Int) {
+        context.dataStore.edit { prefs ->
+            val set = prefs[PreferencesKeys.FAVORITES] ?: defaultFavorites
+            val order = orderedFavorites(set, prefs[PreferencesKeys.FAVORITE_ORDER]).toMutableList()
+            if (fromIndex !in order.indices || toIndex !in order.indices || fromIndex == toIndex) return@edit
+            val item = order.removeAt(fromIndex)
+            order.add(toIndex, item)
+            prefs[PreferencesKeys.FAVORITE_ORDER] = order.joinToString(",")
+        }
+    }
+
+    override suspend fun setSpreadPercent(percent: Double) {
+        context.dataStore.edit { prefs ->
+            prefs[PreferencesKeys.SPREAD_PERCENT] = percent.coerceIn(0.0, 20.0)
+        }
+    }
+
+    override suspend fun setQuietHours(hours: QuietHours) {
+        context.dataStore.edit { prefs ->
+            prefs[PreferencesKeys.QUIET_ENABLED] = hours.enabled
+            prefs[PreferencesKeys.QUIET_START] = hours.startMinute.coerceIn(0, 24 * 60 - 1)
+            prefs[PreferencesKeys.QUIET_END] = hours.endMinute.coerceIn(0, 24 * 60 - 1)
+        }
+    }
+
+    override suspend fun savePair(from: String, to: String) {
+        if (from.equals(to, ignoreCase = true)) return
+        context.dataStore.edit { prefs ->
+            val next = decodePairs(prefs[PreferencesKeys.SAVED_PAIRS]).toMutableList()
+            val pair = from.uppercase() to to.uppercase()
+            if (pair !in next) next.add(0, pair)
+            prefs[PreferencesKeys.SAVED_PAIRS] = encodePairs(next.take(12))
+        }
+    }
+
+    override suspend fun removePair(from: String, to: String) {
+        context.dataStore.edit { prefs ->
+            val next = decodePairs(prefs[PreferencesKeys.SAVED_PAIRS])
+                .filterNot { it.first == from.uppercase() && it.second == to.uppercase() }
+            prefs[PreferencesKeys.SAVED_PAIRS] = encodePairs(next)
+        }
+    }
+
+    override suspend fun setMorningDigest(enabled: Boolean) {
+        context.dataStore.edit { prefs -> prefs[PreferencesKeys.MORNING_DIGEST] = enabled }
+    }
+
+    override suspend fun exportBackup(): AppBackup {
+        val prefs = context.dataStore.data.first()
+        val favorites = orderedFavorites(
+            prefs[PreferencesKeys.FAVORITES] ?: defaultFavorites,
+            prefs[PreferencesKeys.FAVORITE_ORDER]
+        )
+        val alarmJson = prefs[PreferencesKeys.ALARMS] ?: "[]"
+        val alarmType = object : TypeToken<List<RateAlarm>>() {}.type
+        val alarms: List<RateAlarm> = gson.fromJson(alarmJson, alarmType)
+        val widgetCodes = prefs[PreferencesKeys.WIDGET_CODES]
+            ?.split(",")
+            ?.map { it.trim() }
+            ?.filter { it.isNotEmpty() }
+            ?: defaultWidgetCodes
+        return AppBackup(
+            favorites = favorites,
+            alarms = alarms,
+            widgetBase = prefs[PreferencesKeys.WIDGET_BASE] ?: (prefs[PreferencesKeys.DASHBOARD_BASE] ?: "USD"),
+            widgetCodes = widgetCodes,
+            spreadPercent = (prefs[PreferencesKeys.SPREAD_PERCENT] ?: 1.0).coerceIn(0.0, 20.0),
+            quietHoursEnabled = prefs[PreferencesKeys.QUIET_ENABLED] ?: false,
+            quietStartMinute = prefs[PreferencesKeys.QUIET_START] ?: (23 * 60),
+            quietEndMinute = prefs[PreferencesKeys.QUIET_END] ?: (8 * 60),
+            savedPairs = decodePairs(prefs[PreferencesKeys.SAVED_PAIRS]).map { "${it.first}>${it.second}" },
+            morningDigest = prefs[PreferencesKeys.MORNING_DIGEST] ?: true
+        )
+    }
+
+    override suspend fun importBackup(backup: AppBackup) {
+        val codes = backup.favorites.map { it.trim().uppercase() }.filter { it.length == 3 }.distinct()
+        context.dataStore.edit { prefs ->
+            prefs[PreferencesKeys.FAVORITES] = codes.toSet()
+            prefs[PreferencesKeys.FAVORITE_ORDER] = codes.joinToString(",")
+            prefs[PreferencesKeys.ALARMS] = gson.toJson(backup.alarms)
+            prefs[PreferencesKeys.WIDGET_BASE] = backup.widgetBase.ifBlank { "USD" }
+            prefs[PreferencesKeys.WIDGET_CODES] = backup.widgetCodes.joinToString(",")
+            prefs[PreferencesKeys.SPREAD_PERCENT] = backup.spreadPercent.coerceIn(0.0, 20.0)
+            prefs[PreferencesKeys.QUIET_ENABLED] = backup.quietHoursEnabled
+            prefs[PreferencesKeys.QUIET_START] = backup.quietStartMinute.coerceIn(0, 24 * 60 - 1)
+            prefs[PreferencesKeys.QUIET_END] = backup.quietEndMinute.coerceIn(0, 24 * 60 - 1)
+            backup.savedPairs?.let { prefs[PreferencesKeys.SAVED_PAIRS] = encodePairs(decodePairs(it.joinToString("|"))) }
+            backup.morningDigest?.let { prefs[PreferencesKeys.MORNING_DIGEST] = it }
+        }
+    }
+
+    private fun decodePairs(raw: String?): List<Pair<String, String>> {
+        if (raw.isNullOrBlank()) return emptyList()
+        return raw.split('|').mapNotNull { token ->
+            val parts = token.split('>')
+            if (parts.size != 2) return@mapNotNull null
+            val from = parts[0].trim().uppercase()
+            val to = parts[1].trim().uppercase()
+            if (from.length != 3 || to.length != 3 || from == to) null else from to to
+        }.distinct()
+    }
+
+    private fun encodePairs(pairs: List<Pair<String, String>>): String =
+        pairs.joinToString("|") { "${it.first}>${it.second}" }
+
+    private fun orderedFavorites(set: Set<String>, raw: String?): List<String> {
+        if (raw == null) {
+            val defaults = defaultFavorites.filter { it in set }
+            return defaults + set.filter { it !in defaults }
+        }
+        val stored = raw.split(",").map { it.trim() }.filter { it.isNotEmpty() && it in set }
+        return stored + set.filter { it !in stored }
     }
 
     override suspend fun saveLastConverterCurrencies(from: String, to: String) {

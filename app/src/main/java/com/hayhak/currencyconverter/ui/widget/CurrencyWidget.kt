@@ -13,6 +13,7 @@ import androidx.glance.GlanceModifier
 import androidx.glance.LocalSize
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.action.actionRunCallback
@@ -34,6 +35,7 @@ import androidx.glance.text.TextStyle
 import com.hayhak.currencyconverter.MainActivity
 import com.hayhak.currencyconverter.domain.model.getFlagEmoji
 import com.hayhak.currencyconverter.domain.model.quotePerUnit
+import java.util.concurrent.TimeUnit
 import com.hayhak.currencyconverter.domain.repository.ExchangeRateRepository
 import com.hayhak.currencyconverter.domain.repository.UserPreferencesRepository
 import dagger.hilt.EntryPoint
@@ -67,6 +69,10 @@ class CurrencyWidget : GlanceAppWidget() {
         val repository = entryPoint.repository()
         val userPrefs = entryPoint.userPrefs()
 
+        val appWidgetId = GlanceAppWidgetManager(context).getAppWidgetId(id)
+        val yesterday = runCatching {
+            repository.getRatesBefore("USD", System.currentTimeMillis() - TimeUnit.HOURS.toMillis(20))?.rates
+        }.getOrNull() ?: emptyMap()
         val initial = combine(
             repository.getLatestRates("USD"),
             userPrefs.widgetBase,
@@ -81,7 +87,10 @@ class CurrencyWidget : GlanceAppWidget() {
             ) { rates, base, codes -> Triple(rates, base, codes) }
                 .collectAsState(initial = initial)
 
-            val (exchangeRate, quote, codes) = snapshot
+            val (exchangeRate, globalQuote, globalCodes) = snapshot
+            val instance = WidgetInstanceStore.load(context, appWidgetId)
+            val quote = instance?.first ?: globalQuote
+            val codes = instance?.second ?: globalCodes
             val usdRates = exchangeRate?.rates ?: emptyMap()
             val size = LocalSize.current
             val maxRows = when {
@@ -113,6 +122,11 @@ class CurrencyWidget : GlanceAppWidget() {
                         modifier = GlanceModifier.defaultWeight()
                     )
                     Text(
+                        "✎",
+                        style = TextStyle(color = RATE, fontSize = 14.sp, fontWeight = FontWeight.Bold),
+                        modifier = GlanceModifier.clickable(actionRunCallback<WidgetEditAction>())
+                    )
+                    Text(
                         "↻",
                         style = TextStyle(color = RATE, fontSize = 16.sp, fontWeight = FontWeight.Bold),
                         modifier = GlanceModifier.clickable(actionRunCallback<WidgetRefreshAction>())
@@ -123,13 +137,17 @@ class CurrencyWidget : GlanceAppWidget() {
 
                 rows.forEachIndexed { i, code ->
                     val rate = quotePerUnit(code, quote, usdRates)
+                    val previous = quotePerUnit(code, quote, yesterday)
+                    val change = if (rate != null && previous != null && previous != 0.0) {
+                        (rate - previous) / previous * 100.0
+                    } else null
                     val openPair = Intent(context, MainActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                         putExtra(MainActivity.EXTRA_NAV, MainActivity.NAV_CONVERTER)
                         putExtra(MainActivity.EXTRA_FROM, code)
                         putExtra(MainActivity.EXTRA_TARGET, quote)
                     }
-                    RateRow(getFlagEmoji(code), code, rate, quote, openPair)
+                    RateRow(getFlagEmoji(code), code, rate, quote, change, openPair)
                     if (i != rows.lastIndex) Spacer(GlanceModifier.height(5.dp))
                 }
 
@@ -152,6 +170,8 @@ class CurrencyWidget : GlanceAppWidget() {
         val LABEL = ColorProvider(day = Color(0xFF1C1B1F), night = Color(0xFFE6E1E5))
         val RATE = ColorProvider(day = Color(0xFF1565C0), night = Color(0xFF4FC3F7))
         val SUBTLE = ColorProvider(day = Color(0xFF79747E), night = Color(0xFF938F99))
+        val UP = ColorProvider(day = Color(0xFF2E7D32), night = Color(0xFF81C784))
+        val DOWN = ColorProvider(day = Color(0xFFC62828), night = Color(0xFFEF9A9A))
 
         fun formatTime(context: Context, ts: Long): String {
             val mins = ((System.currentTimeMillis() - ts) / 60_000).toInt()
@@ -168,7 +188,7 @@ class CurrencyWidget : GlanceAppWidget() {
 }
 
 @androidx.compose.runtime.Composable
-private fun RateRow(flag: String, code: String, rate: Double?, quote: String, openPair: Intent) {
+private fun RateRow(flag: String, code: String, rate: Double?, quote: String, change: Double?, openPair: Intent) {
     Row(
         modifier = GlanceModifier.fillMaxWidth().clickable(actionStartActivity(openPair)),
         verticalAlignment = Alignment.CenterVertically
@@ -182,10 +202,22 @@ private fun RateRow(flag: String, code: String, rate: Double?, quote: String, op
             ),
             modifier = GlanceModifier.defaultWeight()
         )
-        Text(
-            text = if (rate != null && rate > 0) "%.4f %s".format(rate, quote) else "—",
-            style = TextStyle(color = CurrencyWidget.RATE, fontSize = 13.sp, fontWeight = FontWeight.Bold)
-        )
+        Column(horizontalAlignment = Alignment.Horizontal.End) {
+            Text(
+                text = if (rate != null && rate > 0) "%.4f %s".format(rate, quote) else "—",
+                style = TextStyle(color = CurrencyWidget.RATE, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+            )
+            if (change != null) {
+                Text(
+                    text = "%+.1f%%".format(change),
+                    style = TextStyle(
+                        color = if (change >= 0) CurrencyWidget.UP else CurrencyWidget.DOWN,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                )
+            }
+        }
     }
 }
 
@@ -202,5 +234,21 @@ class WidgetRefreshAction : ActionCallback {
             entryPoint.repository().refreshRates("USD")
         } catch (_: Exception) { }
         CurrencyWidget().update(context, glanceId)
+    }
+}
+
+class WidgetEditAction : ActionCallback {
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: androidx.glance.action.ActionParameters
+    ) {
+        val appWidgetId = androidx.glance.appwidget.GlanceAppWidgetManager(context).getAppWidgetId(glanceId)
+        val intent = Intent(context, WidgetConfigureActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            putExtra(android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            putExtra(WidgetConfigureActivity.EXTRA_EDITING, true)
+        }
+        context.startActivity(intent)
     }
 }

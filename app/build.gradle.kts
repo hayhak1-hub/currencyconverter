@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 val keystorePropertiesFile = rootProject.file("keystore/keystore.properties")
@@ -28,8 +29,8 @@ android {
         applicationId = "com.hayhak.currencyConverter"
         minSdk = 24
         targetSdk = 36
-        versionCode = 11
-        versionName = "1.0.8"
+        versionCode = 12
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -136,6 +137,8 @@ dependencies {
     implementation(libs.androidx.glance.appwidget)
     implementation(libs.androidx.glance.material3)
 
+
+
     // Adaptive / Tablet
     implementation(libs.material3.window.size)
     implementation(libs.material3.adaptive.nav)
@@ -150,6 +153,7 @@ dependencies {
     // Google Analytics (Firebase)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
 
     // Test
     testImplementation(libs.junit)

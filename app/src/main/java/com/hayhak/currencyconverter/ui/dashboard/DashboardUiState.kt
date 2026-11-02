@@ -21,6 +21,7 @@ data class DashboardUiState(
     val allRates: Map<String, Double> = emptyMap(),
     val baseCurrency: String = "USD",
     val favorites: Set<String> = emptySet(),
+    val favoriteOrder: List<String> = emptyList(),
     val sortOption: DashboardSortOption = DashboardSortOption.DEFAULT,
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,

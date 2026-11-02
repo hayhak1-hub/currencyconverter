@@ -1,223 +1,163 @@
 # Google Play — release notes (max 500 chars per locale)
 # Paste into Play Console → Release → Release notes
-# Version 1.0.7 (versionCode 10) — update, not a first release
+# Version 1.0.8 (versionCode 11) — update, not a first release
 
 <en-US>
-• Add rate alerts right from the Alerts screen with the + button
-• History: new 5-day range, CSV export, a clearer comparison chart, and your range is remembered
-• Daily % change now shows right after install
-• Sort rates by change or by rate
-• Choose the currency for metal prices
-• Converter results update instantly and the whole screen scrolls
-• Faster start with fewer network requests
-• Translations completed in all 20 languages
+• Live Wi-Fi & network status monitoring with full offline support
+• Inverse conversion rates (1 EUR = 1.08 USD) & quick copy/share in converter
+• Customizable currency selection on the Statistics screen
+• Sort live rates by Name, Rate, and 24h Change
+• Performance and responsiveness optimizations
 </en-US>
 
 <de-DE>
-• Kursalarme direkt im Bereich Alarme mit + anlegen
-• Verlauf: neuer 5-Tage-Zeitraum, CSV-Export, klareres Vergleichsdiagramm; der Zeitraum wird gemerkt
-• Tägliche %-Änderung erscheint gleich nach der Installation
-• Kurse nach Änderung oder Kurs sortieren
-• Währung für Metallpreise wählbar
-• Rechner-Ergebnisse aktualisieren sich sofort, der ganze Bildschirm scrollt
-• Schnellerer Start mit weniger Netzwerkanfragen
-• Übersetzungen in allen 20 Sprachen vervollständigt
+• Live-WLAN- und Netzwerkanzeige mit vollwertiger Offline-Unterstützung
+• Umgekehrte Wechselkurse (1 EUR = 1,08 USD) und schnelles Kopieren und Teilen im Rechner
+• Anpassbare Währungsauswahl auf dem Statistik-Bildschirm
+• Live-Kurse nach Name, Kurs und 24-Stunden-Änderung sortieren
+• Leistungs- und Reaktionsoptimierungen
 </de-DE>
 
 <tr-TR>
-• Alarmlar ekranında + düğmesiyle doğrudan kur alarmı ekleyin
-• Geçmiş: yeni 5 günlük aralık, CSV dışa aktarma, daha anlaşılır karşılaştırma grafiği; seçtiğiniz aralık hatırlanıyor
-• Günlük yüzde değişim artık kurulumdan hemen sonra görünüyor
-• Kurları değişime veya kura göre sıralayın
-• Metal fiyatları için para birimi seçilebiliyor
-• Çevirici sonuçları anında güncelleniyor ve tüm ekran kayıyor
-• Daha az ağ isteğiyle daha hızlı açılış
-• Tüm 20 dilde çeviriler tamamlandı
+• Canlı Wi-Fi ve ağ durum takibi ile çevrimdışı (offline) kullanım desteği
+• Çeviricide ters kur gösterimi (1 EUR = 1.08 USD) ve hızlı kopyalama/paylaşma
+• İstatistik ekranında kişiselleştirilebilir para birimi ekleme ve çıkarma
+• Kurlar ekranında İsim, Kur ve Değişime göre sıralama filtreleri
+• Arka plan hesaplamalarında performans ve akıcılık iyileştirmeleri
 </tr-TR>
 
 <fr-FR>
-• Ajoutez des alertes de cours depuis l’écran Alertes avec +
-• Historique : période de 5 jours, export CSV, graphique de comparaison plus clair ; période mémorisée
-• Variation quotidienne en % dès l’installation
-• Triez les cours par variation ou par cours
-• Choisissez la devise des prix des métaux
-• Résultats du convertisseur instantanés et écran entièrement défilant
-• Démarrage plus rapide, moins de requêtes réseau
-• Traductions complétées dans les 20 langues
+• Suivi en direct du Wi-Fi et du réseau, avec prise en charge hors ligne
+• Taux inverses (1 EUR = 1,08 USD) et copie ou partage rapide dans le convertisseur
+• Choix personnalisable des devises sur l’écran Statistiques
+• Triez les cours en direct par nom, cours et variation sur 24 h
+• Optimisations des performances et de la réactivité
 </fr-FR>
 
 <es-ES>
-• Añade alertas de tipo desde la pantalla Alertas con +
-• Historial: período de 5 días, exportación CSV, gráfico de comparación más claro; se recuerda el período
-• El cambio diario en % aparece nada más instalar
-• Ordena los tipos por cambio o por tipo
-• Elige la divisa de los precios de los metales
-• Los resultados del conversor se actualizan al instante y toda la pantalla se desplaza
-• Inicio más rápido con menos solicitudes de red
-• Traducciones completadas en los 20 idiomas
+• Seguimiento en vivo del Wi-Fi y de la red, con soporte sin conexión
+• Tipos de cambio inversos (1 EUR = 1,08 USD) y copiar o compartir al instante en el conversor
+• Selección personalizable de divisas en Estadísticas
+• Ordena los tipos en vivo por nombre, tipo y cambio de 24 h
+• Mejoras de rendimiento y de respuesta
 </es-ES>
 
 <it-IT>
-• Aggiungi avvisi di cambio dalla schermata Avvisi con +
-• Cronologia: periodo di 5 giorni, esportazione CSV, grafico di confronto più chiaro; periodo ricordato
-• Variazione giornaliera in % subito dopo l’installazione
-• Ordina i cambi per variazione o per cambio
-• Scegli la valuta dei prezzi dei metalli
-• Risultati del convertitore aggiornati subito e schermata scorrevole
-• Avvio più rapido con meno richieste di rete
-• Traduzioni completate in tutte e 20 le lingue
+• Monitoraggio live di Wi-Fi e rete, con pieno supporto offline
+• Cambi inversi (1 EUR = 1,08 USD) e copia o condivisione rapida nel convertitore
+• Scelta personalizzabile delle valute nella schermata Statistiche
+• Ordina i cambi in tempo reale per nome, cambio e variazione sulle 24 ore
+• Ottimizzazioni di prestazioni e reattività
 </it-IT>
 
 <pt-BR>
-• Adicione alertas de câmbio na tela Alertas com o botão +
-• Histórico: novo período de 5 dias, exportação em CSV, gráfico de comparação mais claro; o período escolhido é lembrado
-• A variação diária em % aparece logo após a instalação
-• Ordene as taxas por variação ou por taxa
-• Escolha a moeda dos preços dos metais
-• Os resultados do conversor atualizam na hora e a tela inteira rola
-• Início mais rápido com menos solicitações de rede
-• Traduções concluídas nos 20 idiomas
+• Monitoramento ao vivo de Wi-Fi e rede, com suporte offline completo
+• Taxas inversas (1 EUR = 1,08 USD) e copiar ou compartilhar rápido no conversor
+• Seleção personalizável de moedas na tela Estatísticas
+• Ordene as taxas ao vivo por nome, taxa e variação em 24 h
+• Otimizações de desempenho e de resposta
 </pt-BR>
 
 <ru-RU>
-• Добавляйте оповещения о курсе на экране «Оповещения» кнопкой +
-• История: новый период 5 дней, экспорт в CSV, более понятный график сравнения; выбранный период запоминается
-• Дневное изменение в % показывается сразу после установки
-• Сортировка курсов по изменению или по курсу
-• Выбор валюты для цен на металлы
-• Результаты конвертера обновляются мгновенно, а весь экран прокручивается
-• Быстрее запуск благодаря меньшему числу сетевых запросов
-• Переводы завершены на всех 20 языках
+• Отслеживание Wi-Fi и сети в реальном времени и полная работа офлайн
+• Обратные курсы (1 EUR = 1,08 USD) и быстрое копирование и отправка в конвертере
+• Настраиваемый выбор валют на экране «Статистика»
+• Сортировка курсов по имени, курсу и изменению за 24 ч
+• Оптимизация производительности и отклика
 </ru-RU>
 
 <pl-PL>
-• Dodawaj alerty kursowe na ekranie Alerty przyciskiem +
-• Historia: nowy zakres 5 dni, eksport do CSV, czytelniejszy wykres porównania; wybrany zakres jest zapamiętywany
-• Dzienna zmiana w % pojawia się zaraz po instalacji
-• Sortuj kursy według zmiany lub kursu
-• Wybierz walutę cen metali
-• Wyniki przelicznika aktualizują się natychmiast, a cały ekran się przewija
-• Szybszy start dzięki mniejszej liczbie zapytań sieciowych
-• Uzupełnione tłumaczenia we wszystkich 20 językach
+• Bieżące monitorowanie Wi-Fi i sieci oraz pełna obsługa offline
+• Odwrotne kursy (1 EUR = 1,08 USD) oraz szybkie kopiowanie i udostępnianie w przeliczniku
+• Wybór walut na ekranie Statystyki
+• Sortuj kursy na żywo według nazwy, kursu i zmiany z 24 h
+• Optymalizacje wydajności i płynności
 </pl-PL>
 
 <ja-JP>
-• 通知画面の＋ボタンからレート通知を追加できます
-• 履歴：5日間の表示、CSVエクスポート、見やすくなった比較グラフ、選んだ期間の記憶
-• 日次の変動率がインストール直後から表示されます
-• レートを変動率またはレート順に並べ替え
-• 金属価格の表示通貨を選択可能
-• 換算結果が即時に更新され、画面全体がスクロールします
-• ネットワークリクエストを減らして起動を高速化
-• 20言語すべての翻訳を補完
+• Wi-Fiと通信状態をリアルタイム表示し、オフラインでも利用できます
+• 逆レート表示（1 EUR = 1.08 USD）と換算画面でのすばやいコピー／共有
+• 統計画面で表示する通貨を自由に選べます
+• ライブレートを名前、レート、24時間の変動で並べ替え
+• 動作と応答性を改善
 </ja-JP>
 
 <ko-KR>
-• 알림 화면의 + 버튼으로 환율 알림을 바로 추가
-• 기록: 5일 기간, CSV 내보내기, 더 보기 쉬운 비교 차트, 선택한 기간 기억
-• 일일 변동률이 설치 직후부터 표시됩니다
-• 환율을 변동률 또는 환율순으로 정렬
-• 금속 시세의 표시 통화 선택
-• 변환 결과가 즉시 갱신되고 화면 전체가 스크롤됩니다
-• 네트워크 요청을 줄여 더 빠르게 시작
-• 20개 언어 번역 보완
+• Wi-Fi와 네트워크 상태를 실시간으로 표시하고 오프라인에서도 이용
+• 역환율 표시(1 EUR = 1.08 USD)와 변환 화면에서 빠른 복사 및 공유
+• 통계 화면에서 표시할 통화를 직접 선택
+• 실시간 환율을 이름, 환율, 24시간 변동순으로 정렬
+• 성능과 반응 속도 개선
 </ko-KR>
 
 <zh-CN>
-• 在“提醒”页面用 + 按钮直接添加汇率提醒
-• 历史：新增 5 天区间、CSV 导出、更清晰的对比图表，并记住所选区间
-• 安装后即可看到每日涨跌幅
-• 汇率可按涨跌幅或汇率排序
-• 可选择金属价格的显示货币
-• 换算结果即时更新，整个页面可滚动
-• 减少网络请求，启动更快
-• 补全全部 20 种语言的翻译
+• 实时显示 Wi-Fi 与网络状态，并完整支持离线使用
+• 反向汇率（1 EUR = 1.08 USD），可在换算页快速复制和分享
+• 可在统计页自定义要显示的货币
+• 实时汇率可按名称、汇率和 24 小时涨跌排序
+• 性能与响应速度优化
 </zh-CN>
 
 <hi-IN>
-• अलर्ट स्क्रीन पर + बटन से सीधे दर अलर्ट जोड़ें
-• इतिहास: नई 5 दिन की अवधि, CSV निर्यात, ज़्यादा साफ़ तुलना चार्ट; चुनी हुई अवधि याद रखी जाती है
-• दैनिक प्रतिशत बदलाव अब इंस्टॉल के तुरंत बाद दिखता है
-• दरों को बदलाव या दर के हिसाब से क्रमबद्ध करें
-• धातुओं के भाव के लिए मुद्रा चुनें
-• कन्वर्टर के नतीजे तुरंत अपडेट होते हैं और पूरी स्क्रीन स्क्रॉल होती है
-• कम नेटवर्क अनुरोधों के साथ तेज़ शुरुआत
-• सभी 20 भाषाओं में अनुवाद पूरे किए गए
+• लाइव Wi-Fi और नेटवर्क स्थिति, साथ में पूरा ऑफ़लाइन समर्थन
+• उलटी दरें (1 EUR = 1.08 USD) और कन्वर्टर में तेज़ कॉपी/शेयर
+• आँकड़े स्क्रीन पर मुद्राएँ अपनी पसंद से चुनें
+• लाइव दरों को नाम, दर और 24 घंटे के बदलाव से क्रमबद्ध करें
+• प्रदर्शन और प्रतिक्रिया में सुधार
 </hi-IN>
 
 <bn-BD>
-• সতর্কতা স্ক্রিনে + বোতাম দিয়ে সরাসরি হার সতর্কতা যোগ করুন
-• ইতিহাস: নতুন ৫ দিনের সময়সীমা, CSV এক্সপোর্ট, আরও পরিষ্কার তুলনা চার্ট; বেছে নেওয়া সময়সীমা মনে রাখা হয়
-• দৈনিক শতাংশ পরিবর্তন এখন ইনস্টলের পরপরই দেখা যায়
-• হারগুলো পরিবর্তন বা হার অনুযায়ী সাজান
-• ধাতুর দামের জন্য মুদ্রা বেছে নিন
-• রূপান্তরের ফলাফল তাৎক্ষণিক আপডেট হয় এবং পুরো স্ক্রিন স্ক্রল করে
-• কম নেটওয়ার্ক অনুরোধে দ্রুত শুরু
-• ২০টি ভাষাতেই অনুবাদ সম্পূর্ণ করা হয়েছে
+• লাইভ ওয়াই-ফাই ও নেটওয়ার্ক অবস্থা, পূর্ণ অফলাইন সমর্থনসহ
+• উল্টো হার (১ EUR = ১.০৮ USD) এবং রূপান্তরে দ্রুত কপি/শেয়ার
+• পরিসংখ্যান স্ক্রিনে মুদ্রা নিজের মতো বেছে নিন
+• লাইভ হার নাম, হার ও ২৪ ঘণ্টার পরিবর্তন অনুযায়ী সাজান
+• কর্মক্ষমতা ও সাড়ার উন্নতি
 </bn-BD>
 
 <ar>
-• أضف تنبيهات الأسعار من شاشة التنبيهات بزر +
-• السجل: نطاق جديد لـ 5 أيام، وتصدير CSV، ورسم مقارنة أوضح، مع تذكّر النطاق المختار
-• تظهر نسبة التغيّر اليومية فور التثبيت
-• رتّب الأسعار حسب التغيّر أو السعر
-• اختر عملة عرض أسعار المعادن
-• تتحدّث نتائج المحول فورًا وتتمرّر الشاشة كاملة
-• بدء أسرع بطلبات شبكة أقل
-• اكتملت الترجمات في جميع اللغات العشرين
+• مراقبة حالة Wi-Fi والشبكة مباشرة مع دعم كامل دون اتصال
+• أسعار عكسية (1 EUR = 1.08 USD) ونسخ ومشاركة سريعة في المحول
+• اختيار العملات بحرية في شاشة الإحصاءات
+• رتّب الأسعار المباشرة حسب الاسم أو السعر أو تغيّر 24 ساعة
+• تحسينات في الأداء وسرعة الاستجابة
 </ar>
 
 <th>
-• เพิ่มการแจ้งเตือนอัตราจากหน้าการแจ้งเตือนด้วยปุ่ม +
-• ประวัติ: ช่วง 5 วันใหม่ ส่งออก CSV กราฟเปรียบเทียบที่ชัดเจนขึ้น และจำช่วงเวลาที่เลือกไว้
-• เปอร์เซ็นต์การเปลี่ยนแปลงรายวันแสดงทันทีหลังติดตั้ง
-• เรียงอัตราตามการเปลี่ยนแปลงหรืออัตรา
-• เลือกสกุลเงินสำหรับราคาโลหะได้
-• ผลการแปลงอัปเดตทันทีและเลื่อนได้ทั้งหน้าจอ
-• เริ่มต้นเร็วขึ้นด้วยคำขอเครือข่ายที่น้อยลง
-• เพิ่มคำแปลครบทั้ง 20 ภาษา
+• แสดงสถานะ Wi-Fi และเครือข่ายแบบเรียลไทม์ พร้อมใช้งานออฟไลน์ได้เต็มรูปแบบ
+• อัตราผกผัน (1 EUR = 1.08 USD) และคัดลอกหรือแชร์อย่างรวดเร็วในหน้าแปลง
+• เลือกสกุลเงินเองได้ในหน้าสถิติ
+• เรียงอัตราสดตามชื่อ อัตรา และการเปลี่ยนแปลง 24 ชม.
+• ปรับประสิทธิภาพและการตอบสนองให้ดีขึ้น
 </th>
 
 <uk>
-• Додавайте сповіщення про курс на екрані «Сповіщення» кнопкою +
-• Історія: новий період 5 днів, експорт у CSV, зрозуміліший графік порівняння; вибраний період запам’ятовується
-• Денна зміна у % показується одразу після встановлення
-• Сортування курсів за зміною або за курсом
-• Вибір валюти для цін на метали
-• Результати конвертера оновлюються миттєво, а весь екран прокручується
-• Швидший запуск завдяки меншій кількості мережевих запитів
-• Переклади завершено всіма 20 мовами
+• Відстеження Wi-Fi і мережі в реальному часі та повна робота офлайн
+• Зворотні курси (1 EUR = 1,08 USD) і швидке копіювання та надсилання в конвертері
+• Налаштовуваний вибір валют на екрані «Статистика»
+• Сортування курсів за назвою, курсом і зміною за 24 год
+• Оптимізація швидкодії та відгуку
 </uk>
 
 <ur>
-• الرٹس اسکرین پر + بٹن سے براہِ راست ریٹ الرٹ شامل کریں
-• تاریخ: 5 دن کی نئی مدت، CSV ایکسپورٹ، زیادہ واضح موازنہ چارٹ؛ منتخب مدت یاد رکھی جاتی ہے
-• روزانہ فیصد تبدیلی اب انسٹال کے فوراً بعد نظر آتی ہے
-• ریٹس کو تبدیلی یا ریٹ کے مطابق ترتیب دیں
-• دھاتوں کی قیمتوں کے لیے کرنسی منتخب کریں
-• کنورٹر کے نتائج فوراً اپ ڈیٹ ہوتے ہیں اور پوری اسکرین اسکرول ہوتی ہے
-• کم نیٹ ورک درخواستوں کے ساتھ تیز آغاز
-• تمام 20 زبانوں میں تراجم مکمل کر دیے گئے
+• لائیو Wi-Fi اور نیٹ ورک کی صورتحال، مکمل آف لائن تعاون کے ساتھ
+• الٹی شرحیں (1 EUR = 1.08 USD) اور کنورٹر میں فوری کاپی/شیئر
+• شماریات کی اسکرین پر کرنسیاں اپنی مرضی سے منتخب کریں
+• لائیو ریٹس کو نام، ریٹ اور 24 گھنٹے کی تبدیلی کے مطابق ترتیب دیں
+• کارکردگی اور ردعمل میں بہتری
 </ur>
 
 <vi>
-• Thêm cảnh báo tỷ giá ngay trên màn hình Cảnh báo bằng nút +
-• Lịch sử: khoảng 5 ngày mới, xuất CSV, biểu đồ so sánh rõ ràng hơn; ghi nhớ khoảng thời gian đã chọn
-• Phần trăm thay đổi theo ngày hiện ngay sau khi cài đặt
-• Sắp xếp tỷ giá theo thay đổi hoặc theo tỷ giá
-• Chọn loại tiền để hiển thị giá kim loại
-• Kết quả chuyển đổi cập nhật tức thì và cả màn hình cuộn được
-• Khởi động nhanh hơn với ít yêu cầu mạng hơn
-• Hoàn thiện bản dịch cho cả 20 ngôn ngữ
+• Theo dõi Wi-Fi và mạng theo thời gian thực, dùng được đầy đủ khi ngoại tuyến
+• Tỷ giá nghịch (1 EUR = 1,08 USD) và sao chép hoặc chia sẻ nhanh trong phần chuyển đổi
+• Tự chọn tiền tệ trên màn hình Thống kê
+• Sắp xếp tỷ giá trực tiếp theo tên, tỷ giá và thay đổi 24 giờ
+• Tối ưu hiệu năng và độ phản hồi
 </vi>
 
 <id>
-• Tambahkan peringatan kurs dari layar Peringatan dengan tombol +
-• Riwayat: rentang 5 hari baru, ekspor CSV, grafik perbandingan yang lebih jelas; rentang yang dipilih diingat
-• Perubahan persen harian langsung tampil setelah instalasi
-• Urutkan kurs berdasarkan perubahan atau kurs
-• Pilih mata uang untuk harga logam
-• Hasil konverter diperbarui seketika dan seluruh layar bisa digulir
-• Mulai lebih cepat dengan lebih sedikit permintaan jaringan
-• Terjemahan lengkap di semua 20 bahasa
+• Pemantauan Wi-Fi dan jaringan secara langsung, dengan dukungan offline penuh
+• Kurs terbalik (1 EUR = 1,08 USD) serta salin atau bagikan cepat di konverter
+• Pilihan mata uang yang bisa diatur di layar Statistik
+• Urutkan kurs langsung menurut nama, kurs, dan perubahan 24 jam
+• Optimisasi kinerja dan respons
 </id>

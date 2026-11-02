@@ -20,7 +20,7 @@ Canlı döviz kurları, grafikler ve günlük kullanım için pratik araçlarla 
 • Geçmiş — istediğiniz çift, 1 günden 5 yıla kadar, CSV dışa aktarma
 • Kur alarmları — hedef kura ulaşınca bildirim
 • Ana ekran widget'ı — canlı kurlar bir bakışta
-• 20 dil — Türkçe, Almanca, İngilizce dahil
+• 20 dil
 • Karanlık mod ve Material You
 
 VERİ KAYNAKLARI

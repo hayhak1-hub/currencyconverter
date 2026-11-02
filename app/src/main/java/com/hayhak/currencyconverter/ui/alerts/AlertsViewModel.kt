@@ -22,13 +22,22 @@ class AlertsViewModel @Inject constructor(
         emptyList()
     )
 
-    fun add(base: String, target: String, threshold: Double, isAbove: Boolean, repeating: Boolean) {
+    fun add(
+        base: String,
+        target: String,
+        value: Double,
+        isAbove: Boolean,
+        repeating: Boolean,
+        percent: Boolean
+    ) {
         viewModelScope.launch {
             userPrefs.addAlarm(
                 RateAlarm(
                     baseCode = base,
                     targetCode = target,
-                    threshold = threshold,
+                    threshold = if (percent) 0.0 else value,
+                    percent = if (percent) value else 0.0,
+                    kind = if (percent) RateAlarm.KIND_PERCENT else RateAlarm.KIND_THRESHOLD,
                     isAbove = isAbove,
                     repeating = repeating
                 )

@@ -36,7 +36,7 @@ class StatisticsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(StatisticsUiState())
     val uiState: StateFlow<StatisticsUiState> = _uiState
 
-    private val defaultCodes = listOf("USD", "EUR", "TRY", "CHF")
+    private val defaultCodes = listOf("USD", "EUR", "GBP", "JPY")
 
     // Bumped after the recent history has been stored so the change column is recomputed.
     private val historyLoaded = MutableStateFlow(0)

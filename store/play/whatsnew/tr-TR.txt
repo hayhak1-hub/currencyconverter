@@ -1,5 +1,5 @@
 • Canlı Wi-Fi ve ağ durum takibi ile çevrimdışı (offline) kullanım desteği
-• Çeviricide ters kur gösterimi (1 TRY = 0.0274 USD) ve hızlı kopyalama/paylaşma
+• Çeviricide ters kur gösterimi (1 EUR = 1.08 USD) ve hızlı kopyalama/paylaşma
 • İstatistik ekranında kişiselleştirilebilir para birimi ekleme ve çıkarma
 • Kurlar ekranında İsim, Kur ve Değişime göre sıralama filtreleri
 • Arka plan hesaplamalarında performans ve akıcılık iyileştirmeleri

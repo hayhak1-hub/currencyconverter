@@ -64,6 +64,34 @@ class NotificationHelper(private val context: Context) {
         }
     }
 
+    fun showDigest(title: String, message: String): Boolean {
+        if (!androidx.core.app.NotificationManagerCompat.from(context).areNotificationsEnabled()) return false
+        val open = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            putExtra(MainActivity.EXTRA_NAV, MainActivity.NAV_CONVERTER)
+        }
+        val pending = PendingIntent.getActivity(
+            context,
+            71001,
+            open,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setContentTitle(title)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+            .setContentIntent(pending)
+            .build()
+        return try {
+            notificationManager.notify(71001, notification)
+            true
+        } catch (_: SecurityException) {
+            false
+        }
+    }
+
     companion object {
         private const val CHANNEL_ID = "currency_alarms"
     }

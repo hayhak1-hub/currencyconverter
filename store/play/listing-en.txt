@@ -21,7 +21,7 @@ FEATURES
 • Rate alerts — get notified when your target rate is reached
 • Precious metals — gold, silver, platinum, palladium
 • Home-screen widget — live rates at a glance
-• 20 languages — including English, German, and Turkish
+• 20 languages
 • Dark mode and Material You dynamic colors
 
 DATA SOURCES

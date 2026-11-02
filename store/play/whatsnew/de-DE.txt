@@ -1,5 +1,5 @@
-• Live-WLAN- und Netzwerkanzeige mit vollwerter Offline-Unterstützung
-• Umgekehrte Wechselkurse (1 TRY = 0,0274 USD) und schnelle Kopier- & Teilen-Funktion
+• Live-WLAN- und Netzwerkanzeige mit vollwertiger Offline-Unterstützung
+• Umgekehrte Wechselkurse (1 EUR = 1,08 USD) und schnelles Kopieren und Teilen im Rechner
 • Anpassbare Währungsauswahl auf dem Statistik-Bildschirm
-• Sortieren Sie Live-Kurse nach Name, Kurs und 24h-Änderung
+• Live-Kurse nach Name, Kurs und 24-Stunden-Änderung sortieren
 • Leistungs- und Reaktionsoptimierungen

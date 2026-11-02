@@ -4,8 +4,10 @@ import com.hayhak.currencyconverter.data.local.dao.ExchangeRateDao
 import com.hayhak.currencyconverter.data.local.entity.ExchangeRateEntity
 import com.hayhak.currencyconverter.data.remote.api.ExchangeRateApi
 import com.hayhak.currencyconverter.data.remote.api.LiveExchangeRateApi
+import com.hayhak.currencyconverter.domain.model.DatedRates
 import com.hayhak.currencyconverter.domain.model.ExchangeRate
 import com.hayhak.currencyconverter.domain.model.HistoricalRate
+import com.hayhak.currencyconverter.domain.model.SUPPORTED_CURRENCIES
 import com.hayhak.currencyconverter.domain.repository.ExchangeRateRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -217,6 +219,50 @@ class ExchangeRateRepositoryImpl @Inject constructor(
 
     override suspend fun getLastUpdateTime(base: String): Long? =
         dao.getLastUpdateTime(base)
+
+    override suspend fun ratesOnDate(dayMillis: Long): DatedRates? {
+        val format = utcDayKey()
+        val end = format.format(Date(dayMillis))
+        val start = format.format(Date(dayMillis - TimeUnit.DAYS.toMillis(7)))
+        val rows = try {
+            frankfurterApi.getRatesBetween(base = "USD", from = start, to = end)
+        } catch (e: Exception) {
+            if (e is kotlinx.coroutines.CancellationException) throw e
+            val quotes = SUPPORTED_CURRENCIES.map { it.code }.filter { it != "USD" }.joinToString(",")
+            try {
+                frankfurterApi.getRatesBetween(base = "USD", from = start, to = end, quotes = quotes)
+            } catch (fallback: Exception) {
+                if (fallback is kotlinx.coroutines.CancellationException) throw fallback
+                android.util.Log.w("ExchangeRateRepo", "Historical date failed for $end: ${fallback.message}")
+                return null
+            }
+        }
+        if (rows.isEmpty()) return null
+        val latest = rows.maxOf { it.date }
+        val rates = rows.filter { it.date == latest }
+            .filter { !it.quote.equals("USD", ignoreCase = true) }
+            .associate { it.quote.uppercase() to it.rate }
+        if (rates.isEmpty()) return null
+        return DatedRates(latest, rates)
+    }
+
+    override suspend fun pairHistory(from: String, to: String, days: Int): List<Double> {
+        if (from.equals(to, ignoreCase = true)) return emptyList()
+        return try {
+            val format = utcDayKey()
+            val end = System.currentTimeMillis()
+            val start = end - TimeUnit.DAYS.toMillis(days.toLong().coerceAtLeast(1))
+            frankfurterApi.getHistoricalRates(
+                base = from,
+                quotes = to,
+                from = format.format(Date(start)),
+                to = format.format(Date(end))
+            ).sortedBy { it.date }.map { it.rate }.filter { it.isFinite() && it > 0.0 }
+        } catch (e: Exception) {
+            if (e is kotlinx.coroutines.CancellationException) throw e
+            emptyList()
+        }
+    }
 
     override suspend fun getRatesBefore(base: String, beforeTimestamp: Long): ExchangeRate? {
         val entities = dao.getRatesBefore(base, beforeTimestamp)

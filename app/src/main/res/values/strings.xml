@@ -167,14 +167,76 @@
     <string name="sort_name" tools:ignore="MissingTranslation">Name</string>
     <string name="dashboard_sort" tools:ignore="MissingTranslation">Sort by</string>
     <string name="metals_show_in">Show in</string>
+    <string name="gold_jewelry_title">Gold by purity</string>
+    <string name="gold_coins_title">Gold coins (22K)</string>
+    <string name="gold_coins_note">Gold content at the spot price. Market prices include premiums and fees.</string>
+    <string name="gold_coin_quarter" translatable="false">Çeyrek (¼)</string>
+    <string name="gold_coin_half" translatable="false">Yarım (½)</string>
+    <string name="gold_coin_full" translatable="false">Tam (1)</string>
+    <string name="gold_coin_ata" translatable="false">Ata (Cumhuriyet)</string>
+    <string name="movers_gainers">Top gainers</string>
+    <string name="movers_losers">Top losers</string>
+    <string name="dashboard_view_list" tools:ignore="MissingTranslation">List</string>
+    <string name="dashboard_view_matrix" tools:ignore="MissingTranslation">Cross Matrix</string>
+    <string name="matrix_title" tools:ignore="MissingTranslation">Cross Rates Matrix</string>
+    <string name="matrix_select_currencies" tools:ignore="MissingTranslation">Select Currencies</string>
     <string name="network_offline_banner" tools:ignore="MissingTranslation">No internet connection. Displaying cached data.</string>
     <string name="converter_inverse_rate" tools:ignore="MissingTranslation">1 %1$s = %2$s %3$s</string>
     <string name="converter_copied" tools:ignore="MissingTranslation">Result copied to clipboard</string>
     <string name="history_custom_range" tools:ignore="MissingTranslation">Custom</string>
     <string name="stats_add_currency" tools:ignore="MissingTranslation">Add currency</string>
     <string name="stats_select_currencies" tools:ignore="MissingTranslation">Select currencies</string>
+    <string name="converter_as_of">As of %1$s</string>
+    <string name="converter_pick_date">Historical date</string>
+    <string name="converter_latest">Latest rate</string>
+    <string name="converter_history_missing">No rate for that date</string>
+    <string name="converter_buy">Buy %1$s</string>
+    <string name="converter_sell">Sell %1$s</string>
+    <string name="settings_spread">Estimated spread</string>
+    <string name="settings_spread_sub">Shows buy and sell around the mid-market rate. Half of the percent is applied on each side.</string>
+    <string name="settings_spread_percent">Spread (%)</string>
+    <string name="settings_backup">Backup</string>
+    <string name="settings_backup_sub">Save favorites, alerts, the widget and these settings as a JSON file.</string>
+    <string name="settings_backup_export">Export</string>
+    <string name="settings_backup_import">Import</string>
+    <string name="settings_backup_exported">Backup saved</string>
+    <string name="settings_backup_imported">Backup restored</string>
+    <string name="settings_backup_failed">Backup failed</string>
+    <string name="settings_quiet_hours">Quiet hours</string>
+    <string name="settings_quiet_hours_sub">Pause rate alerts between these times.</string>
+    <string name="settings_quiet_from">From</string>
+    <string name="settings_quiet_until">Until</string>
+    <string name="alarm_mode_level">Target rate</string>
+    <string name="alarm_mode_percent">Percent change</string>
+    <string name="alarm_percent">Change (%)</string>
+    <string name="alarm_when_rises">When it rises</string>
+    <string name="alarm_when_falls">When it falls</string>
+    <string name="alarm_percent_up_line">Rises %1$s%% in 24 hours</string>
+    <string name="alarm_percent_down_line">Falls %1$s%% in 24 hours</string>
+    <string name="notif_alarm_percent_up">Up %1$s%% in 24 hours (now %2$s%%)</string>
+    <string name="notif_alarm_percent_down">Down %1$s%% in 24 hours (now %2$s%%)</string>
+    <string name="process_text_label">Convert currency</string>
+    <string name="favorites_drag">Hold and drag to reorder</string>
+    <string name="converter_sparkline" tools:ignore="MissingTranslation">Rate history</string>
+    <string name="converter_edit_result" tools:ignore="MissingTranslation">Edit result</string>
+    <string name="converter_pnl_today">Today %1$s</string>
+    <string name="converter_pnl_change">Change %1$s</string>
+    <string name="pairs_saved" tools:ignore="MissingTranslation">Saved pairs</string>
+    <string name="pairs_save" tools:ignore="MissingTranslation">Save pair</string>
+    <string name="pairs_alert" tools:ignore="MissingTranslation">Set alert</string>
+    <string name="pairs_remove" tools:ignore="MissingTranslation">Remove pair</string>
+    <string name="tools_people" tools:ignore="MissingTranslation">People</string>
+    <string name="tools_each">Each person: %1$s %2$s</string>
+    <string name="widget_configure_title" tools:ignore="MissingTranslation">Configure Widget</string>
+    <string name="widget_configure_quotes" tools:ignore="MissingTranslation">Select Currencies</string>
+    <string name="widget_configure_add" tools:ignore="MissingTranslation">Add Currency</string>
+    <string name="widget_configure_save" tools:ignore="MissingTranslation">Save Widget</string>
+    <string name="digest_title" tools:ignore="MissingTranslation">Morning Rate Digest</string>
+    <string name="settings_digest" tools:ignore="MissingTranslation">Morning Rate Digest</string>
+    <string name="settings_digest_sub" tools:ignore="MissingTranslation">Show a daily notification summary of your saved pairs.</string>
     <plurals name="minutes_ago">
         <item quantity="one">%d minute ago</item>
         <item quantity="other">%d minutes ago</item>
     </plurals>
+    <string name="digest_empty">No saved pairs yet</string>
 </resources>

@@ -1,0 +1,5 @@
+• Monitoraggio live di Wi-Fi e rete, con pieno supporto offline
+• Cambi inversi (1 EUR = 1,08 USD) e copia o condivisione rapida nel convertitore
+• Scelta personalizzabile delle valute nella schermata Statistiche
+• Ordina i cambi in tempo reale per nome, cambio e variazione sulle 24 ore
+• Ottimizzazioni di prestazioni e reattività

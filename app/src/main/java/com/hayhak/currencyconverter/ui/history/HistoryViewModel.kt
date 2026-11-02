@@ -172,6 +172,7 @@ class HistoryViewModel @Inject constructor(
     /** Retries the current pair after a failed load. */
     fun reload() {
         val state = _uiState.value
+        refreshedAt.remove("${state.baseCurrency}/${state.targetCurrency}/${state.timeRange.days}")
         loadHistory(state.baseCurrency, state.targetCurrency, state.timeRange)
         if (state.compareEnabled) loadCompare()
     }
@@ -189,44 +190,46 @@ class HistoryViewModel @Inject constructor(
         historyJob = viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null, data = emptyList(), hasData = false) }
 
-            val cached = runCatching {
-                getHistoricalRates(base, target, daysBack = range.days).first()
-            }.onFailure { if (it is kotlinx.coroutines.CancellationException) throw it }.getOrDefault(emptyList())
-
-            if (cached.isNotEmpty()) {
-                _uiState.update { it.copy(data = cached, hasData = true) }
-            }
-
-            val refreshFailed = try {
-                repository.refreshHistoricalRates(base, target, range.days)
-                false
-            } catch (e: Exception) {
-                if (e is kotlinx.coroutines.CancellationException) throw e
-                if (cached.isEmpty()) {
-                    _uiState.update {
-                        it.copy(
-                            isLoading = false,
-                            hasData = false,
-                            data = emptyList(),
-                            error = e.message
-                        )
-                    }
-                    return@launch
+            // The network refresh (up to several sequential requests for long ranges) runs next to
+            // the database flow, so stored data is on screen immediately instead of after the fetch.
+            val key = "$base/$target/${range.days}"
+            val fresh = refreshedAt[key]?.let { System.currentTimeMillis() - it < REFRESH_MIN_AGE_MS } == true
+            val refresh = if (fresh) null else launch {
+                val failure = try {
+                    repository.refreshHistoricalRates(base, target, range.days)
+                    refreshedAt[key] = System.currentTimeMillis()
+                    null
+                } catch (e: Exception) {
+                    if (e is kotlinx.coroutines.CancellationException) throw e
+                    e
                 }
-                true
+                _uiState.update { s ->
+                    s.copy(
+                        isLoading = false,
+                        error = if (s.data.isEmpty() && failure != null) failure.message ?: "error" else s.error
+                    )
+                }
             }
+            if (refresh == null) _uiState.update { it.copy(isLoading = false) }
 
             getHistoricalRates(base, target, daysBack = range.days).collect { data ->
                 _uiState.update {
                     it.copy(
                         data = data,
-                        isLoading = false,
+                        // Keep the spinner only while there is nothing to show yet and a fetch is running.
+                        isLoading = if (data.isNotEmpty() || refresh?.isActive != true) false else it.isLoading,
                         hasData = data.isNotEmpty(),
-                        error = if (data.isEmpty() && refreshFailed) it.error else null
+                        error = if (data.isNotEmpty()) null else it.error
                     )
                 }
             }
         }
+    }
+
+    private companion object {
+        /** Process-wide, so reopening the screen does not refetch the same range every time. */
+        val refreshedAt = java.util.concurrent.ConcurrentHashMap<String, Long>()
+        const val REFRESH_MIN_AGE_MS = 30 * 60 * 1000L
     }
 
     private var compareJob: Job? = null

@@ -95,13 +95,21 @@ class MetalsViewModel @Inject constructor(
                     }.getOrDefault(emptyMap()).filter { it.key in METAL_CODES && it.value.price.isFinite() && it.value.price > 0 }
                 }
                 if (saved.isNotEmpty()) publishQuotes(saved, quote, usdRates, saved.keys, refreshing = true)
-                try { repository.refreshRates("USD") } catch (e: Exception) {
-                    if (e is CancellationException) throw e
+                // Metal prices and the FX refresh are independent, so fetch them together instead of
+                // waiting for the (possibly slow or failing) FX request before asking for metals.
+                val fresh = coroutineScope {
+                    val fx = async {
+                        try { repository.refreshRates("USD") } catch (e: Exception) {
+                            if (e is CancellationException) throw e
+                        }
+                    }
+                    val metals = async { fetchUsdPerOunce() }
+                    fx.await()
+                    metals.await()
                 }
                 rateSnapshot = getExchangeRates("USD").first()
                 usdRates = rateSnapshot?.rates ?: usdRates
                 _uiState.update { it.copy(fxTimestamp = rateSnapshot?.timestamp) }
-                val fresh = fetchUsdPerOunce()
                 val usdPerOz = saved + fresh
                 if (usdPerOz.isEmpty()) {
                     _uiState.update {

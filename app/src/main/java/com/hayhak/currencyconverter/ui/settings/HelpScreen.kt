@@ -2,6 +2,7 @@ package com.hayhak.currencyconverter.ui.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -26,7 +27,9 @@ import com.hayhak.currencyconverter.R
 fun HelpScreen(onBack: () -> Unit) {
     Scaffold(
         topBar = {
+            // The outer Scaffold already pads for the status bar; adding it again left a blank band.
             TopAppBar(
+                windowInsets = WindowInsets(0),
                 title = { Text(stringResource(R.string.settings_help)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {

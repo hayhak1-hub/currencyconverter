@@ -20,7 +20,7 @@ FUNKTIONEN
 • Verlauf — beliebiges Währungspaar von 1 Tag bis 5 Jahren, CSV-Export
 • Kursalarme — Benachrichtigung bei Erreichen des Zielkurses
 • Startbildschirm-Widget — Live-Kurse auf einen Blick
-• 20 Sprachen — u. a. Deutsch, Englisch, Türkisch
+• 20 Sprachen
 • Dunkelmodus und Material You
 
 DATENQUELLEN

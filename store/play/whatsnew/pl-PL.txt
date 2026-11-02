@@ -1,0 +1,5 @@
+• Bieżące monitorowanie Wi-Fi i sieci oraz pełna obsługa offline
+• Odwrotne kursy (1 EUR = 1,08 USD) oraz szybkie kopiowanie i udostępnianie w przeliczniku
+• Wybór walut na ekranie Statystyki
+• Sortuj kursy na żywo według nazwy, kursu i zmiany z 24 h
+• Optymalizacje wydajności i płynności

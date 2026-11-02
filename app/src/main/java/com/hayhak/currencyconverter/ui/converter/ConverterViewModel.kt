@@ -47,8 +47,28 @@ class ConverterViewModel @Inject constructor(
     private var appliedLaunchPair = false
 
     init {
-        userPrefs.favorites
-            .onEach { favs -> _uiState.update { it.copy(favorites = favs) } }
+        userPrefs.favoriteOrder
+            .onEach { order -> _uiState.update { it.copy(favorites = order.toSet(), favoriteOrder = order) } }
+            .launchIn(viewModelScope)
+
+        userPrefs.spreadPercent
+            .onEach { percent -> _uiState.update { it.copy(spreadPercent = percent) } }
+            .launchIn(viewModelScope)
+
+        userPrefs.savedPairs
+            .onEach { pairs -> _uiState.update { it.copy(savedPairs = pairs) } }
+            .launchIn(viewModelScope)
+
+        _uiState
+            .map { it.fromCurrency.code to it.toCurrency.code }
+            .distinctUntilChanged()
+            .debounce(300)
+            .onEach { (from, to) ->
+                val series = repository.pairHistory(from, to, 7)
+                _uiState.update { state ->
+                    if (state.fromCurrency.code == from && state.toCurrency.code == to) state.copy(sparkline = series) else state
+                }
+            }
             .launchIn(viewModelScope)
 
         viewModelScope.launch {
@@ -79,7 +99,10 @@ class ConverterViewModel @Inject constructor(
 
         // Results follow input immediately; only the side effects below are debounced.
         _uiState
-            .map { CalcInput(it.amount, it.fromCurrency.code, it.toCurrency.code, it.favorites, it.rates) }
+            .map {
+                val table = if (it.historicalDate != null) it.historicalRates else it.rates
+                CalcInput(it.amount, it.fromCurrency.code, it.toCurrency.code, it.favoriteOrder, table)
+            }
             .distinctUntilChanged()
             .onEach { input ->
                 val result = recalculate(input.amount, input.from, input.to, input.rates)
@@ -109,7 +132,7 @@ class ConverterViewModel @Inject constructor(
         val amount: String,
         val from: String,
         val to: String,
-        val favorites: Set<String>,
+        val favorites: List<String>,
         val rates: Map<String, Double>
     )
 
@@ -168,8 +191,103 @@ class ConverterViewModel @Inject constructor(
         _uiState.update { it.copy(fromCurrency = fromInfo, toCurrency = toInfo) }
     }
 
+    fun applyLaunch(from: String?, to: String?, amount: String?) {
+        val resolvedFrom = from?.uppercase()
+        val resolvedTo = to?.uppercase() ?: resolvedFrom?.let { if (it == "USD") "EUR" else "USD" }
+        if (resolvedFrom != null && resolvedTo != null) applyPair(resolvedFrom, resolvedTo)
+        if (!amount.isNullOrBlank()) {
+            accumulator = null
+            pendingOp = null
+            replaceOnNextDigit = false
+            _uiState.update { it.copy(amount = amount) }
+        }
+    }
+
+    fun setHistoricalDate(dayMillis: Long?) {
+        if (dayMillis == null) {
+            _uiState.update {
+                it.copy(
+                    historicalDate = null,
+                    historicalLabel = null,
+                    historicalRates = emptyMap(),
+                    historicalLoading = false,
+                    historicalError = false
+                )
+            }
+            return
+        }
+        _uiState.update {
+            it.copy(historicalDate = dayMillis, historicalLoading = true, historicalError = false)
+        }
+        viewModelScope.launch {
+            val dated = repository.ratesOnDate(dayMillis)
+            _uiState.update { state ->
+                if (state.historicalDate != dayMillis) state
+                else if (dated == null) state.copy(historicalLoading = false, historicalError = true, historicalRates = emptyMap())
+                else state.copy(
+                    historicalLoading = false,
+                    historicalError = false,
+                    historicalLabel = dated.date,
+                    historicalRates = dated.rates
+                )
+            }
+        }
+    }
+
     fun swapCurrencies() {
         _uiState.update { it.copy(fromCurrency = it.toCurrency, toCurrency = it.fromCurrency) }
+    }
+
+    fun saveCurrentPair() {
+        val state = _uiState.value
+        viewModelScope.launch { userPrefs.savePair(state.fromCurrency.code, state.toCurrency.code) }
+    }
+
+    fun removePair(from: String, to: String) {
+        viewModelScope.launch { userPrefs.removePair(from, to) }
+    }
+
+    fun beginTargetEntry() {
+        val current = _uiState.value.result?.let(::formatCalc).orEmpty()
+        _uiState.update { it.copy(targetDraft = current) }
+    }
+
+    fun cancelTargetEntry() {
+        _uiState.update { it.copy(targetDraft = null) }
+    }
+
+    fun onTargetKey(key: String) {
+        _uiState.update { state ->
+            val current = state.targetDraft ?: return@update state
+            val next = when (key) {
+                "C" -> ""
+                "DEL" -> current.dropLast(1)
+                ",", "." -> if (current.contains(',') || current.contains('.')) current else (current.ifEmpty { "0" } + key)
+                else -> if (key.length == 1 && key[0].isDigit()) {
+                    val base = current
+                    when {
+                        base.length >= 15 -> base
+                        base == "0" -> key
+                        else -> base + key
+                    }
+                } else current
+            }
+            state.copy(targetDraft = next)
+        }
+    }
+
+    fun finishTargetEntry() {
+        val state = _uiState.value
+        val draft = state.targetDraft
+        val target = draft?.let(::parseAmount)
+        val table = if (state.historicalDate != null) state.historicalRates else state.rates
+        val source = target?.let {
+            convertCurrency(it, state.toCurrency.code, state.fromCurrency.code, table, BASE_CURRENCY)
+        }
+        _uiState.update {
+            if (source != null && source.isFinite() && source >= 0.0) it.copy(amount = formatCalc(source), targetDraft = null)
+            else it.copy(targetDraft = null)
+        }
     }
 
     fun retryRates() = refreshRates(force = true)
@@ -298,10 +416,10 @@ class ConverterViewModel @Inject constructor(
         amountStr: String,
         from: String,
         rates: Map<String, Double>,
-        favorites: Set<String>
+        favorites: List<String>
     ): Map<String, Double> {
         val amount = parseAmount(amountStr) ?: return emptyMap()
-        val ordered = (favorites.toList() + SUPPORTED_CURRENCIES.map { it.code })
+        val ordered = (favorites + SUPPORTED_CURRENCIES.map { it.code })
             .distinct()
             .filter { it != from }
         val out = LinkedHashMap<String, Double>()

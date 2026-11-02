@@ -152,8 +152,13 @@ fun MetalsScreen(viewModel: MetalsViewModel = hiltViewModel(), isWide: Boolean =
                             }
                             Text(stringResource(R.string.metal_retrieved, metal.source,
                                 DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(metal.retrievedAt))),
-                                style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(horizontal = 18.dp, vertical = 4.dp))
+                                style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(start = 18.dp, end = 18.dp, top = 4.dp, bottom = 14.dp))
                             if (metal.cached && !state.isRefreshing) Text(stringResource(R.string.metal_cache), modifier = Modifier.padding(18.dp), color = MaterialTheme.colorScheme.error)
+                        }
+                    }
+                    state.metals.firstOrNull { it.code == "XAU" }?.let { gold ->
+                        item(span = { GridItemSpan(maxLineSpan) }) {
+                            GoldJewelrySection(ouncePrice = gold.rate, quote = state.quote)
                         }
                     }
                 }
@@ -163,6 +168,6 @@ fun MetalsScreen(viewModel: MetalsViewModel = hiltViewModel(), isWide: Boolean =
 }
 
 private fun formatMetal(v: Double): String = NumberFormat.getNumberInstance(Locale.getDefault()).apply {
-    minimumFractionDigits = 2
-    maximumFractionDigits = 2
+    minimumFractionDigits = 4
+    maximumFractionDigits = 4
 }.format(v)

@@ -1,0 +1,5 @@
+• Seguimiento en vivo del Wi-Fi y de la red, con soporte sin conexión
+• Tipos de cambio inversos (1 EUR = 1,08 USD) y copiar o compartir al instante en el conversor
+• Selección personalizable de divisas en Estadísticas
+• Ordena los tipos en vivo por nombre, tipo y cambio de 24 h
+• Mejoras de rendimiento y de respuesta

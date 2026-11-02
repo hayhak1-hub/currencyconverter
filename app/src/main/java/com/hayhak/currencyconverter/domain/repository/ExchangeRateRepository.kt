@@ -1,5 +1,6 @@
 package com.hayhak.currencyconverter.domain.repository
 
+import com.hayhak.currencyconverter.domain.model.DatedRates
 import com.hayhak.currencyconverter.domain.model.ExchangeRate
 import com.hayhak.currencyconverter.domain.model.HistoricalRate
 import kotlinx.coroutines.flow.Flow
@@ -15,4 +16,10 @@ interface ExchangeRateRepository {
     suspend fun refreshHistoricalRates(base: String, target: String, daysBack: Int)
     suspend fun getLastUpdateTime(base: String = "USD"): Long?
     suspend fun getRatesBefore(base: String, beforeTimestamp: Long): ExchangeRate?
+
+    /** USD table for [dayMillis], or the latest business day on or before it. */
+    suspend fun ratesOnDate(dayMillis: Long): DatedRates?
+
+    /** Quote-per-base rates for the last [days], oldest first. */
+    suspend fun pairHistory(from: String, to: String, days: Int): List<Double>
 }

@@ -1,0 +1,5 @@
+• Suivi en direct du Wi-Fi et du réseau, avec prise en charge hors ligne
+• Taux inverses (1 EUR = 1,08 USD) et copie ou partage rapide dans le convertisseur
+• Choix personnalisable des devises sur l’écran Statistiques
+• Triez les cours en direct par nom, cours et variation sur 24 h
+• Optimisations des performances et de la réactivité

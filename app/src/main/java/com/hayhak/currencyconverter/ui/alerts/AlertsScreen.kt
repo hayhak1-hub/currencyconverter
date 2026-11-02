@@ -14,6 +14,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -39,6 +42,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -57,13 +61,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hayhak.currencyconverter.R
 import com.hayhak.currencyconverter.domain.model.RateAlarm
 import com.hayhak.currencyconverter.domain.model.SUPPORTED_CURRENCIES
+import com.hayhak.currencyconverter.ui.components.AlarmDirectionChips
 import com.hayhak.currencyconverter.ui.components.CurrencySelector
 import com.hayhak.currencyconverter.domain.model.getFlagEmoji
 
 @Composable
 fun AlertsScreen(
     viewModel: AlertsViewModel = hiltViewModel(),
-    onOpenPair: (String, String) -> Unit = { _, _ -> }
+    onOpenPair: (String, String) -> Unit = { _, _ -> },
+    prefill: Pair<String, String>? = null,
+    onPrefillConsumed: () -> Unit = {}
 ) {
     val alarms by viewModel.alarms.collectAsStateWithLifecycle()
     var editing by remember { mutableStateOf<RateAlarm?>(null) }
@@ -71,18 +78,28 @@ fun AlertsScreen(
     val context = LocalContext.current
     val notifPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {}
 
+    LaunchedEffect(prefill) {
+        if (prefill != null) adding = true
+    }
+
     if (adding) {
         AddAlarmDialog(
-            onDismiss = { adding = false },
-            onSave = { base, target, threshold, isAbove, repeating ->
+            initialFrom = prefill?.first,
+            initialTo = prefill?.second,
+            onDismiss = {
+                adding = false
+                onPrefillConsumed()
+            },
+            onSave = { base, target, value, isAbove, repeating, percent ->
                 if (Build.VERSION.SDK_INT >= 33 &&
                     ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) !=
                     PackageManager.PERMISSION_GRANTED
                 ) {
                     notifPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
-                viewModel.add(base, target, threshold, isAbove, repeating)
+                viewModel.add(base, target, value, isAbove, repeating, percent)
                 adding = false
+                onPrefillConsumed()
             }
         )
     }
@@ -137,20 +154,42 @@ fun AlertsScreen(
 @Composable
 private fun AddAlarmDialog(
     onDismiss: () -> Unit,
-    onSave: (base: String, target: String, threshold: Double, isAbove: Boolean, repeating: Boolean) -> Unit
+    onSave: (base: String, target: String, value: Double, isAbove: Boolean, repeating: Boolean, percent: Boolean) -> Unit,
+    initialFrom: String? = null,
+    initialTo: String? = null
 ) {
-    var base by remember { mutableStateOf(SUPPORTED_CURRENCIES.first { it.code == "USD" }) }
-    var target by remember { mutableStateOf(SUPPORTED_CURRENCIES.first { it.code == "TRY" }) }
+    var base by remember {
+        mutableStateOf(SUPPORTED_CURRENCIES.find { it.code == initialFrom } ?: SUPPORTED_CURRENCIES.first { it.code == "USD" })
+    }
+    var target by remember {
+        mutableStateOf(SUPPORTED_CURRENCIES.find { it.code == initialTo } ?: SUPPORTED_CURRENCIES.first { it.code == "EUR" })
+    }
     var thresholdInput by remember { mutableStateOf("") }
     var isAbove by remember { mutableStateOf(true) }
     var repeating by remember { mutableStateOf(false) }
-    val threshold = thresholdInput.replace(",", ".").toDoubleOrNull()?.takeIf { it > 0 }
+    var percentMode by remember { mutableStateOf(false) }
+    val value = thresholdInput.replace(",", ".").toDoubleOrNull()?.takeIf { it > 0 }
 
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.alerts_add)) },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Column(
+                modifier = Modifier.heightIn(max = 420.dp).verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FilterChip(
+                        selected = !percentMode,
+                        onClick = { percentMode = false },
+                        label = { Text(stringResource(R.string.alarm_mode_level)) }
+                    )
+                    FilterChip(
+                        selected = percentMode,
+                        onClick = { percentMode = true },
+                        label = { Text(stringResource(R.string.alarm_mode_percent)) }
+                    )
+                }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     CurrencySelector(
                         label = stringResource(R.string.converter_from),
@@ -168,23 +207,17 @@ private fun AddAlarmDialog(
                 OutlinedTextField(
                     value = thresholdInput,
                     onValueChange = { thresholdInput = it },
-                    label = { Text(stringResource(R.string.alarm_target)) },
+                    label = { Text(stringResource(if (percentMode) R.string.alarm_percent else R.string.alarm_target)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    FilterChip(
-                        selected = isAbove,
-                        onClick = { isAbove = true },
-                        label = { Text(stringResource(R.string.alarm_when_above)) }
-                    )
-                    FilterChip(
-                        selected = !isAbove,
-                        onClick = { isAbove = false },
-                        label = { Text(stringResource(R.string.alarm_when_below)) }
-                    )
-                }
+                AlarmDirectionChips(
+                    isAbove = isAbove,
+                    onChange = { isAbove = it },
+                    aboveRes = if (percentMode) R.string.alarm_when_rises else R.string.alarm_when_above,
+                    belowRes = if (percentMode) R.string.alarm_when_falls else R.string.alarm_when_below
+                )
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Checkbox(checked = repeating, onCheckedChange = { repeating = it })
                     Text(stringResource(R.string.alarm_repeating), style = MaterialTheme.typography.bodyMedium)
@@ -193,8 +226,8 @@ private fun AddAlarmDialog(
         },
         confirmButton = {
             Button(
-                onClick = { threshold?.let { onSave(base.code, target.code, it, isAbove, repeating) } },
-                enabled = threshold != null && base.code != target.code
+                onClick = { value?.let { onSave(base.code, target.code, it, isAbove, repeating, percentMode) } },
+                enabled = value != null && base.code != target.code
             ) { Text(stringResource(R.string.alarm_set)) }
         },
         dismissButton = {
@@ -212,8 +245,11 @@ private fun AlarmCard(
     onOpen: () -> Unit
 ) {
     Card(onClick = onOpen, modifier = Modifier.fillMaxWidth()) {
+        // Texts get the full width; the controls sit in their own row so long translations and
+        // large font sizes never squeeze the pair name into several lines.
+        Column(modifier = Modifier.fillMaxWidth().padding(start = 16.dp, top = 16.dp, end = 8.dp, bottom = 4.dp)) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -229,9 +265,16 @@ private fun AlarmCard(
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    stringResource(
-                        if (alarm.isAbove) R.string.alarm_when_above else R.string.alarm_when_below
-                    ) + " ${"%.4f".format(alarm.threshold)}",
+                    if (alarm.isPercent) {
+                        stringResource(
+                            if (alarm.isAbove) R.string.alarm_percent_up_line else R.string.alarm_percent_down_line,
+                            "%.1f".format(alarm.percent)
+                        )
+                    } else {
+                        stringResource(
+                            if (alarm.isAbove) R.string.alarm_when_above else R.string.alarm_when_below
+                        ) + " ${"%.4f".format(alarm.threshold)}"
+                    },
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )
@@ -244,6 +287,12 @@ private fun AlarmCard(
                     )
                 }
             }
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Switch(checked = alarm.isEnabled, onCheckedChange = { onToggle() })
             IconButton(onClick = onEdit) {
                 Icon(Icons.Default.Edit, contentDescription = stringResource(R.string.alerts_edit))
@@ -251,6 +300,7 @@ private fun AlarmCard(
             IconButton(onClick = onDelete) {
                 Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.alerts_delete))
             }
+        }
         }
     }
 }
@@ -261,7 +311,17 @@ private fun EditAlarmDialog(
     onDismiss: () -> Unit,
     onSave: (RateAlarm) -> Unit
 ) {
-    var thresholdInput by remember { mutableStateOf("%.4f".format(alarm.threshold).trimEnd('0').trimEnd('.')) }
+    // Locale-aware, so "50.0000" becomes "50" (or "50,25") instead of "50," where the separator is a comma.
+    var percentMode by remember { mutableStateOf(alarm.isPercent) }
+    var thresholdInput by remember {
+        mutableStateOf(
+            java.text.NumberFormat.getNumberInstance(java.util.Locale.getDefault()).apply {
+                minimumFractionDigits = 0
+                maximumFractionDigits = 4
+                isGroupingUsed = false
+            }.format(if (alarm.isPercent) alarm.percent else alarm.threshold)
+        )
+    }
     var isAbove by remember { mutableStateOf(alarm.isAbove) }
     var repeating by remember { mutableStateOf(alarm.repeating) }
 
@@ -276,27 +336,36 @@ private fun EditAlarmDialog(
             )
         },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Column(
+                modifier = Modifier.heightIn(max = 420.dp).verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FilterChip(
+                        selected = !percentMode,
+                        onClick = { percentMode = false },
+                        label = { Text(stringResource(R.string.alarm_mode_level)) }
+                    )
+                    FilterChip(
+                        selected = percentMode,
+                        onClick = { percentMode = true },
+                        label = { Text(stringResource(R.string.alarm_mode_percent)) }
+                    )
+                }
                 OutlinedTextField(
                     value = thresholdInput,
                     onValueChange = { thresholdInput = it },
-                    label = { Text(stringResource(R.string.alarm_target)) },
+                    label = { Text(stringResource(if (percentMode) R.string.alarm_percent else R.string.alarm_target)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    FilterChip(
-                        selected = isAbove,
-                        onClick = { isAbove = true },
-                        label = { Text(stringResource(R.string.alarm_when_above)) }
-                    )
-                    FilterChip(
-                        selected = !isAbove,
-                        onClick = { isAbove = false },
-                        label = { Text(stringResource(R.string.alarm_when_below)) }
-                    )
-                }
+                AlarmDirectionChips(
+                    isAbove = isAbove,
+                    onChange = { isAbove = it },
+                    aboveRes = if (percentMode) R.string.alarm_when_rises else R.string.alarm_when_above,
+                    belowRes = if (percentMode) R.string.alarm_when_falls else R.string.alarm_when_below
+                )
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Checkbox(checked = repeating, onCheckedChange = { repeating = it })
                     Text(stringResource(R.string.alarm_repeating), style = MaterialTheme.typography.bodyMedium)
@@ -309,7 +378,9 @@ private fun EditAlarmDialog(
                     val threshold = thresholdInput.replace(",", ".").toDoubleOrNull() ?: return@Button
                     onSave(
                         alarm.copy(
-                            threshold = threshold,
+                            threshold = if (percentMode) 0.0 else threshold,
+                            percent = if (percentMode) threshold else 0.0,
+                            kind = if (percentMode) RateAlarm.KIND_PERCENT else RateAlarm.KIND_THRESHOLD,
                             isAbove = isAbove,
                             repeating = repeating,
                             lastFiredAt = 0L
