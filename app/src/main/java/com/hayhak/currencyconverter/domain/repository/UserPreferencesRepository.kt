@@ -1,6 +1,7 @@
 package com.hayhak.currencyconverter.domain.repository
 
 import com.hayhak.currencyconverter.domain.model.RateAlarm
+import com.hayhak.currencyconverter.domain.model.RatePromptState
 import kotlinx.coroutines.flow.Flow
 
 interface UserPreferencesRepository {
@@ -26,4 +27,9 @@ interface UserPreferencesRepository {
     suspend fun updateAlarm(alarm: RateAlarm)
     suspend fun removeAlarm(id: String)
     suspend fun saveWidgetConfig(base: String, codes: List<String>)
+
+    suspend fun ensureRatePromptFirstSeen()
+    suspend fun ratePromptState(): RatePromptState
+    suspend fun markRatePromptShown(now: Long)
+    suspend fun markRatePromptAccepted()
 }

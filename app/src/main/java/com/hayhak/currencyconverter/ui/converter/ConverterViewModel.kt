@@ -11,6 +11,7 @@ import com.hayhak.currencyconverter.domain.usecase.ConvertCurrencyUseCase
 import com.hayhak.currencyconverter.domain.usecase.GetExchangeRatesUseCase
 import com.hayhak.currencyconverter.util.AnalyticsTracker
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,6 +24,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.LinkedHashMap
 import javax.inject.Inject
 
@@ -81,8 +83,11 @@ class ConverterViewModel @Inject constructor(
             .distinctUntilChanged()
             .onEach { input ->
                 val result = recalculate(input.amount, input.from, input.to, input.rates)
-                val batchResults = calculateBatch(input.amount, input.from, input.rates, input.favorites)
-                _uiState.update { it.copy(result = result, batchResults = batchResults) }
+                val inverse = calculateInverse(input.from, input.to, input.rates)
+                val batchResults = withContext(Dispatchers.Default) {
+                    calculateBatch(input.amount, input.from, input.rates, input.favorites)
+                }
+                _uiState.update { it.copy(result = result, inverseRate = inverse, batchResults = batchResults) }
             }
             .launchIn(viewModelScope)
 
@@ -279,6 +284,14 @@ class ConverterViewModel @Inject constructor(
     ): Double? {
         val amount = parseAmount(amountStr) ?: return null
         return convertCurrency(amount, from, to, rates, baseCurrency = BASE_CURRENCY)
+    }
+
+    private fun calculateInverse(
+        from: String,
+        to: String,
+        rates: Map<String, Double>
+    ): Double? {
+        return convertCurrency(1.0, to, from, rates, baseCurrency = BASE_CURRENCY)
     }
 
     private fun calculateBatch(

@@ -92,6 +92,10 @@
     <string name="settings_help_desc">How to use the app</string>
     <string name="settings_rate_us">Rate us</string>
     <string name="settings_rate_us_desc">Share your feedback on Google Play</string>
+    <string name="rate_prompt_title">Rate us</string>
+    <string name="rate_prompt_message">If you like Currency Converter, a quick rating on Google Play helps a lot.</string>
+    <string name="rate_prompt_ok">OK</string>
+    <string name="rate_prompt_later">Later</string>
     <string name="settings_feedback">Contact us</string>
     <string name="settings_feedback_desc">Send ideas, issues, or requests by email</string>
     <string name="settings_feedback_email" translatable="false">thunderbascraft@gmail.com</string>
@@ -157,10 +161,18 @@
     <string name="currency_xpt">Platinum</string>
     <string name="currency_xpd">Palladium</string>
     <string name="alerts_add" tools:ignore="MissingTranslation">Add alert</string>
-    <string name="sort_default" tools:ignore="MissingTranslation">Default</string>
-    <string name="sort_change" tools:ignore="MissingTranslation">Change</string>
-    <string name="sort_rate" tools:ignore="MissingTranslation">Rate</string>
-    <string name="metals_show_in" tools:ignore="MissingTranslation">Show in</string>
+    <string name="sort_default">Default</string>
+    <string name="sort_change">Change</string>
+    <string name="sort_rate">Rate</string>
+    <string name="sort_name" tools:ignore="MissingTranslation">Name</string>
+    <string name="dashboard_sort" tools:ignore="MissingTranslation">Sort by</string>
+    <string name="metals_show_in">Show in</string>
+    <string name="network_offline_banner" tools:ignore="MissingTranslation">No internet connection. Displaying cached data.</string>
+    <string name="converter_inverse_rate" tools:ignore="MissingTranslation">1 %1$s = %2$s %3$s</string>
+    <string name="converter_copied" tools:ignore="MissingTranslation">Result copied to clipboard</string>
+    <string name="history_custom_range" tools:ignore="MissingTranslation">Custom</string>
+    <string name="stats_add_currency" tools:ignore="MissingTranslation">Add currency</string>
+    <string name="stats_select_currencies" tools:ignore="MissingTranslation">Select currencies</string>
     <plurals name="minutes_ago">
         <item quantity="one">%d minute ago</item>
         <item quantity="other">%d minutes ago</item>

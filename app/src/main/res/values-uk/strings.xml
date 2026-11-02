@@ -139,6 +139,10 @@
     <string name="settings_help_desc">Як користуватися застосунком</string>
     <string name="settings_rate_us">Оцініть нас</string>
     <string name="settings_rate_us_desc">Поділіться відгуком у Google Play</string>
+    <string name="rate_prompt_title">Оцініть нас</string>
+    <string name="rate_prompt_message">Якщо вам подобається Currency Converter, коротка оцінка в Google Play дуже допоможе.</string>
+    <string name="rate_prompt_ok">ОК</string>
+    <string name="rate_prompt_later">Пізніше</string>
     <string name="settings_feedback">Зв’язатися з нами</string>
     <string name="settings_feedback_desc">Надсилайте ідеї, повідомлення про помилки або побажання електронною поштою</string>
     <string name="settings_feedback_subject">Відгук про «Конвертер валют» (%1$s)</string>

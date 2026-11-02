@@ -89,6 +89,7 @@ class StatisticsViewModel @Inject constructor(
                         stats = stats,
                         quoteCode = quote,
                         date = dateFmt.format(Date()),
+                        favorites = favorites,
                         isLoading = false,
                         hasYesterdayData = yesterdayRates != null,
                         error = null
@@ -111,6 +112,12 @@ class StatisticsViewModel @Inject constructor(
                     if (e is CancellationException) throw e
                 }
             }
+        }
+    }
+
+    fun toggleCurrency(code: String) {
+        viewModelScope.launch {
+            userPrefs.toggleFavorite(code)
         }
     }
 

@@ -94,8 +94,8 @@ class ExchangeRateRepositoryImpl @Inject constructor(
                 dao.replaceHistory(base, entities.minOf { it.timestamp }, entities.maxOf { it.timestamp }, entities)
             }
         } catch (e: Exception) {
-            android.util.Log.e("ExchangeRateRepo", "Failed to refresh history $base/$target ($daysBack d)", e)
-            throw e
+            if (e is kotlinx.coroutines.CancellationException) throw e
+            android.util.Log.w("ExchangeRateRepo", "Failed to refresh history $base/$target ($daysBack d): ${e.message}")
         }
     }
 

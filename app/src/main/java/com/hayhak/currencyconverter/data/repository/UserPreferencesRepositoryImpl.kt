@@ -1,16 +1,20 @@
 package com.hayhak.currencyconverter.data.repository
 
 import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.hayhak.currencyconverter.domain.model.RateAlarm
+import com.hayhak.currencyconverter.domain.model.RatePromptState
 import com.hayhak.currencyconverter.domain.repository.UserPreferencesRepository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -37,6 +41,9 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         val ALARMS = stringPreferencesKey("alarms")
         val WIDGET_BASE = stringPreferencesKey("widget_base")
         val WIDGET_CODES = stringPreferencesKey("widget_codes")
+        val RATE_PROMPT_FIRST_SEEN = longPreferencesKey("rate_prompt_first_seen")
+        val RATE_PROMPT_LAST_SHOWN = longPreferencesKey("rate_prompt_last_shown")
+        val RATE_PROMPT_ACCEPTED = booleanPreferencesKey("rate_prompt_accepted")
     }
 
     private val defaultFavorites = setOf("USD", "EUR", "GBP", "TRY")
@@ -163,6 +170,39 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         context.dataStore.edit { prefs ->
             prefs[PreferencesKeys.WIDGET_BASE] = base
             prefs[PreferencesKeys.WIDGET_CODES] = codes.joinToString(",")
+        }
+    }
+
+    override suspend fun ensureRatePromptFirstSeen() {
+        @Suppress("DEPRECATION")
+        val installTime = context.packageManager
+            .getPackageInfo(context.packageName, 0)
+            .firstInstallTime
+        context.dataStore.edit { prefs ->
+            if ((prefs[PreferencesKeys.RATE_PROMPT_FIRST_SEEN] ?: 0L) <= 0L) {
+                prefs[PreferencesKeys.RATE_PROMPT_FIRST_SEEN] = installTime
+            }
+        }
+    }
+
+    override suspend fun ratePromptState(): RatePromptState {
+        val prefs = context.dataStore.data.first()
+        return RatePromptState(
+            firstSeenAt = prefs[PreferencesKeys.RATE_PROMPT_FIRST_SEEN] ?: 0L,
+            lastShownAt = prefs[PreferencesKeys.RATE_PROMPT_LAST_SHOWN] ?: 0L,
+            accepted = prefs[PreferencesKeys.RATE_PROMPT_ACCEPTED] ?: false
+        )
+    }
+
+    override suspend fun markRatePromptShown(now: Long) {
+        context.dataStore.edit { prefs ->
+            prefs[PreferencesKeys.RATE_PROMPT_LAST_SHOWN] = now
+        }
+    }
+
+    override suspend fun markRatePromptAccepted() {
+        context.dataStore.edit { prefs ->
+            prefs[PreferencesKeys.RATE_PROMPT_ACCEPTED] = true
         }
     }
 }

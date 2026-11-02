@@ -251,8 +251,15 @@ private fun ResultDisplay(state: ConverterUiState) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(res, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
                 if (state.result != null) {
-                    IconButton(onClick = { clip.setText(AnnotatedString(res)) }) {
-                        Icon(Icons.Default.ContentCopy, stringResource(R.string.cd_copy), modifier = Modifier.size(16.dp))
+                    IconButton(onClick = {
+                        clip.setText(AnnotatedString(res))
+                        android.widget.Toast.makeText(
+                            context,
+                            context.getString(R.string.converter_copied),
+                            android.widget.Toast.LENGTH_SHORT
+                        ).show()
+                    }) {
+                        Icon(Icons.Default.ContentCopy, stringResource(R.string.cd_copy), modifier = Modifier.size(18.dp))
                     }
                     IconButton(onClick = {
                         val amount = state.amount.ifEmpty { "1" }
@@ -268,8 +275,24 @@ private fun ResultDisplay(state: ConverterUiState) {
                             )
                         )
                     }) {
-                        Icon(Icons.Default.Share, stringResource(R.string.cd_share_conversion), modifier = Modifier.size(16.dp))
+                        Icon(Icons.Default.Share, stringResource(R.string.cd_share_conversion), modifier = Modifier.size(18.dp))
                     }
+                }
+            }
+            state.inverseRate?.let { inv ->
+                if (inv > 0) {
+                    Text(
+                        stringResource(
+                            R.string.converter_inverse_rate,
+                            state.toCurrency.code,
+                            formatVal(inv),
+                            state.fromCurrency.code
+                        ),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.85f),
+                        modifier = Modifier.padding(vertical = 4.dp)
+                    )
                 }
             }
             state.lastUpdated?.let { ts ->

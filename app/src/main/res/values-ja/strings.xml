@@ -136,6 +136,10 @@
     <string name="settings_help_desc">アプリの使い方</string>
     <string name="settings_rate_us">評価する</string>
     <string name="settings_rate_us_desc">Google Playでご意見をお寄せください</string>
+    <string name="rate_prompt_title">評価する</string>
+    <string name="rate_prompt_message">Currency Converterが気に入ったら、Google Playでの短い評価が大きな助けになります。</string>
+    <string name="rate_prompt_ok">OK</string>
+    <string name="rate_prompt_later">後で</string>
     <string name="settings_feedback">お問い合わせ</string>
     <string name="settings_feedback_desc">ご意見・不具合・ご要望をメールで送信</string>
     <string name="settings_feedback_subject">通貨コンバーターへのフィードバック (%1$s)</string>

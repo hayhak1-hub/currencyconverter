@@ -1,8 +1,5 @@
-• Kursalarme direkt im Bereich Alarme mit + anlegen
-• Verlauf: neuer 5-Tage-Zeitraum, CSV-Export, klareres Vergleichsdiagramm; der Zeitraum wird gemerkt
-• Tägliche %-Änderung erscheint gleich nach der Installation
-• Kurse nach Änderung oder Kurs sortieren
-• Währung für Metallpreise wählbar
-• Rechner-Ergebnisse aktualisieren sich sofort, der ganze Bildschirm scrollt
-• Schnellerer Start mit weniger Netzwerkanfragen
-• Übersetzungen in allen 20 Sprachen vervollständigt
+• Live-WLAN- und Netzwerkanzeige mit vollwerter Offline-Unterstützung
+• Umgekehrte Wechselkurse (1 TRY = 0,0274 USD) und schnelle Kopier- & Teilen-Funktion
+• Anpassbare Währungsauswahl auf dem Statistik-Bildschirm
+• Sortieren Sie Live-Kurse nach Name, Kurs und 24h-Änderung
+• Leistungs- und Reaktionsoptimierungen

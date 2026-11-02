@@ -136,6 +136,10 @@
     <string name="settings_help_desc">Cara menggunakan aplikasi</string>
     <string name="settings_rate_us">Beri nilai kami</string>
     <string name="settings_rate_us_desc">Bagikan ulasan Anda di Google Play</string>
+    <string name="rate_prompt_title">Beri nilai kami</string>
+    <string name="rate_prompt_message">Jika Anda menyukai Currency Converter, penilaian singkat di Google Play sangat membantu.</string>
+    <string name="rate_prompt_ok">OK</string>
+    <string name="rate_prompt_later">Nanti</string>
     <string name="settings_feedback">Hubungi kami</string>
     <string name="settings_feedback_desc">Kirim ide, masalah, atau permintaan lewat email</string>
     <string name="settings_feedback_subject">Masukan Konverter Mata Uang (%1$s)</string>

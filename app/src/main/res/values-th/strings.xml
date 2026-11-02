@@ -136,6 +136,10 @@
     <string name="settings_help_desc">วิธีใช้งานแอป</string>
     <string name="settings_rate_us">ให้คะแนนเรา</string>
     <string name="settings_rate_us_desc">แบ่งปันความคิดเห็นของคุณใน Google Play</string>
+    <string name="rate_prompt_title">ให้คะแนนเรา</string>
+    <string name="rate_prompt_message">หากคุณชอบ Currency Converter การให้คะแนนสั้นๆ บน Google Play ช่วยได้มาก</string>
+    <string name="rate_prompt_ok">ตกลง</string>
+    <string name="rate_prompt_later">ภายหลัง</string>
     <string name="settings_feedback">ติดต่อเรา</string>
     <string name="settings_feedback_desc">ส่งไอเดีย ปัญหา หรือคำขอทางอีเมล</string>
     <string name="settings_feedback_subject">ความคิดเห็นเกี่ยวกับแปลงสกุลเงิน (%1$s)</string>

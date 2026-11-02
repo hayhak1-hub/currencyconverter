@@ -91,6 +91,10 @@
     <string name="settings_help_desc">Uygulamayı nasıl kullanacağınız</string>
     <string name="settings_rate_us">Bizi değerlendir</string>
     <string name="settings_rate_us_desc">Google Play\'de geri bildirim paylaşın</string>
+    <string name="rate_prompt_title">Bizi değerlendir</string>
+    <string name="rate_prompt_message">Currency Converter\'ı beğendiyseniz Google Play\'de kısa bir puan çok yardımcı olur.</string>
+    <string name="rate_prompt_ok">Tamam</string>
+    <string name="rate_prompt_later">Sonra</string>
     <string name="settings_feedback">Bize yazın</string>
     <string name="settings_feedback_desc">Fikir, hata veya isteklerinizi e-posta ile gönderin</string>
     <string name="settings_feedback_subject">Döviz Çevirici geri bildirim (%1$s)</string>
@@ -159,7 +163,15 @@
     <string name="sort_default">Varsayılan</string>
     <string name="sort_change">Değişim</string>
     <string name="sort_rate">Kur</string>
+    <string name="sort_name">İsim</string>
+    <string name="dashboard_sort">Sırala</string>
     <string name="metals_show_in">Para birimi</string>
+    <string name="network_offline_banner">İnternet bağlantısı yok. Önbellekteki veriler gösteriliyor.</string>
+    <string name="converter_inverse_rate">1 %1$s = %2$s %3$s</string>
+    <string name="converter_copied">Sonuç panoya kopyalandı</string>
+    <string name="history_custom_range">Özel</string>
+    <string name="stats_add_currency">Para birimi ekle</string>
+    <string name="stats_select_currencies">Para birimlerini seçin</string>
     <plurals name="minutes_ago">
         <item quantity="one">%d dk önce</item>
         <item quantity="other">%d dk önce</item>

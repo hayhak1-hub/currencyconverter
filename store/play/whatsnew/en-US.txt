@@ -1,8 +1,5 @@
-• Add rate alerts right from the Alerts screen with the + button
-• History: new 5-day range, CSV export, a clearer comparison chart, and your range is remembered
-• Daily % change now shows right after install
-• Sort rates by change or by rate
-• Choose the currency for metal prices
-• Converter results update instantly and the whole screen scrolls
-• Faster start with fewer network requests
-• Translations completed in all 20 languages
+• Live Wi-Fi & network status monitoring with full offline support
+• Inverse conversion rates (1 TRY = 0.0274 USD) & quick copy/share in converter
+• Customizable currency selection on the Statistics screen
+• Sort live rates by Name, Rate, and 24h Change
+• Performance and responsiveness optimizations

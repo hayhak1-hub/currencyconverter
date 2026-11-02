@@ -137,6 +137,10 @@
     <string name="settings_help_desc">ایپ کیسے استعمال کریں</string>
     <string name="settings_rate_us">ہمیں ریٹنگ دیں</string>
     <string name="settings_rate_us_desc">Google Play پر اپنی رائے شیئر کریں</string>
+    <string name="rate_prompt_title">ہمیں ریٹنگ دیں</string>
+    <string name="rate_prompt_message">اگر آپ کو Currency Converter پسند ہے تو Google Play پر ایک مختصر ریٹنگ بہت مددگار ہے۔</string>
+    <string name="rate_prompt_ok">ٹھیک ہے</string>
+    <string name="rate_prompt_later">بعد میں</string>
     <string name="settings_feedback">ہم سے رابطہ کریں</string>
     <string name="settings_feedback_desc">ای میل کے ذریعے آئیڈیاز، مسائل یا درخواستیں بھیجیں</string>
     <string name="settings_feedback_subject">کرنسی کنورٹر فیڈ بیک (%1$s)</string>

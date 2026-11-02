@@ -53,6 +53,21 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    fun setSortOption(option: DashboardSortOption) {
+        _uiState.update { state ->
+            val sorted = sortRows(state.rows, option)
+            state.copy(sortOption = option, rows = sorted)
+        }
+    }
+
+    private fun sortRows(rows: List<CurrencyRow>, option: DashboardSortOption): List<CurrencyRow> =
+        when (option) {
+            DashboardSortOption.DEFAULT -> rows
+            DashboardSortOption.NAME -> rows.sortedBy { it.name }
+            DashboardSortOption.RATE -> rows.sortedByDescending { it.rateToTry }
+            DashboardSortOption.TREND -> rows.sortedByDescending { it.trend }
+        }
+
     fun onBaseCurrencyChange(newBase: String) {
         viewModelScope.launch {
             userPrefs.saveLastDashboardBase(newBase)
@@ -136,9 +151,9 @@ class DashboardViewModel @Inject constructor(
                         )
                     }
 
-                _uiState.update {
-                    it.copy(
-                        rows = rows,
+                _uiState.update { state ->
+                    state.copy(
+                        rows = sortRows(rows, state.sortOption),
                         allRates = exchangeRate.rates,
                         yesterdayRates = yesterday,
                         isLoading = false,

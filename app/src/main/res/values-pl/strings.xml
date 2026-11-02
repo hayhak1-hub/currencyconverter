@@ -139,6 +139,10 @@
     <string name="settings_help_desc">Jak korzystać z aplikacji</string>
     <string name="settings_rate_us">Oceń nas</string>
     <string name="settings_rate_us_desc">Podziel się opinią w Google Play</string>
+    <string name="rate_prompt_title">Oceń nas</string>
+    <string name="rate_prompt_message">Jeśli podoba Ci się Currency Converter, krótka ocena w Google Play bardzo pomaga.</string>
+    <string name="rate_prompt_ok">OK</string>
+    <string name="rate_prompt_later">Później</string>
     <string name="settings_feedback">Skontaktuj się z nami</string>
     <string name="settings_feedback_desc">Wyślij pomysły, problemy lub prośby e-mailem</string>
     <string name="settings_feedback_subject">Opinia o aplikacji Przelicznik walut (%1$s)</string>

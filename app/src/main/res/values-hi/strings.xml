@@ -137,6 +137,10 @@
     <string name="settings_help_desc">ऐप का उपयोग कैसे करें</string>
     <string name="settings_rate_us">हमें रेटिंग दें</string>
     <string name="settings_rate_us_desc">Google Play पर अपनी राय साझा करें</string>
+    <string name="rate_prompt_title">हमें रेटिंग दें</string>
+    <string name="rate_prompt_message">अगर आपको Currency Converter पसंद है, तो Google Play पर एक छोटी रेटिंग बहुत मदद करती है।</string>
+    <string name="rate_prompt_ok">ठीक है</string>
+    <string name="rate_prompt_later">बाद में</string>
     <string name="settings_feedback">हमसे संपर्क करें</string>
     <string name="settings_feedback_desc">ईमेल से सुझाव, समस्याएँ या अनुरोध भेजें</string>
     <string name="settings_feedback_subject">मुद्रा परिवर्तक फ़ीडबैक (%1$s)</string>

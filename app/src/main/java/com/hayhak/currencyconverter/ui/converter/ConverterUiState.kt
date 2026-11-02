@@ -8,6 +8,7 @@ data class ConverterUiState(
     val fromCurrency: CurrencyInfo = SUPPORTED_CURRENCIES.first { it.code == "USD" },
     val toCurrency: CurrencyInfo = SUPPORTED_CURRENCIES.first { it.code == "TRY" },
     val result: Double? = null,
+    val inverseRate: Double? = null,
     val batchResults: Map<String, Double> = emptyMap(),
     val rates: Map<String, Double> = emptyMap(),
     val favorites: Set<String> = emptySet(),

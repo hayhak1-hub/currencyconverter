@@ -91,6 +91,10 @@
     <string name="settings_help_desc">So nutzen Sie die App</string>
     <string name="settings_rate_us">Bewerten Sie uns</string>
     <string name="settings_rate_us_desc">Feedback bei Google Play teilen</string>
+    <string name="rate_prompt_title">Bewerten Sie uns</string>
+    <string name="rate_prompt_message">Wenn Ihnen Currency Converter gefällt, hilft eine kurze Bewertung bei Google Play sehr.</string>
+    <string name="rate_prompt_ok">OK</string>
+    <string name="rate_prompt_later">Später</string>
     <string name="settings_feedback">Kontakt</string>
     <string name="settings_feedback_desc">Ideen, Fehler oder Wünsche per E-Mail senden</string>
     <string name="settings_feedback_subject">Währungsrechner Feedback (%1$s)</string>
