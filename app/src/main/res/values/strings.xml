@@ -239,4 +239,42 @@
         <item quantity="other">%d minutes ago</item>
     </plurals>
     <string name="digest_empty">No saved pairs yet</string>
+    <string name="alerts_history">Recent alerts</string>
+    <string name="alerts_history_clear">Clear</string>
+    <string name="nav_portfolio">Portfolio</string>
+    <string name="nav_trips">Trips</string>
+    <string name="portfolio_empty">Record what you bought and what you paid per unit. The app shows today’s value and your profit or loss.</string>
+    <string name="portfolio_add">Add holding</string>
+    <string name="portfolio_save">Save</string>
+    <string name="portfolio_delete">Delete holding</string>
+    <string name="portfolio_total_value">Total value</string>
+    <string name="portfolio_cost">Cost</string>
+    <string name="portfolio_unpriced">%d holding(s) could not be valued because a rate is missing.</string>
+    <string name="portfolio_disclaimer">Based only on the entries you add and indicative exchange rates. Not investment advice.</string>
+    <string name="portfolio_currency">Currency bought</string>
+    <string name="portfolio_paid_in">Paid in</string>
+    <string name="portfolio_price_per_unit">Price per unit</string>
+    <string name="trips_empty">Create a trip with a budget, then add what you spend in the local currency.</string>
+    <string name="trips_new">New trip</string>
+    <string name="trips_delete">Delete trip</string>
+    <string name="trips_delete_expense">Delete expense</string>
+    <string name="trips_left">%1$s left</string>
+    <string name="trips_over">%1$s over budget</string>
+    <string name="trips_spent_of">Spent %1$s of %2$s</string>
+    <string name="trips_no_rate">Some expenses could not be converted because a rate is missing.</string>
+    <string name="trips_add_expense">Add expense</string>
+    <string name="trips_name">Trip name</string>
+    <string name="trips_local_currency">Spending currency</string>
+    <string name="trips_home_currency">Budget currency</string>
+    <string name="trips_budget">Budget (%1$s)</string>
+    <string name="trips_expense_amount">Amount (%1$s)</string>
+    <string name="trips_expense_label">Note (optional)</string>
+    <string name="movers_vs_base">Vs %1$s</string>
+    <string name="movers_strength">Strength</string>
+    <string name="movers_strongest">Strongest</string>
+    <string name="movers_weakest">Weakest</string>
+    <string name="history_chart_description">Rate chart %1$s. Low %2$s, high %3$s, latest %4$s.</string>
+    <string name="converter_voice_input" translatable="false">Speak currency command</string>
+    <string name="converter_voice_error" translatable="false">Could not recognize speech</string>
+    <string name="converter_voice_recognized" translatable="false">Recognized: %1$s</string>
 </resources>
