@@ -4,6 +4,12 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class ConversionToolsTest {
+    @Test fun markupIsPositiveWhenTheOfferedRateIsWorse() {
+        assertEquals(5.0, markupPercent(1.0, 0.95)!!, 0.000001)
+        assertEquals(-2.0, markupPercent(1.0, 1.02)!!, 0.000001)
+        assertNull(markupPercent(0.0, 1.0))
+        assertNull(markupPercent(1.0, Double.NaN))
+    }
     @Test fun percentageAndFixedFeeAreDeductedInDestinationCurrency() {
         assertEquals(970.0, netAfterFees(1000.0, "2", "10")!!, 0.000001)
     }

@@ -13,6 +13,7 @@ interface UserPreferencesRepository {
     val quietHours: Flow<QuietHours>
     val savedPairs: Flow<List<Pair<String, String>>>
     val morningDigest: Flow<Boolean>
+    val analyticsEnabled: Flow<Boolean>
     val lastFromCurrency: Flow<String>
     val lastToCurrency: Flow<String>
     val lastHistoryBase: Flow<String>
@@ -42,6 +43,7 @@ interface UserPreferencesRepository {
     suspend fun savePair(from: String, to: String)
     suspend fun removePair(from: String, to: String)
     suspend fun setMorningDigest(enabled: Boolean)
+    suspend fun setAnalyticsEnabled(enabled: Boolean)
 
     suspend fun ensureRatePromptFirstSeen()
     suspend fun ratePromptState(): RatePromptState

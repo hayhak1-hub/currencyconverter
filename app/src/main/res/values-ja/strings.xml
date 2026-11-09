@@ -128,7 +128,7 @@
     <string name="settings_widget_pairs">表示する通貨</string>
     <string name="metals_error">金属価格を読み込めませんでした。下に引いて更新するか、もう一度お試しください。</string>
     <string name="settings_about">アプリについて</string>
-    <string name="settings_developer_by">開発: Hayhak</string>
+    <string name="settings_developer_by">開発: Thunderbascraft</string>
     <string name="settings_version_label">バージョン %1$s (%2$d)</string>
     <string name="settings_update">アップデート</string>
     <string name="settings_update_desc">Google Playで最新バージョンを確認</string>
@@ -268,4 +268,14 @@
     <string name="matrix_title">クロスレート表</string>
     <string name="matrix_select_currencies">通貨を選択</string>
     <string name="history_chart_description">%1$s のレートチャート。安値 %2$s、高値 %3$s、最新 %4$s。</string>
+    <string name="settings_analytics">匿名の利用統計</string>
+    <string name="settings_analytics_sub">アプリ改善のため、どの画面が使われたかを共有します。初期設定はオフで、金額は含まれません。</string>
+    <string name="history_timing_title">今日のレートの位置</string>
+    <string name="history_timing_percentile">今日のレートはこの期間の%1$d%%より高い水準です</string>
+    <string name="history_timing_vs_average">期間平均との差：%1$s</string>
+    <string name="tools_offered_rate">提示されたレート（1 %1$s = ? %2$s）</string>
+    <string name="tools_mid_rate">市場の仲値：%1$s %2$s</string>
+    <string name="tools_markup_cost">隠れたコスト：%1$s%%（約 %2$s %3$s）</string>
+    <string name="tools_markup_better">仲値より %1$s%% 有利（約 %2$s %3$s）</string>
+    <string name="tools_markup_none">仲値と同じです</string>
 </resources>

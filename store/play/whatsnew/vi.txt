@@ -1,5 +1,7 @@
-• Theo dõi Wi-Fi và mạng theo thời gian thực, dùng được đầy đủ khi ngoại tuyến
-• Tỷ giá nghịch (1 EUR = 1,08 USD) và sao chép hoặc chia sẻ nhanh trong phần chuyển đổi
-• Tự chọn tiền tệ trên màn hình Thống kê
-• Sắp xếp tỷ giá trực tiếp theo tên, tỷ giá và thay đổi 24 giờ
-• Tối ưu hiệu năng và độ phản hồi
+• Danh mục đầu tư có lãi/lỗ và ngân sách chuyến đi
+• Kiểm tra chi phí ẩn của đề nghị đổi tiền và ô Cài đặt nhanh
+• Lịch sử: vị trí tỷ giá hôm nay, SMA 50/200, xuất CSV
+• Cảnh báo theo % thay đổi, giờ yên tĩnh và lịch sử; nhập bằng giọng nói
+• Quy đổi theo ngày quá khứ, cặp đã lưu, tóm tắt buổi sáng, biến động mạnh nhất, tỷ giá chéo
+• Vàng theo độ tinh khiết, xu hướng trong tiện ích, sao lưu và khôi phục
+• Thống kê sử dụng ẩn danh nay là tùy chọn (mặc định tắt)

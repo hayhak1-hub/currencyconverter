@@ -128,7 +128,7 @@
     <string name="settings_widget_pairs">要显示的货币</string>
     <string name="metals_error">无法加载金属价格。请下拉刷新或重试。</string>
     <string name="settings_about">关于</string>
-    <string name="settings_developer_by">开发者：Hayhak</string>
+    <string name="settings_developer_by">开发者：Thunderbascraft</string>
     <string name="settings_version_label">版本 %1$s (%2$d)</string>
     <string name="settings_update">更新</string>
     <string name="settings_update_desc">在 Google Play 上检查最新版本</string>
@@ -268,4 +268,14 @@
     <string name="matrix_title">交叉汇率矩阵</string>
     <string name="matrix_select_currencies">选择货币</string>
     <string name="history_chart_description">%1$s 汇率图表。最低 %2$s，最高 %3$s，最新 %4$s。</string>
+    <string name="settings_analytics">匿名使用统计</string>
+    <string name="settings_analytics_sub">分享使用了哪些页面以帮助改进应用。默认关闭，绝不包含金额。</string>
+    <string name="history_timing_title">今日汇率所处位置</string>
+    <string name="history_timing_percentile">今日汇率高于本期间 %1$d%% 的时间</string>
+    <string name="history_timing_vs_average">与期间平均值相比 %1$s</string>
+    <string name="tools_offered_rate">给您的报价（1 %1$s = ? %2$s）</string>
+    <string name="tools_mid_rate">中间价：%1$s %2$s</string>
+    <string name="tools_markup_cost">隐性成本：%1$s%%（约 %2$s %3$s）</string>
+    <string name="tools_markup_better">比中间价更优 %1$s%%（约 %2$s %3$s）</string>
+    <string name="tools_markup_none">与中间价一致</string>
 </resources>

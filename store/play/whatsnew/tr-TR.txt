@@ -1,7 +1,7 @@
 • Kar/zarar takibi yapan portföy ve seyahat bütçeleri
-• Alarmlar: yüzde değişim, sessiz saatler ve alarm geçmişi
-• Geçmiş tarihte çeviri, kayıtlı çiftler ve sabah kur özeti
-• Çeviricide sesli giriş
-• En çok yükselen ve düşenler, para gücü, çapraz kur matrisi
-• Geçmiş: 5 günlük aralık, SMA 50/200 ve CSV dışa aktarma
-• Ayara göre altın ve ziynet, widget'ta eğilim çizgileri, yedekleme
+• Döviz tekliflerinde gizli maliyet kontrolü ve Hızlı Ayarlar kutucuğu
+• Geçmiş: bugünkü kurun konumu, SMA 50/200, CSV dışa aktarma
+• Yüzde değişim, sessiz saat ve geçmişli alarmlar; sesli giriş
+• Geçmiş tarihte çeviri, kayıtlı çiftler, sabah özeti, en çok değişenler, çapraz kurlar
+• Ayara göre altın, widget'ta eğilimler, yedekleme ve geri yükleme
+• Anonim kullanım istatistikleri artık isteğe bağlı (varsayılan kapalı)

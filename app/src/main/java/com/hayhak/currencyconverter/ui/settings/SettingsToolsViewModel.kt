@@ -30,6 +30,14 @@ class SettingsToolsViewModel @Inject constructor(
         viewModelScope, SharingStarted.WhileSubscribed(5_000), true
     )
 
+    val analytics: StateFlow<Boolean> = userPrefs.analyticsEnabled.stateIn(
+        viewModelScope, SharingStarted.WhileSubscribed(5_000), false
+    )
+
+    fun setAnalytics(enabled: Boolean) {
+        viewModelScope.launch { userPrefs.setAnalyticsEnabled(enabled) }
+    }
+
     fun setSpread(percent: Double) {
         viewModelScope.launch { userPrefs.setSpreadPercent(percent) }
     }

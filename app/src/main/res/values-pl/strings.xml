@@ -131,7 +131,7 @@
     <string name="settings_widget_pairs">Waluty do wyświetlenia</string>
     <string name="metals_error">Nie udało się wczytać cen metali. Przeciągnij w dół, aby odświeżyć, lub spróbuj ponownie.</string>
     <string name="settings_about">O aplikacji</string>
-    <string name="settings_developer_by">Autor: Hayhak</string>
+    <string name="settings_developer_by">Autor: Thunderbascraft</string>
     <string name="settings_version_label">Wersja %1$s (%2$d)</string>
     <string name="settings_update">Aktualizuj</string>
     <string name="settings_update_desc">Sprawdź najnowszą wersję w Google Play</string>
@@ -271,4 +271,14 @@
     <string name="matrix_title">Macierz kursów krzyżowych</string>
     <string name="matrix_select_currencies">Wybierz waluty</string>
     <string name="history_chart_description">Wykres kursu %1$s. Najniższy %2$s, najwyższy %3$s, ostatni %4$s.</string>
+    <string name="settings_analytics">Anonimowe statystyki użycia</string>
+    <string name="settings_analytics_sub">Udostępnia informację, z których ekranów korzystasz, aby ulepszać aplikację. Domyślnie wyłączone i nigdy nie zawiera kwot.</string>
+    <string name="history_timing_title">Gdzie jest dzisiejszy kurs</string>
+    <string name="history_timing_percentile">Dzisiejszy kurs jest wyższy niż w %1$d%% tego okresu</string>
+    <string name="history_timing_vs_average">%1$s względem średniej z okresu</string>
+    <string name="tools_offered_rate">Kurs, który Ci zaproponowano (1 %1$s = ? %2$s)</string>
+    <string name="tools_mid_rate">Kurs rynkowy: %1$s %2$s</string>
+    <string name="tools_markup_cost">Ukryty koszt: %1$s%% (około %2$s %3$s)</string>
+    <string name="tools_markup_better">Lepiej niż kurs rynkowy o %1$s%% (około %2$s %3$s)</string>
+    <string name="tools_markup_none">Zgodny z kursem rynkowym</string>
 </resources>

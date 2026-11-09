@@ -129,7 +129,7 @@
     <string name="settings_widget_pairs">Valute da mostrare</string>
     <string name="metals_error">Impossibile caricare i prezzi dei metalli. Scorri per aggiornare o riprova.</string>
     <string name="settings_about">Informazioni</string>
-    <string name="settings_developer_by">Sviluppato da Hayhak</string>
+    <string name="settings_developer_by">Sviluppato da Thunderbascraft</string>
     <string name="settings_version_label">Versione %1$s (%2$d)</string>
     <string name="settings_update">Aggiorna</string>
     <string name="settings_update_desc">Cerca l’ultima versione su Google Play</string>
@@ -269,4 +269,14 @@
     <string name="matrix_title">Matrice dei cambi incrociati</string>
     <string name="matrix_select_currencies">Seleziona valute</string>
     <string name="history_chart_description">Grafico dei cambi %1$s. Minimo %2$s, massimo %3$s, ultimo %4$s.</string>
+    <string name="settings_analytics">Statistiche d\'uso anonime</string>
+    <string name="settings_analytics_sub">Condivide quali schermate vengono usate per migliorare l\'app. Disattivato di default e senza mai includere importi.</string>
+    <string name="history_timing_title">Dove si colloca il cambio di oggi</string>
+    <string name="history_timing_percentile">Il cambio di oggi è più alto del %1$d%% di questo periodo</string>
+    <string name="history_timing_vs_average">%1$s rispetto alla media del periodo</string>
+    <string name="tools_offered_rate">Cambio che ti hanno offerto (1 %1$s = ? %2$s)</string>
+    <string name="tools_mid_rate">Cambio di mercato: %1$s %2$s</string>
+    <string name="tools_markup_cost">Costo nascosto: %1$s%% (circa %2$s %3$s)</string>
+    <string name="tools_markup_better">Meglio del cambio di mercato del %1$s%% (circa %2$s %3$s)</string>
+    <string name="tools_markup_none">Corrisponde al cambio di mercato</string>
 </resources>

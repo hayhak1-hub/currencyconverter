@@ -129,7 +129,7 @@
     <string name="settings_widget_pairs">দেখানোর মুদ্রা</string>
     <string name="metals_error">ধাতুর দাম লোড করা যায়নি। রিফ্রেশ করতে টানুন বা আবার চেষ্টা করুন।</string>
     <string name="settings_about">সম্পর্কে</string>
-    <string name="settings_developer_by">ডেভেলপার: Hayhak</string>
+    <string name="settings_developer_by">ডেভেলপার: Thunderbascraft</string>
     <string name="settings_version_label">সংস্করণ %1$s (%2$d)</string>
     <string name="settings_update">আপডেট</string>
     <string name="settings_update_desc">Google Play-তে সর্বশেষ সংস্করণ দেখুন</string>
@@ -269,4 +269,14 @@
     <string name="matrix_title">ক্রস রেট ম্যাট্রিক্স</string>
     <string name="matrix_select_currencies">মুদ্রা বেছে নিন</string>
     <string name="history_chart_description">%1$s হারের চার্ট। সর্বনিম্ন %2$s, সর্বোচ্চ %3$s, সর্বশেষ %4$s।</string>
+    <string name="settings_analytics">বেনামি ব্যবহারের পরিসংখ্যান</string>
+    <string name="settings_analytics_sub">অ্যাপ উন্নত করতে কোন স্ক্রিন ব্যবহৃত হয় তা জানায়। ডিফল্টভাবে বন্ধ এবং কখনও পরিমাণ অন্তর্ভুক্ত করে না।</string>
+    <string name="history_timing_title">আজকের হার কোথায় আছে</string>
+    <string name="history_timing_percentile">আজকের হার এই সময়ের %1$d%% এর চেয়ে বেশি</string>
+    <string name="history_timing_vs_average">সময়ের গড়ের তুলনায় %1$s</string>
+    <string name="tools_offered_rate">আপনাকে দেওয়া হার (1 %1$s = ? %2$s)</string>
+    <string name="tools_mid_rate">বাজারের মধ্য হার: %1$s %2$s</string>
+    <string name="tools_markup_cost">লুকানো খরচ: %1$s%% (প্রায় %2$s %3$s)</string>
+    <string name="tools_markup_better">বাজারের মধ্য হারের চেয়ে %1$s%% ভালো (প্রায় %2$s %3$s)</string>
+    <string name="tools_markup_none">বাজারের মধ্য হারের সমান</string>
 </resources>

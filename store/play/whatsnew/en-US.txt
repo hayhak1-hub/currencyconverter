@@ -1,7 +1,7 @@
 • Portfolio with profit/loss and trip budgets
-• Alerts: percent change, quiet hours and an alert history
-• Convert at a past date, saved pairs and a morning rate digest
-• Voice input in the converter
-• Top gainers and losers, currency strength, cross-rate matrix
-• History: 5-day range, SMA 50/200 and CSV export
-• Gold by purity, trend lines in the widget, backup and restore
+• Hidden-cost check for exchange offers and a Quick Settings tile
+• History: where today's rate stands, SMA 50/200, CSV export
+• Alerts with percent change, quiet hours and history; voice input
+• Past-date conversion, saved pairs, morning digest, top movers, cross rates
+• Gold by purity, widget trends, backup and restore
+• Anonymous usage statistics are now optional (off by default)

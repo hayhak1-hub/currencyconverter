@@ -29,7 +29,7 @@ Canlı kurlar ExchangeRate-API'den (ücretsiz). Geçmiş grafikler Frankfurter'd
 GİZLİLİK
 Hesap gerekmez. Reklam yok. Ayrıntılar uygulama içi gizlilik politikasında.
 
-Hayhak tarafından geliştirildi.
+Thunderbascraft tarafından geliştirildi.
 
 ## Sürüm notları (max 500)
 İlk sürüm.

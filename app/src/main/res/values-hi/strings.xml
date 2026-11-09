@@ -129,7 +129,7 @@
     <string name="settings_widget_pairs">दिखाई जाने वाली मुद्राएँ</string>
     <string name="metals_error">धातुओं के भाव लोड नहीं हो सके। रीफ़्रेश करने के लिए नीचे खींचें या फिर कोशिश करें।</string>
     <string name="settings_about">जानकारी</string>
-    <string name="settings_developer_by">डेवलपर: Hayhak</string>
+    <string name="settings_developer_by">डेवलपर: Thunderbascraft</string>
     <string name="settings_version_label">संस्करण %1$s (%2$d)</string>
     <string name="settings_update">अपडेट</string>
     <string name="settings_update_desc">Google Play पर नवीनतम संस्करण जाँचें</string>
@@ -269,4 +269,14 @@
     <string name="matrix_title">क्रॉस रेट मैट्रिक्स</string>
     <string name="matrix_select_currencies">मुद्राएँ चुनें</string>
     <string name="history_chart_description">%1$s दर चार्ट। न्यूनतम %2$s, अधिकतम %3$s, नवीनतम %4$s।</string>
+    <string name="settings_analytics">गुमनाम उपयोग आँकड़े</string>
+    <string name="settings_analytics_sub">ऐप बेहतर बनाने के लिए बताता है कि कौन-सी स्क्रीन इस्तेमाल होती हैं। डिफ़ॉल्ट रूप से बंद है और राशि कभी शामिल नहीं होती।</string>
+    <string name="history_timing_title">आज की दर कहाँ है</string>
+    <string name="history_timing_percentile">आज की दर इस अवधि के %1$d%% से अधिक है</string>
+    <string name="history_timing_vs_average">अवधि के औसत की तुलना में %1$s</string>
+    <string name="tools_offered_rate">आपको दी गई दर (1 %1$s = ? %2$s)</string>
+    <string name="tools_mid_rate">बाज़ार मध्य दर: %1$s %2$s</string>
+    <string name="tools_markup_cost">छिपी लागत: %1$s%% (लगभग %2$s %3$s)</string>
+    <string name="tools_markup_better">बाज़ार मध्य दर से %1$s%% बेहतर (लगभग %2$s %3$s)</string>
+    <string name="tools_markup_none">बाज़ार मध्य दर के बराबर</string>
 </resources>

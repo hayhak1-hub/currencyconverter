@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FileDownload
@@ -24,6 +25,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -47,6 +49,7 @@ import com.hayhak.currencyconverter.R
 import com.hayhak.currencyconverter.domain.model.HistoricalRate
 import com.hayhak.currencyconverter.domain.model.getFlagEmoji
 import com.hayhak.currencyconverter.domain.model.movingAverage
+import com.hayhak.currencyconverter.domain.model.rateTiming
 import com.hayhak.currencyconverter.ui.components.CurrencySelector
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -250,6 +253,7 @@ fun HistoryScreen(
                             )
                         } else {
                             RateSummary(state.data)
+                            RateTimingCard(state.data)
                         }
                     }
                 }
@@ -508,6 +512,38 @@ private fun RateSummary(data: List<HistoricalRate>) {
         SummaryItem(stringResource(R.string.history_current), "%.4f".format(last.rate))
         if (change != null) {
             SummaryItem(stringResource(R.string.history_change), "%+.2f%%".format(change))
+        }
+    }
+}
+
+/** Where the latest rate sits in the loaded period: percentile, versus average, and a low-to-high bar. */
+@Composable
+private fun RateTimingCard(data: List<HistoricalRate>) {
+    val timing = remember(data) { rateTiming(data) } ?: return
+    Spacer(Modifier.height(16.dp))
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(
+                stringResource(R.string.history_timing_title),
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.SemiBold
+            )
+            LinearProgressIndicator(
+                progress = { timing.positionInRange },
+                modifier = Modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(4.dp))
+            )
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(stringResource(R.string.history_low), style = MaterialTheme.typography.labelSmall)
+                Text(stringResource(R.string.history_high), style = MaterialTheme.typography.labelSmall)
+            }
+            Text(
+                stringResource(R.string.history_timing_percentile, timing.percentile),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                stringResource(R.string.history_timing_vs_average, "%+.1f%%".format(timing.vsAveragePercent)),
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
     }
 }

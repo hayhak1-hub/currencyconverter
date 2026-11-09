@@ -128,7 +128,7 @@
     <string name="settings_widget_pairs">สกุลเงินที่จะแสดง</string>
     <string name="metals_error">โหลดราคาโลหะไม่ได้ ดึงลงเพื่อรีเฟรชหรือลองอีกครั้ง</string>
     <string name="settings_about">เกี่ยวกับ</string>
-    <string name="settings_developer_by">พัฒนาโดย Hayhak</string>
+    <string name="settings_developer_by">พัฒนาโดย Thunderbascraft</string>
     <string name="settings_version_label">เวอร์ชัน %1$s (%2$d)</string>
     <string name="settings_update">อัปเดต</string>
     <string name="settings_update_desc">ตรวจสอบเวอร์ชันล่าสุดใน Google Play</string>
@@ -268,4 +268,14 @@
     <string name="matrix_title">ตารางอัตราแลกเปลี่ยนไขว้</string>
     <string name="matrix_select_currencies">เลือกสกุลเงิน</string>
     <string name="history_chart_description">กราฟอัตรา %1$s ต่ำสุด %2$s สูงสุด %3$s ล่าสุด %4$s</string>
+    <string name="settings_analytics">สถิติการใช้งานแบบไม่ระบุตัวตน</string>
+    <string name="settings_analytics_sub">แชร์ว่าหน้าจอใดถูกใช้เพื่อช่วยปรับปรุงแอป ปิดไว้เป็นค่าเริ่มต้นและไม่รวมจำนวนเงิน</string>
+    <string name="history_timing_title">ตำแหน่งของอัตราวันนี้</string>
+    <string name="history_timing_percentile">อัตราวันนี้สูงกว่า %1$d%% ของช่วงเวลานี้</string>
+    <string name="history_timing_vs_average">%1$s เทียบกับค่าเฉลี่ยของช่วงเวลา</string>
+    <string name="tools_offered_rate">อัตราที่เสนอให้คุณ (1 %1$s = ? %2$s)</string>
+    <string name="tools_mid_rate">อัตรากลางตลาด: %1$s %2$s</string>
+    <string name="tools_markup_cost">ต้นทุนแอบแฝง: %1$s%% (ประมาณ %2$s %3$s)</string>
+    <string name="tools_markup_better">ดีกว่าอัตรากลางตลาด %1$s%% (ประมาณ %2$s %3$s)</string>
+    <string name="tools_markup_none">เท่ากับอัตรากลางตลาด</string>
 </resources>

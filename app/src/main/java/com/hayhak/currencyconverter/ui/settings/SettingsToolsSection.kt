@@ -46,6 +46,7 @@ fun SettingsToolsSection(viewModel: SettingsToolsViewModel = hiltViewModel()) {
     val spread by viewModel.spread.collectAsStateWithLifecycle()
     val quiet by viewModel.quiet.collectAsStateWithLifecycle()
     val digest by viewModel.digest.collectAsStateWithLifecycle()
+    val analytics by viewModel.analytics.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var spreadText by rememberSaveable { mutableStateOf<String?>(null) }
@@ -126,6 +127,18 @@ fun SettingsToolsSection(viewModel: SettingsToolsViewModel = hiltViewModel()) {
                 )
             }
             Switch(checked = digest, onCheckedChange = viewModel::setDigest)
+        }
+
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
+            Column(Modifier.weight(1f)) {
+                Text(stringResource(R.string.settings_analytics), style = MaterialTheme.typography.titleMedium)
+                Text(
+                    stringResource(R.string.settings_analytics_sub),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f)
+                )
+            }
+            Switch(checked = analytics, onCheckedChange = viewModel::setAnalytics)
         }
 
         Text(

@@ -33,7 +33,6 @@ class CurrencyConverterApp : Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
-        FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(true)
         // Crash reports from release builds only; debug runs would just add noise.
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
         RateSyncScheduler.schedule(this)
@@ -41,6 +40,12 @@ class CurrencyConverterApp : Application(), Configuration.Provider {
             combine(userPrefs.savedPairs, userPrefs.favoriteOrder) { pairs, favorites ->
                 pairs to favorites
             }.collect { (pairs, favorites) -> shortcuts.publish(pairs, favorites) }
+        }
+        appScope.launch {
+            // Usage statistics are opt-in; the manifest keeps collection off until this runs.
+            userPrefs.analyticsEnabled.collect { enabled ->
+                FirebaseAnalytics.getInstance(this@CurrencyConverterApp).setAnalyticsCollectionEnabled(enabled)
+            }
         }
         appScope.launch {
             userPrefs.morningDigest.collect { enabled ->

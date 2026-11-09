@@ -128,7 +128,7 @@
     <string name="settings_widget_pairs">표시할 통화</string>
     <string name="metals_error">금속 시세를 불러오지 못했습니다. 아래로 당겨 새로고침하거나 다시 시도하세요.</string>
     <string name="settings_about">정보</string>
-    <string name="settings_developer_by">개발: Hayhak</string>
+    <string name="settings_developer_by">개발: Thunderbascraft</string>
     <string name="settings_version_label">버전 %1$s (%2$d)</string>
     <string name="settings_update">업데이트</string>
     <string name="settings_update_desc">Google Play에서 최신 버전 확인</string>
@@ -268,4 +268,14 @@
     <string name="matrix_title">교차 환율 표</string>
     <string name="matrix_select_currencies">통화 선택</string>
     <string name="history_chart_description">%1$s 환율 차트. 최저 %2$s, 최고 %3$s, 최신 %4$s.</string>
+    <string name="settings_analytics">익명 사용 통계</string>
+    <string name="settings_analytics_sub">앱 개선을 위해 어떤 화면을 쓰는지 공유합니다. 기본값은 꺼짐이며 금액은 포함되지 않습니다.</string>
+    <string name="history_timing_title">오늘 환율의 위치</string>
+    <string name="history_timing_percentile">오늘 환율은 이 기간의 %1$d%%보다 높습니다</string>
+    <string name="history_timing_vs_average">기간 평균 대비 %1$s</string>
+    <string name="tools_offered_rate">제시받은 환율 (1 %1$s = ? %2$s)</string>
+    <string name="tools_mid_rate">시장 중간 환율: %1$s %2$s</string>
+    <string name="tools_markup_cost">숨은 비용: %1$s%% (약 %2$s %3$s)</string>
+    <string name="tools_markup_better">시장 중간 환율보다 %1$s%% 유리 (약 %2$s %3$s)</string>
+    <string name="tools_markup_none">시장 중간 환율과 같습니다</string>
 </resources>

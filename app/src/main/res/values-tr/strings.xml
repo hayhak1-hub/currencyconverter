@@ -83,7 +83,7 @@
     <string name="metals_subtitle">Spot metaller (%1$s, ons)</string>
     <string name="metals_error">Metal fiyatları alınamadı. Aşağı çekerek yenileyin veya yeniden deneyin.</string>
     <string name="settings_about">Hakkında</string>
-    <string name="settings_developer_by">Hayhak tarafından geliştirildi</string>
+    <string name="settings_developer_by">Thunderbascraft tarafından geliştirildi</string>
     <string name="settings_version_label">Sürüm %1$s (%2$d)</string>
     <string name="settings_update">Güncelle</string>
     <string name="settings_update_desc">Google Play\'de yeni sürüm var mı bakın</string>
@@ -272,4 +272,14 @@
     <string name="converter_voice_input">Sesle komut verin</string>
     <string name="converter_voice_error">Ses anlaşılamadı</string>
     <string name="converter_voice_recognized">Algılandı: %1$s</string>
+    <string name="settings_analytics">Anonim kullanım istatistikleri</string>
+    <string name="settings_analytics_sub">Uygulamayı geliştirmek için hangi ekranların kullanıldığını paylaşır. Varsayılan olarak kapalıdır ve tutarları asla içermez.</string>
+    <string name="history_timing_title">Bugünkü kurun konumu</string>
+    <string name="history_timing_percentile">Bugünkü kur bu dönemin %1$d%% oranından yüksek</string>
+    <string name="history_timing_vs_average">Dönem ortalamasına göre %1$s</string>
+    <string name="tools_offered_rate">Size teklif edilen kur (1 %1$s = ? %2$s)</string>
+    <string name="tools_mid_rate">Piyasa ortası kur: %1$s %2$s</string>
+    <string name="tools_markup_cost">Gizli maliyet: %1$s%% (yaklaşık %2$s %3$s)</string>
+    <string name="tools_markup_better">Piyasa ortası kurdan %1$s%% daha iyi (yaklaşık %2$s %3$s)</string>
+    <string name="tools_markup_none">Piyasa ortası kurla aynı</string>
 </resources>

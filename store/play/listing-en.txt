@@ -30,7 +30,7 @@ Live rates from ExchangeRate-API (free tier). Historical charts from Frankfurter
 PRIVACY
 No account required. No ads. See the in-app privacy policy for details.
 
-Made by Hayhak.
+Made by Thunderbascraft.
 
 ## Release notes / What's new (max 500)
 First release.

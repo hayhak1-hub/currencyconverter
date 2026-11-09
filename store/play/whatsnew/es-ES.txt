@@ -1,5 +1,7 @@
-• Seguimiento en vivo del Wi-Fi y de la red, con soporte sin conexión
-• Tipos de cambio inversos (1 EUR = 1,08 USD) y copiar o compartir al instante en el conversor
-• Selección personalizable de divisas en Estadísticas
-• Ordena los tipos en vivo por nombre, tipo y cambio de 24 h
-• Mejoras de rendimiento y de respuesta
+• Cartera con ganancias/pérdidas y presupuestos de viaje
+• Control de costes ocultos del cambio y icono de Ajustes rápidos
+• Historial: posición del tipo de hoy, SMA 50/200, exportación CSV
+• Alertas con cambio porcentual, horas de silencio e historial; entrada por voz
+• Conversión a fecha pasada, pares guardados, resumen matinal, tipos cruzados
+• Oro por pureza, tendencias en el widget, copia y restauración
+• Las estadísticas de uso anónimas ahora son opcionales (desactivadas por defecto)

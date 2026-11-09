@@ -18,6 +18,15 @@ fun netAfterFees(gross: Double, percent: String, fixed: String): Double? {
     return result.takeIf { it >= BigDecimal.ZERO }?.setScale(8, RoundingMode.HALF_UP)?.toDouble()
 }
 
+/**
+ * How much worse (positive) or better (negative) a quoted [offeredRate] is than the mid-market rate,
+ * in percent of the mid-market rate. Both rates are "target units per 1 source unit".
+ */
+fun markupPercent(midRate: Double, offeredRate: Double): Double? {
+    if (!midRate.isFinite() || !offeredRate.isFinite() || midRate <= 0.0 || offeredRate <= 0.0) return null
+    return ((midRate - offeredRate) / midRate * 100.0).takeIf { it.isFinite() }
+}
+
 const val GRAMS_PER_TROY_OUNCE = 31.1034768
 
 data class SavedConversion(

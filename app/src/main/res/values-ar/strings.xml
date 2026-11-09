@@ -133,7 +133,7 @@
     <string name="settings_widget_pairs">العملات المعروضة</string>
     <string name="metals_error">تعذر تحميل أسعار المعادن. اسحب للتحديث أو حاول مرة أخرى.</string>
     <string name="settings_about">حول</string>
-    <string name="settings_developer_by">تطوير Hayhak</string>
+    <string name="settings_developer_by">تطوير Thunderbascraft</string>
     <string name="settings_version_label">الإصدار %1$s (%2$d)</string>
     <string name="settings_update">تحديث</string>
     <string name="settings_update_desc">التحقق من أحدث إصدار في Google Play</string>
@@ -273,4 +273,14 @@
     <string name="matrix_title">مصفوفة الأسعار المتقاطعة</string>
     <string name="matrix_select_currencies">اختيار العملات</string>
     <string name="history_chart_description">رسم بياني لسعر %1$s. الأدنى %2$s، الأعلى %3$s، الأحدث %4$s.</string>
+    <string name="settings_analytics">إحصاءات استخدام مجهولة</string>
+    <string name="settings_analytics_sub">تشارك الشاشات المستخدمة لتحسين التطبيق. متوقفة افتراضيًا ولا تتضمن المبالغ أبدًا.</string>
+    <string name="history_timing_title">موقع سعر اليوم</string>
+    <string name="history_timing_percentile">سعر اليوم أعلى من %1$d%% من هذه الفترة</string>
+    <string name="history_timing_vs_average">%1$s مقارنة بمتوسط الفترة</string>
+    <string name="tools_offered_rate">السعر المعروض عليك (1 %1$s = ? %2$s)</string>
+    <string name="tools_mid_rate">سعر السوق المتوسط: %1$s %2$s</string>
+    <string name="tools_markup_cost">تكلفة خفية: %1$s%% (حوالي %2$s %3$s)</string>
+    <string name="tools_markup_better">أفضل من سعر السوق المتوسط بنسبة %1$s%% (حوالي %2$s %3$s)</string>
+    <string name="tools_markup_none">يطابق سعر السوق المتوسط</string>
 </resources>

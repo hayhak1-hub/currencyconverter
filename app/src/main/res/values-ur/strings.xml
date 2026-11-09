@@ -129,7 +129,7 @@
     <string name="settings_widget_pairs">دکھانے والی کرنسیاں</string>
     <string name="metals_error">دھاتوں کی قیمتیں لوڈ نہیں ہو سکیں۔ ریفریش کے لیے نیچے کھینچیں یا دوبارہ کوشش کریں۔</string>
     <string name="settings_about">کے بارے میں</string>
-    <string name="settings_developer_by">ڈیولپر: Hayhak</string>
+    <string name="settings_developer_by">ڈیولپر: Thunderbascraft</string>
     <string name="settings_version_label">ورژن %1$s (%2$d)</string>
     <string name="settings_update">اپ ڈیٹ</string>
     <string name="settings_update_desc">Google Play پر تازہ ترین ورژن چیک کریں</string>
@@ -269,4 +269,14 @@
     <string name="matrix_title">کراس ریٹس میٹرکس</string>
     <string name="matrix_select_currencies">کرنسیاں منتخب کریں</string>
     <string name="history_chart_description">%1$s ریٹ چارٹ۔ کم ترین %2$s، بلند ترین %3$s، تازہ ترین %4$s۔</string>
+    <string name="settings_analytics">گمنام استعمال کے اعداد و شمار</string>
+    <string name="settings_analytics_sub">ایپ بہتر بنانے کے لیے بتاتا ہے کہ کون سی اسکرینیں استعمال ہوتی ہیں۔ بطورِ ڈیفالٹ بند ہے اور رقم کبھی شامل نہیں ہوتی۔</string>
+    <string name="history_timing_title">آج کا ریٹ کہاں ہے</string>
+    <string name="history_timing_percentile">آج کا ریٹ اس مدت کے %1$d%% سے زیادہ ہے</string>
+    <string name="history_timing_vs_average">مدت کی اوسط کے مقابلے میں %1$s</string>
+    <string name="tools_offered_rate">آپ کو پیش کیا گیا ریٹ (1 %1$s = ? %2$s)</string>
+    <string name="tools_mid_rate">مارکیٹ کا درمیانی ریٹ: %1$s %2$s</string>
+    <string name="tools_markup_cost">چھپی ہوئی لاگت: %1$s%% (تقریباً %2$s %3$s)</string>
+    <string name="tools_markup_better">مارکیٹ کے درمیانی ریٹ سے %1$s%% بہتر (تقریباً %2$s %3$s)</string>
+    <string name="tools_markup_none">مارکیٹ کے درمیانی ریٹ کے برابر</string>
 </resources>

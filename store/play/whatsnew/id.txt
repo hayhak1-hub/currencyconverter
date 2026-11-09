@@ -1,5 +1,7 @@
-• Pemantauan Wi-Fi dan jaringan secara langsung, dengan dukungan offline penuh
-• Kurs terbalik (1 EUR = 1,08 USD) serta salin atau bagikan cepat di konverter
-• Pilihan mata uang yang bisa diatur di layar Statistik
-• Urutkan kurs langsung menurut nama, kurs, dan perubahan 24 jam
-• Optimisasi kinerja dan respons
+• Portofolio dengan untung/rugi dan anggaran perjalanan
+• Cek biaya tersembunyi pada penawaran tukar uang dan ubin Pengaturan Cepat
+• Riwayat: posisi kurs hari ini, SMA 50/200, ekspor CSV
+• Peringatan dengan perubahan persen, jam tenang, dan riwayat; input suara
+• Konversi tanggal lampau, pasangan tersimpan, ringkasan pagi, pergerakan terbesar, kurs silang
+• Emas menurut kadar, tren di widget, cadangan dan pemulihan
+• Statistik penggunaan anonim kini opsional (mati secara default)

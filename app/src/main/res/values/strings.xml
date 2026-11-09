@@ -84,7 +84,7 @@
     <string name="metals_subtitle">Spot metals in %1$s (troy ounce)</string>
     <string name="metals_error">Could not load metal prices. Pull to refresh or try again.</string>
     <string name="settings_about">About</string>
-    <string name="settings_developer_by">Developed by Hayhak</string>
+    <string name="settings_developer_by">Developed by Thunderbascraft</string>
     <string name="settings_version_label">Version %1$s (%2$d)</string>
     <string name="settings_update">Update</string>
     <string name="settings_update_desc">Check Google Play for the latest version</string>
@@ -277,4 +277,14 @@
     <string name="converter_voice_input" translatable="false">Speak currency command</string>
     <string name="converter_voice_error" translatable="false">Could not recognize speech</string>
     <string name="converter_voice_recognized" translatable="false">Recognized: %1$s</string>
+    <string name="settings_analytics">Anonymous usage statistics</string>
+    <string name="settings_analytics_sub">Share which screens are used to help improve the app. Off by default and never includes amounts.</string>
+    <string name="history_timing_title">Where today’s rate stands</string>
+    <string name="history_timing_percentile">Today’s rate is higher than %1$d%% of this period</string>
+    <string name="history_timing_vs_average">%1$s versus the period average</string>
+    <string name="tools_offered_rate">Rate you were offered (1 %1$s = ? %2$s)</string>
+    <string name="tools_mid_rate">Mid-market rate: %1$s %2$s</string>
+    <string name="tools_markup_cost">Hidden cost: %1$s%% (about %2$s %3$s)</string>
+    <string name="tools_markup_better">Better than mid-market by %1$s%% (about %2$s %3$s)</string>
+    <string name="tools_markup_none">Matches the mid-market rate</string>
 </resources>

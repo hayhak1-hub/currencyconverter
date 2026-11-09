@@ -1,5 +1,7 @@
-• Monitoramento ao vivo de Wi-Fi e rede, com suporte offline completo
-• Taxas inversas (1 EUR = 1,08 USD) e copiar ou compartilhar rápido no conversor
-• Seleção personalizável de moedas na tela Estatísticas
-• Ordene as taxas ao vivo por nome, taxa e variação em 24 h
-• Otimizações de desempenho e de resposta
+• Carteira com ganhos/perdas e orçamentos de viagem
+• Verificação de custos ocultos do câmbio e bloco de Configurações rápidas
+• Histórico: posição da cotação de hoje, SMA 50/200, exportação CSV
+• Alertas com variação percentual, horário silencioso e histórico; entrada por voz
+• Conversão em data passada, pares salvos, resumo matinal, câmbio cruzado
+• Ouro por pureza, tendências no widget, backup e restauração
+• As estatísticas de uso anônimas agora são opcionais (desativadas por padrão)

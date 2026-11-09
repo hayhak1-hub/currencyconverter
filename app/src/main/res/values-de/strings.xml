@@ -83,7 +83,7 @@
     <string name="metals_subtitle">Spot-Metalle in %1$s (Feinunze)</string>
     <string name="metals_error">Metallpreise konnten nicht geladen werden. Zum Aktualisieren ziehen oder erneut versuchen.</string>
     <string name="settings_about">Über</string>
-    <string name="settings_developer_by">Entwickelt von Hayhak</string>
+    <string name="settings_developer_by">Entwickelt von Thunderbascraft</string>
     <string name="settings_version_label">Version %1$s (%2$d)</string>
     <string name="settings_update">Aktualisieren</string>
     <string name="settings_update_desc">Google Play auf die neueste Version prüfen</string>
@@ -269,4 +269,14 @@
     <string name="matrix_title">Kreuzkurs-Matrix</string>
     <string name="matrix_select_currencies">Währungen auswählen</string>
     <string name="history_chart_description">Kursdiagramm %1$s. Tief %2$s, Hoch %3$s, aktuell %4$s.</string>
+    <string name="settings_analytics">Anonyme Nutzungsstatistik</string>
+    <string name="settings_analytics_sub">Teilt mit, welche Bildschirme genutzt werden, um die App zu verbessern. Standardmäßig aus, nie mit Beträgen.</string>
+    <string name="history_timing_title">So steht der heutige Kurs</string>
+    <string name="history_timing_percentile">Der heutige Kurs liegt höher als %1$d%% dieses Zeitraums</string>
+    <string name="history_timing_vs_average">%1$s gegenüber dem Durchschnitt des Zeitraums</string>
+    <string name="tools_offered_rate">Angebotener Kurs (1 %1$s = ? %2$s)</string>
+    <string name="tools_mid_rate">Mittelkurs: %1$s %2$s</string>
+    <string name="tools_markup_cost">Versteckte Kosten: %1$s%% (etwa %2$s %3$s)</string>
+    <string name="tools_markup_better">Besser als der Mittelkurs um %1$s%% (etwa %2$s %3$s)</string>
+    <string name="tools_markup_none">Entspricht dem Mittelkurs</string>
 </resources>

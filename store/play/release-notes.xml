@@ -1,203 +1,203 @@
 # Google Play — release notes (max 500 chars per locale)
 # Paste into Play Console → Release → Release notes
-# Version 1.2.0 (versionCode 13) — update, not a first release
+# Version 1.3.0 (versionCode 14) — update, not a first release
 
 <en-US>
 • Portfolio with profit/loss and trip budgets
-• Alerts: percent change, quiet hours and an alert history
-• Convert at a past date, saved pairs and a morning rate digest
-• Voice input in the converter
-• Top gainers and losers, currency strength, cross-rate matrix
-• History: 5-day range, SMA 50/200 and CSV export
-• Gold by purity, trend lines in the widget, backup and restore
+• Hidden-cost check for exchange offers and a Quick Settings tile
+• History: where today's rate stands, SMA 50/200, CSV export
+• Alerts with percent change, quiet hours and history; voice input
+• Past-date conversion, saved pairs, morning digest, top movers, cross rates
+• Gold by purity, widget trends, backup and restore
+• Anonymous usage statistics are now optional (off by default)
 </en-US>
 
 <de-DE>
 • Portfolio mit Gewinn/Verlust und Reisebudgets
-• Alarme: prozentuale Änderung, Ruhezeiten und Alarmverlauf
-• Umrechnung zu einem früheren Datum, gespeicherte Paare, morgendliche Kursübersicht
-• Spracheingabe im Rechner
-• Größte Gewinner und Verlierer, Währungsstärke, Kreuzkurs-Matrix
-• Verlauf: 5-Tage-Zeitraum, SMA 50/200 und CSV-Export
-• Gold nach Reinheit, Trendlinien im Widget, Sichern und Wiederherstellen
+• Prüfung versteckter Kosten bei Wechselangeboten und Schnelleinstellungs-Kachel
+• Verlauf: Stand des heutigen Kurses, SMA 50/200, CSV-Export
+• Alarme mit prozentualer Änderung, Ruhezeiten und Verlauf; Spracheingabe
+• Umrechnung zu früherem Datum, gespeicherte Paare, Morgenübersicht, Gewinner/Verlierer, Kreuzkurse
+• Gold nach Reinheit, Widget-Trends, Sichern und Wiederherstellen
+• Anonyme Nutzungsstatistik ist jetzt optional (standardmäßig aus)
 </de-DE>
 
 <tr-TR>
 • Kar/zarar takibi yapan portföy ve seyahat bütçeleri
-• Alarmlar: yüzde değişim, sessiz saatler ve alarm geçmişi
-• Geçmiş tarihte çeviri, kayıtlı çiftler ve sabah kur özeti
-• Çeviricide sesli giriş
-• En çok yükselen ve düşenler, para gücü, çapraz kur matrisi
-• Geçmiş: 5 günlük aralık, SMA 50/200 ve CSV dışa aktarma
-• Ayara göre altın ve ziynet, widget'ta eğilim çizgileri, yedekleme
+• Döviz tekliflerinde gizli maliyet kontrolü ve Hızlı Ayarlar kutucuğu
+• Geçmiş: bugünkü kurun konumu, SMA 50/200, CSV dışa aktarma
+• Yüzde değişim, sessiz saat ve geçmişli alarmlar; sesli giriş
+• Geçmiş tarihte çeviri, kayıtlı çiftler, sabah özeti, en çok değişenler, çapraz kurlar
+• Ayara göre altın, widget'ta eğilimler, yedekleme ve geri yükleme
+• Anonim kullanım istatistikleri artık isteğe bağlı (varsayılan kapalı)
 </tr-TR>
 
 <fr-FR>
 • Portefeuille avec gains/pertes et budgets de voyage
-• Alertes : variation en %, heures calmes et historique
-• Conversion à une date passée, paires enregistrées, résumé matinal des cours
-• Saisie vocale dans le convertisseur
-• Plus fortes hausses et baisses, force des devises, matrice de cours croisés
-• Historique : période de 5 jours, SMA 50/200 et export CSV
-• Or selon la pureté, courbes dans le widget, sauvegarde et restauration
+• Contrôle des coûts cachés du change et tuile Réglages rapides
+• Historique : position du cours du jour, SMA 50/200, export CSV
+• Alertes en %, heures calmes et historique ; saisie vocale
+• Conversion à date passée, paires enregistrées, résumé matinal, cours croisés
+• Or selon la pureté, tendances du widget, sauvegarde et restauration
+• Les statistiques d'utilisation anonymes sont désormais facultatives (désactivées par défaut)
 </fr-FR>
 
 <es-ES>
 • Cartera con ganancias/pérdidas y presupuestos de viaje
-• Alertas: cambio porcentual, horas de silencio e historial
-• Conversión a una fecha pasada, pares guardados y resumen matinal de tipos
-• Entrada por voz en el conversor
-• Mayores subidas y bajadas, fortaleza de divisas, matriz de tipos cruzados
-• Historial: período de 5 días, SMA 50/200 y exportación CSV
-• Oro por pureza, líneas de tendencia en el widget, copia y restauración
+• Control de costes ocultos del cambio y icono de Ajustes rápidos
+• Historial: posición del tipo de hoy, SMA 50/200, exportación CSV
+• Alertas con cambio porcentual, horas de silencio e historial; entrada por voz
+• Conversión a fecha pasada, pares guardados, resumen matinal, tipos cruzados
+• Oro por pureza, tendencias en el widget, copia y restauración
+• Las estadísticas de uso anónimas ahora son opcionales (desactivadas por defecto)
 </es-ES>
 
 <it-IT>
 • Portafoglio con guadagni/perdite e budget di viaggio
-• Avvisi: variazione percentuale, ore silenziose e cronologia
-• Conversione a una data passata, coppie salvate e riepilogo mattutino dei cambi
-• Input vocale nel convertitore
-• Maggiori rialzi e ribassi, forza delle valute, matrice dei cambi incrociati
-• Cronologia: periodo di 5 giorni, SMA 50/200 ed esportazione CSV
-• Oro per purezza, linee di tendenza nel widget, backup e ripristino
+• Controllo costi nascosti del cambio e riquadro Impostazioni rapide
+• Cronologia: posizione del cambio di oggi, SMA 50/200, esportazione CSV
+• Avvisi con variazione percentuale, ore silenziose e cronologia; input vocale
+• Conversione a data passata, coppie salvate, riepilogo mattutino, cambi incrociati
+• Oro per purezza, tendenze nel widget, backup e ripristino
+• Statistiche d'uso anonime ora facoltative (disattivate di default)
 </it-IT>
 
 <pt-BR>
 • Carteira com ganhos/perdas e orçamentos de viagem
-• Alertas: variação percentual, horário silencioso e histórico
-• Conversão em data passada, pares salvos e resumo matinal de câmbio
-• Entrada por voz no conversor
-• Maiores altas e quedas, força das moedas, matriz de câmbio cruzado
-• Histórico: período de 5 dias, SMA 50/200 e exportação CSV
-• Ouro por pureza, linhas de tendência no widget, backup e restauração
+• Verificação de custos ocultos do câmbio e bloco de Configurações rápidas
+• Histórico: posição da cotação de hoje, SMA 50/200, exportação CSV
+• Alertas com variação percentual, horário silencioso e histórico; entrada por voz
+• Conversão em data passada, pares salvos, resumo matinal, câmbio cruzado
+• Ouro por pureza, tendências no widget, backup e restauração
+• As estatísticas de uso anônimas agora são opcionais (desativadas por padrão)
 </pt-BR>
 
 <ru-RU>
 • Портфель с прибылью/убытком и бюджеты поездок
-• Оповещения: изменение в %, тихие часы и история
-• Конвертация на прошлую дату, сохранённые пары, утренняя сводка курсов
-• Голосовой ввод в конвертере
-• Лидеры роста и падения, сила валют, матрица кросс-курсов
-• История: период 5 дней, SMA 50/200 и экспорт в CSV
-• Золото по пробе, линии тренда в виджете, резервное копирование
+• Проверка скрытых комиссий в предложениях обмена и плитка быстрых настроек
+• История: положение сегодняшнего курса, SMA 50/200, экспорт в CSV
+• Оповещения с изменением в %, тихими часами и историей; голосовой ввод
+• Конвертация на прошлую дату, сохранённые пары, утренняя сводка, лидеры изменений, кросс-курсы
+• Золото по пробе, тренды в виджете, резервное копирование
+• Анонимная статистика теперь необязательна (по умолчанию выключена)
 </ru-RU>
 
 <pl-PL>
 • Portfel z zyskiem/stratą i budżety podróży
-• Alerty: zmiana procentowa, godziny ciszy i historia
-• Przeliczanie na dzień z przeszłości, zapisane pary i poranne podsumowanie kursów
-• Wprowadzanie głosowe w przeliczniku
-• Najwięksi wygrani i przegrani, siła walut, macierz kursów krzyżowych
-• Historia: zakres 5 dni, SMA 50/200 i eksport CSV
-• Złoto według próby, linie trendu w widżecie, kopia zapasowa
+• Sprawdzanie ukrytych kosztów ofert wymiany i kafelek szybkich ustawień
+• Historia: położenie dzisiejszego kursu, SMA 50/200, eksport CSV
+• Alerty ze zmianą procentową, godzinami ciszy i historią; wprowadzanie głosowe
+• Przeliczanie na dzień z przeszłości, zapisane pary, poranne podsumowanie, kursy krzyżowe
+• Złoto według próby, trendy w widżecie, kopia zapasowa
+• Anonimowe statystyki użycia są teraz opcjonalne (domyślnie wyłączone)
 </pl-PL>
 
 <ja-JP>
 • 損益を表示するポートフォリオと旅行予算
-• 通知：変動率、サイレント時間、通知履歴
-• 過去の日付での換算、保存した通貨ペア、毎朝のレート要約
-• 換算画面での音声入力
-• 上昇・下落率上位、通貨の強さ、クロスレート表
-• 履歴：5日間表示、SMA 50/200、CSV出力
-• 純度別の金、ウィジェットの推移線、バックアップと復元
+• 両替オファーの隠れたコスト確認とクイック設定タイル
+• 履歴：今日のレートの位置、SMA 50/200、CSV出力
+• 変動率・サイレント時間・履歴付きの通知、音声入力
+• 過去の日付での換算、保存した通貨ペア、毎朝の要約、変動率上位、クロスレート
+• 純度別の金、ウィジェットの推移、バックアップと復元
+• 匿名の利用統計は任意になりました（初期設定はオフ）
 </ja-JP>
 
 <ko-KR>
 • 손익을 보여 주는 포트폴리오와 여행 예산
-• 알림: 변동률, 방해 금지 시간, 알림 기록
-• 과거 날짜 환산, 저장한 통화쌍, 아침 환율 요약
-• 변환기 음성 입력
-• 상승·하락률 상위, 통화 강도, 교차 환율 표
-• 기록: 5일 기간, SMA 50/200, CSV 내보내기
-• 순도별 금, 위젯 추세선, 백업 및 복원
+• 환전 제안의 숨은 비용 확인과 빠른 설정 타일
+• 기록: 오늘 환율의 위치, SMA 50/200, CSV 내보내기
+• 변동률·방해 금지 시간·기록을 지원하는 알림, 음성 입력
+• 과거 날짜 환산, 저장한 통화쌍, 아침 요약, 변동률 상위, 교차 환율
+• 순도별 금, 위젯 추세, 백업 및 복원
+• 익명 사용 통계는 이제 선택 사항입니다(기본값 꺼짐)
 </ko-KR>
 
 <zh-CN>
 • 带盈亏的投资组合和旅行预算
-• 提醒：涨跌幅、免打扰时段和提醒记录
-• 按过去日期换算、保存货币对、早间汇率摘要
-• 换算器语音输入
-• 涨跌幅榜、货币强弱、交叉汇率表
-• 历史：5 天区间、SMA 50/200 和 CSV 导出
-• 按成色计价的黄金、小部件趋势线、备份与恢复
+• 兑换报价隐性成本检查和快捷设置图块
+• 历史：今日汇率所处位置、SMA 50/200、CSV 导出
+• 提醒支持涨跌幅、免打扰时段和记录；语音输入
+• 按过去日期换算、保存货币对、早间摘要、涨跌榜、交叉汇率
+• 按成色计价的黄金、小部件趋势、备份与恢复
+• 匿名使用统计现为可选（默认关闭）
 </zh-CN>
 
 <hi-IN>
 • लाभ/हानि वाला पोर्टफ़ोलियो और यात्रा बजट
-• अलर्ट: प्रतिशत बदलाव, शांत समय और अलर्ट इतिहास
-• पिछली तारीख पर रूपांतरण, सहेजी जोड़ियाँ और सुबह का दर सारांश
-• कन्वर्टर में आवाज़ से इनपुट
-• सबसे ज़्यादा बढ़त/गिरावट, मुद्रा की मज़बूती, क्रॉस रेट मैट्रिक्स
-• इतिहास: 5 दिन की अवधि, SMA 50/200 और CSV निर्यात
-• कैरेट के अनुसार सोना, विजेट में ट्रेंड लाइन, बैकअप और रीस्टोर
+• एक्सचेंज ऑफ़र में छिपी लागत की जाँच और क्विक सेटिंग्स टाइल
+• इतिहास: आज की दर की स्थिति, SMA 50/200, CSV निर्यात
+• प्रतिशत बदलाव, शांत समय और इतिहास वाले अलर्ट; आवाज़ से इनपुट
+• पिछली तारीख पर रूपांतरण, सहेजी जोड़ियाँ, सुबह का सारांश, सबसे ज़्यादा बदलाव, क्रॉस रेट
+• कैरेट के अनुसार सोना, विजेट में रुझान, बैकअप और रीस्टोर
+• गुमनाम उपयोग आँकड़े अब वैकल्पिक हैं (डिफ़ॉल्ट रूप से बंद)
 </hi-IN>
 
 <bn-BD>
 • লাভ/ক্ষতিসহ পোর্টফোলিও ও ভ্রমণ বাজেট
-• সতর্কতা: শতাংশ পরিবর্তন, নীরব সময় ও সতর্কতার ইতিহাস
-• অতীত তারিখে রূপান্তর, সংরক্ষিত জোড়া ও সকালের হার সারসংক্ষেপ
-• রূপান্তরকারীতে ভয়েস ইনপুট
-• সবচেয়ে বেশি বৃদ্ধি ও পতন, মুদ্রার শক্তি, ক্রস রেট ম্যাট্রিক্স
-• ইতিহাস: ৫ দিনের সময়সীমা, SMA 50/200 ও CSV এক্সপোর্ট
-• ক্যারেট অনুযায়ী সোনা, উইজেটে ট্রেন্ড লাইন, ব্যাকআপ ও রিস্টোর
+• মুদ্রা বিনিময় অফারে লুকানো খরচ যাচাই ও কুইক সেটিংস টাইল
+• ইতিহাস: আজকের হারের অবস্থান, SMA 50/200, CSV এক্সপোর্ট
+• শতাংশ পরিবর্তন, নীরব সময় ও ইতিহাসসহ সতর্কতা; ভয়েস ইনপুট
+• অতীত তারিখে রূপান্তর, সংরক্ষিত জোড়া, সকালের সারসংক্ষেপ, সবচেয়ে বেশি পরিবর্তন, ক্রস রেট
+• ক্যারেট অনুযায়ী সোনা, উইজেটে প্রবণতা, ব্যাকআপ ও রিস্টোর
+• বেনামি ব্যবহারের পরিসংখ্যান এখন ঐচ্ছিক (ডিফল্টভাবে বন্ধ)
 </bn-BD>
 
 <ar>
 • محفظة بالأرباح والخسائر وميزانيات الرحلات
-• التنبيهات: نسبة التغيّر وأوقات الهدوء وسجل التنبيهات
-• التحويل بتاريخ سابق والأزواج المحفوظة وملخص صباحي للأسعار
-• الإدخال الصوتي في المحول
-• الأكثر ارتفاعًا وانخفاضًا وقوة العملات ومصفوفة الأسعار المتقاطعة
-• السجل: نطاق 5 أيام وSMA 50/200 وتصدير CSV
-• الذهب حسب العيار وخطوط الاتجاه في الأداة ونسخ احتياطي واستعادة
+• فحص التكاليف الخفية في عروض الصرف وبلاطة الإعدادات السريعة
+• السجل: موقع سعر اليوم وSMA 50/200 وتصدير CSV
+• تنبيهات بنسبة التغيّر وأوقات الهدوء والسجل؛ إدخال صوتي
+• تحويل بتاريخ سابق وأزواج محفوظة وملخص صباحي وأكبر التغيّرات وأسعار متقاطعة
+• الذهب حسب العيار واتجاهات الأداة ونسخ احتياطي واستعادة
+• إحصاءات الاستخدام المجهولة أصبحت اختيارية (متوقفة افتراضيًا)
 </ar>
 
 <th>
 • พอร์ตโฟลิโอแสดงกำไร/ขาดทุนและงบประมาณทริป
-• การแจ้งเตือน: เปอร์เซ็นต์การเปลี่ยนแปลง ช่วงเงียบ และประวัติ
-• แปลงตามวันที่ย้อนหลัง คู่ที่บันทึก และสรุปอัตราตอนเช้า
-• ป้อนด้วยเสียงในตัวแปลง
-• ขึ้น/ลงมากที่สุด ความแข็งค่าของสกุลเงิน ตารางอัตราไขว้
-• ประวัติ: ช่วง 5 วัน SMA 50/200 และส่งออก CSV
-• ทองคำตามความบริสุทธิ์ เส้นแนวโน้มในวิดเจ็ต สำรองและกู้คืน
+• ตรวจต้นทุนแอบแฝงของข้อเสนอแลกเงินและไทล์การตั้งค่าด่วน
+• ประวัติ: ตำแหน่งอัตราวันนี้ SMA 50/200 และส่งออก CSV
+• แจ้งเตือนตามเปอร์เซ็นต์ ช่วงเงียบ และประวัติ; ป้อนด้วยเสียง
+• แปลงตามวันที่ย้อนหลัง คู่ที่บันทึก สรุปตอนเช้า ผู้เปลี่ยนแปลงมากสุด อัตราไขว้
+• ทองคำตามความบริสุทธิ์ แนวโน้มในวิดเจ็ต สำรองและกู้คืน
+• สถิติการใช้งานแบบไม่ระบุตัวตนตอนนี้เป็นตัวเลือก (ปิดไว้เป็นค่าเริ่มต้น)
 </th>
 
 <uk>
 • Портфель із прибутком/збитком і бюджети поїздок
-• Сповіщення: зміна у %, тихі години та історія
-• Конвертація на минулу дату, збережені пари, ранкове зведення курсів
-• Голосовий ввід у конвертері
-• Лідери зростання й падіння, сила валют, матриця крос-курсів
-• Історія: період 5 днів, SMA 50/200 і експорт у CSV
-• Золото за пробою, лінії тренду у віджеті, резервне копіювання
+• Перевірка прихованих комісій в пропозиціях обміну та плитка швидких налаштувань
+• Історія: положення сьогоднішнього курсу, SMA 50/200, експорт у CSV
+• Сповіщення зі зміною у %, тихими годинами та історією; голосовий ввід
+• Конвертація на минулу дату, збережені пари, ранкове зведення, лідери змін, крос-курси
+• Золото за пробою, тренди у віджеті, резервне копіювання
+• Анонімна статистика тепер необов'язкова (за замовчуванням вимкнена)
 </uk>
 
 <ur>
 • منافع/نقصان والا پورٹ فولیو اور سفری بجٹ
-• الرٹس: فیصد تبدیلی، خاموش اوقات اور الرٹ ہسٹری
-• پرانی تاریخ پر تبدیلی، محفوظ جوڑیاں اور صبح کا ریٹ خلاصہ
-• کنورٹر میں آواز سے اندراج
-• سب سے زیادہ اضافہ/کمی، کرنسی کی مضبوطی، کراس ریٹ میٹرکس
-• تاریخ: 5 دن کی مدت، SMA 50/200 اور CSV ایکسپورٹ
-• عیار کے مطابق سونا، ویجٹ میں رجحان لائن، بیک اپ اور بحالی
+• ایکسچینج آفرز میں چھپی لاگت کی جانچ اور کوئیک سیٹنگز ٹائل
+• تاریخ: آج کے ریٹ کی پوزیشن، SMA 50/200، CSV ایکسپورٹ
+• فیصد تبدیلی، خاموش اوقات اور ہسٹری والے الرٹس؛ آواز سے اندراج
+• پرانی تاریخ پر تبدیلی، محفوظ جوڑیاں، صبح کا خلاصہ، سب سے زیادہ تبدیلی، کراس ریٹ
+• عیار کے مطابق سونا، ویجٹ میں رجحان، بیک اپ اور بحالی
+• گمنام استعمال کے اعداد و شمار اب اختیاری ہیں (بطورِ ڈیفالٹ بند)
 </ur>
 
 <vi>
 • Danh mục đầu tư có lãi/lỗ và ngân sách chuyến đi
-• Cảnh báo: % thay đổi, giờ yên tĩnh và lịch sử cảnh báo
-• Quy đổi theo ngày trong quá khứ, cặp đã lưu, tóm tắt tỷ giá buổi sáng
-• Nhập bằng giọng nói trong trình chuyển đổi
-• Tăng/giảm mạnh nhất, sức mạnh tiền tệ, bảng tỷ giá chéo
-• Lịch sử: khoảng 5 ngày, SMA 50/200 và xuất CSV
-• Vàng theo độ tinh khiết, đường xu hướng trong tiện ích, sao lưu và khôi phục
+• Kiểm tra chi phí ẩn của đề nghị đổi tiền và ô Cài đặt nhanh
+• Lịch sử: vị trí tỷ giá hôm nay, SMA 50/200, xuất CSV
+• Cảnh báo theo % thay đổi, giờ yên tĩnh và lịch sử; nhập bằng giọng nói
+• Quy đổi theo ngày quá khứ, cặp đã lưu, tóm tắt buổi sáng, biến động mạnh nhất, tỷ giá chéo
+• Vàng theo độ tinh khiết, xu hướng trong tiện ích, sao lưu và khôi phục
+• Thống kê sử dụng ẩn danh nay là tùy chọn (mặc định tắt)
 </vi>
 
 <id>
 • Portofolio dengan untung/rugi dan anggaran perjalanan
-• Peringatan: perubahan persen, jam tenang, dan riwayat
-• Konversi di tanggal lampau, pasangan tersimpan, ringkasan kurs pagi
-• Input suara di konverter
-• Kenaikan dan penurunan terbesar, kekuatan mata uang, matriks kurs silang
-• Riwayat: rentang 5 hari, SMA 50/200, dan ekspor CSV
-• Emas menurut kadar, garis tren di widget, cadangan dan pemulihan
+• Cek biaya tersembunyi pada penawaran tukar uang dan ubin Pengaturan Cepat
+• Riwayat: posisi kurs hari ini, SMA 50/200, ekspor CSV
+• Peringatan dengan perubahan persen, jam tenang, dan riwayat; input suara
+• Konversi tanggal lampau, pasangan tersimpan, ringkasan pagi, pergerakan terbesar, kurs silang
+• Emas menurut kadar, tren di widget, cadangan dan pemulihan
+• Statistik penggunaan anonim kini opsional (mati secara default)
 </id>

@@ -131,7 +131,7 @@
     <string name="settings_widget_pairs">Валюти для показу</string>
     <string name="metals_error">Не вдалося завантажити ціни на метали. Потягніть вниз, щоб оновити, або спробуйте ще раз.</string>
     <string name="settings_about">Про застосунок</string>
-    <string name="settings_developer_by">Розробник: Hayhak</string>
+    <string name="settings_developer_by">Розробник: Thunderbascraft</string>
     <string name="settings_version_label">Версія %1$s (%2$d)</string>
     <string name="settings_update">Оновити</string>
     <string name="settings_update_desc">Перевірити останню версію в Google Play</string>
@@ -271,4 +271,14 @@
     <string name="matrix_title">Матриця крос-курсів</string>
     <string name="matrix_select_currencies">Вибір валют</string>
     <string name="history_chart_description">Графік курсу %1$s. Мін. %2$s, макс. %3$s, останній %4$s.</string>
+    <string name="settings_analytics">Анонімна статистика використання</string>
+    <string name="settings_analytics_sub">Передає, які екрани використовуються, щоб покращувати застосунок. За замовчуванням вимкнено, суми не передаються.</string>
+    <string name="history_timing_title">Де перебуває сьогоднішній курс</string>
+    <string name="history_timing_percentile">Сьогоднішній курс вищий, ніж у %1$d%% днів цього періоду</string>
+    <string name="history_timing_vs_average">%1$s відносно середнього за період</string>
+    <string name="tools_offered_rate">Курс, який вам запропонували (1 %1$s = ? %2$s)</string>
+    <string name="tools_mid_rate">Ринковий курс: %1$s %2$s</string>
+    <string name="tools_markup_cost">Прихована плата: %1$s%% (близько %2$s %3$s)</string>
+    <string name="tools_markup_better">Краще за ринковий курс на %1$s%% (близько %2$s %3$s)</string>
+    <string name="tools_markup_none">Збігається з ринковим курсом</string>
 </resources>

@@ -29,7 +29,7 @@ Live-Kurse von ExchangeRate-API (kostenlos). Verlaufsdiagramme von Frankfurter (
 DATENSCHUTZ
 Kein Konto nötig. Keine Werbung. Details in der Datenschutzerklärung in der App.
 
-Von Hayhak entwickelt.
+Von Thunderbascraft entwickelt.
 
 ## Versionshinweise (max 500)
 Erste Version.

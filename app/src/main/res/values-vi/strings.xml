@@ -128,7 +128,7 @@
     <string name="settings_widget_pairs">Tiền tệ hiển thị</string>
     <string name="metals_error">Không thể tải giá kim loại. Kéo xuống để làm mới hoặc thử lại.</string>
     <string name="settings_about">Giới thiệu</string>
-    <string name="settings_developer_by">Phát triển bởi Hayhak</string>
+    <string name="settings_developer_by">Phát triển bởi Thunderbascraft</string>
     <string name="settings_version_label">Phiên bản %1$s (%2$d)</string>
     <string name="settings_update">Cập nhật</string>
     <string name="settings_update_desc">Kiểm tra phiên bản mới nhất trên Google Play</string>
@@ -268,4 +268,14 @@
     <string name="matrix_title">Bảng tỷ giá chéo</string>
     <string name="matrix_select_currencies">Chọn tiền tệ</string>
     <string name="history_chart_description">Biểu đồ tỷ giá %1$s. Thấp %2$s, cao %3$s, mới nhất %4$s.</string>
+    <string name="settings_analytics">Thống kê sử dụng ẩn danh</string>
+    <string name="settings_analytics_sub">Chia sẻ màn hình nào được dùng để cải thiện ứng dụng. Mặc định tắt và không bao giờ gồm số tiền.</string>
+    <string name="history_timing_title">Vị trí tỷ giá hôm nay</string>
+    <string name="history_timing_percentile">Tỷ giá hôm nay cao hơn %1$d%% của giai đoạn này</string>
+    <string name="history_timing_vs_average">%1$s so với mức trung bình giai đoạn</string>
+    <string name="tools_offered_rate">Tỷ giá bạn được báo (1 %1$s = ? %2$s)</string>
+    <string name="tools_mid_rate">Tỷ giá thị trường: %1$s %2$s</string>
+    <string name="tools_markup_cost">Chi phí ẩn: %1$s%% (khoảng %2$s %3$s)</string>
+    <string name="tools_markup_better">Tốt hơn tỷ giá thị trường %1$s%% (khoảng %2$s %3$s)</string>
+    <string name="tools_markup_none">Bằng tỷ giá thị trường</string>
 </resources>

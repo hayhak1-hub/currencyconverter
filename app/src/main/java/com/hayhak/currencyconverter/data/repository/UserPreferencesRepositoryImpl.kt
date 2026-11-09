@@ -41,6 +41,7 @@ class UserPreferencesRepositoryImpl @Inject constructor(
         val QUIET_END = intPreferencesKey("quiet_hours_end")
         val SAVED_PAIRS = stringPreferencesKey("saved_pairs")
         val MORNING_DIGEST = booleanPreferencesKey("morning_digest")
+        val ANALYTICS_ENABLED = booleanPreferencesKey("analytics_enabled")
         val LAST_FROM = stringPreferencesKey("last_from")
         val LAST_TO = stringPreferencesKey("last_to")
         val HISTORY_BASE = stringPreferencesKey("history_base")
@@ -82,6 +83,10 @@ class UserPreferencesRepositoryImpl @Inject constructor(
 
     override val savedPairs: Flow<List<Pair<String, String>>> = context.dataStore.data.map {
         decodePairs(it[PreferencesKeys.SAVED_PAIRS])
+    }
+
+    override val analyticsEnabled: Flow<Boolean> = context.dataStore.data.map {
+        it[PreferencesKeys.ANALYTICS_ENABLED] ?: false
     }
 
     override val morningDigest: Flow<Boolean> = context.dataStore.data.map {
@@ -174,6 +179,10 @@ class UserPreferencesRepositoryImpl @Inject constructor(
                 .filterNot { it.first == from.uppercase() && it.second == to.uppercase() }
             prefs[PreferencesKeys.SAVED_PAIRS] = encodePairs(next)
         }
+    }
+
+    override suspend fun setAnalyticsEnabled(enabled: Boolean) {
+        context.dataStore.edit { prefs -> prefs[PreferencesKeys.ANALYTICS_ENABLED] = enabled }
     }
 
     override suspend fun setMorningDigest(enabled: Boolean) {

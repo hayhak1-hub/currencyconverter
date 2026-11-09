@@ -1,7 +1,7 @@
 • Portfolio mit Gewinn/Verlust und Reisebudgets
-• Alarme: prozentuale Änderung, Ruhezeiten und Alarmverlauf
-• Umrechnung zu einem früheren Datum, gespeicherte Paare, morgendliche Kursübersicht
-• Spracheingabe im Rechner
-• Größte Gewinner und Verlierer, Währungsstärke, Kreuzkurs-Matrix
-• Verlauf: 5-Tage-Zeitraum, SMA 50/200 und CSV-Export
-• Gold nach Reinheit, Trendlinien im Widget, Sichern und Wiederherstellen
+• Prüfung versteckter Kosten bei Wechselangeboten und Schnelleinstellungs-Kachel
+• Verlauf: Stand des heutigen Kurses, SMA 50/200, CSV-Export
+• Alarme mit prozentualer Änderung, Ruhezeiten und Verlauf; Spracheingabe
+• Umrechnung zu früherem Datum, gespeicherte Paare, Morgenübersicht, Gewinner/Verlierer, Kreuzkurse
+• Gold nach Reinheit, Widget-Trends, Sichern und Wiederherstellen
+• Anonyme Nutzungsstatistik ist jetzt optional (standardmäßig aus)

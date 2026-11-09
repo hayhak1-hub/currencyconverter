@@ -128,7 +128,7 @@
     <string name="settings_widget_pairs">Mata uang yang ditampilkan</string>
     <string name="metals_error">Tidak dapat memuat harga logam. Tarik untuk menyegarkan atau coba lagi.</string>
     <string name="settings_about">Tentang</string>
-    <string name="settings_developer_by">Dikembangkan oleh Hayhak</string>
+    <string name="settings_developer_by">Dikembangkan oleh Thunderbascraft</string>
     <string name="settings_version_label">Versi %1$s (%2$d)</string>
     <string name="settings_update">Perbarui</string>
     <string name="settings_update_desc">Periksa versi terbaru di Google Play</string>
@@ -268,4 +268,14 @@
     <string name="matrix_title">Matriks kurs silang</string>
     <string name="matrix_select_currencies">Pilih mata uang</string>
     <string name="history_chart_description">Grafik kurs %1$s. Terendah %2$s, tertinggi %3$s, terbaru %4$s.</string>
+    <string name="settings_analytics">Statistik penggunaan anonim</string>
+    <string name="settings_analytics_sub">Membagikan layar mana yang dipakai untuk membantu memperbaiki aplikasi. Mati secara default dan tidak pernah menyertakan jumlah uang.</string>
+    <string name="history_timing_title">Posisi kurs hari ini</string>
+    <string name="history_timing_percentile">Kurs hari ini lebih tinggi dari %1$d%% periode ini</string>
+    <string name="history_timing_vs_average">%1$s dibanding rata-rata periode</string>
+    <string name="tools_offered_rate">Kurs yang ditawarkan kepada Anda (1 %1$s = ? %2$s)</string>
+    <string name="tools_mid_rate">Kurs tengah pasar: %1$s %2$s</string>
+    <string name="tools_markup_cost">Biaya tersembunyi: %1$s%% (sekitar %2$s %3$s)</string>
+    <string name="tools_markup_better">Lebih baik dari kurs tengah pasar sebesar %1$s%% (sekitar %2$s %3$s)</string>
+    <string name="tools_markup_none">Sama dengan kurs tengah pasar</string>
 </resources>

@@ -34,6 +34,7 @@ fun ConverterToolsSheet(
     var percent by rememberSaveable { mutableStateOf("") }
     var fixed by rememberSaveable { mutableStateOf("") }
     var peopleText by rememberSaveable { mutableStateOf("1") }
+    var offered by rememberSaveable { mutableStateOf("") }
     var search by rememberSaveable { mutableStateOf("") }
     var tab by rememberSaveable { mutableIntStateOf(0) }
     val history by viewModel.history.collectAsStateWithLifecycle()
@@ -43,6 +44,10 @@ fun ConverterToolsSheet(
         ConvertCurrencyUseCase()(it, state.fromCurrency.code, state.toCurrency.code, state.rates)
     }
     val net = gross?.let { netAfterFees(it, percent, fixed) }
+    val amountValue = state.amount.replace(',', '.').toDoubleOrNull()
+    val midRate = ConvertCurrencyUseCase()(1.0, state.fromCurrency.code, state.toCurrency.code, state.rates)
+    val offeredRate = offered.replace(',', '.').toDoubleOrNull()
+    val markup = if (midRate != null) offeredRate?.let { markupPercent(midRate, it) } else null
     val people = peopleText.toIntOrNull()?.coerceIn(1, 99) ?: 1
     val each = net?.let { if (people > 1) it / people else null }
     val format = NumberFormat.getNumberInstance().apply { maximumFractionDigits = 4 }
@@ -85,6 +90,26 @@ fun ConverterToolsSheet(
                     if (each != null) {
                         item {
                             Text(stringResource(R.string.tools_each, format.format(each), state.toCurrency.code), style = MaterialTheme.typography.titleMedium)
+                        }
+                    }
+                    item { HorizontalDivider() }
+                    item {
+                        OutlinedTextField(offered, { offered = it },
+                            label = { Text(stringResource(R.string.tools_offered_rate, state.fromCurrency.code, state.toCurrency.code)) },
+                            supportingText = { Text(stringResource(R.string.tools_mid_rate, midRate?.let { format.format(it) } ?: "-", state.toCurrency.code)) },
+                            singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), modifier = Modifier.fillMaxWidth())
+                    }
+                    if (markup != null && offeredRate != null && midRate != null) {
+                        item {
+                            val percentText = "%.2f".format(kotlin.math.abs(markup))
+                            val diff = amountValue?.let { format.format(kotlin.math.abs(it * (midRate - offeredRate))) }
+                            val text = when {
+                                kotlin.math.abs(markup) < 0.005 -> stringResource(R.string.tools_markup_none)
+                                markup > 0 -> stringResource(R.string.tools_markup_cost, percentText, diff ?: "-", state.toCurrency.code)
+                                else -> stringResource(R.string.tools_markup_better, percentText, diff ?: "-", state.toCurrency.code)
+                            }
+                            Text(text, style = MaterialTheme.typography.titleMedium,
+                                color = if (markup > 0.005) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary)
                         }
                     }
                     item {
