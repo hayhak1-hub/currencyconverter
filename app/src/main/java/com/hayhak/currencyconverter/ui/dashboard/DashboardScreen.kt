@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
@@ -36,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hayhak.currencyconverter.R
 import com.hayhak.currencyconverter.domain.model.SUPPORTED_CURRENCIES
+import com.hayhak.currencyconverter.ui.components.AlarmDirectionChips
 import com.hayhak.currencyconverter.ui.theme.TrendDown
 import com.hayhak.currencyconverter.ui.theme.TrendDownDark
 import com.hayhak.currencyconverter.ui.theme.TrendUp
@@ -46,7 +48,9 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class)
+private enum class RateSort { DEFAULT, CHANGE, RATE }
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel = hiltViewModel(),
@@ -56,8 +60,9 @@ fun DashboardScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     var searchQuery by remember { mutableStateOf("") }
+    var sortMode by rememberSaveable { mutableStateOf(RateSort.DEFAULT) }
     val context = LocalContext.current
-    val localeKey = LocalConfiguration.current.locales.toLanguageTags()
+    val localeKey = androidx.core.os.ConfigurationCompat.getLocales(LocalConfiguration.current).toLanguageTags()
     val notifPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {}
     fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= 33 &&
@@ -114,25 +119,42 @@ fun DashboardScreen(
             (info?.name?.contains(query, ignoreCase = true) == true)
     }
 
-    val favoriteRows = remember(allRateRows, state.favorites, query) {
+    fun List<CurrencyRow>.sortedBy(mode: RateSort) = when (mode) {
+        RateSort.DEFAULT -> this
+        RateSort.CHANGE -> sortedByDescending { it.trend }
+        RateSort.RATE -> sortedByDescending { it.rateToTry }
+    }
+
+    val favoriteRows = remember(allRateRows, state.favorites, state.favoriteOrder, query, sortMode) {
         allRateRows
             .filter { it.code in state.favorites }
             .filter(::rowMatchesQuery)
+            .let { rows ->
+                if (sortMode == RateSort.DEFAULT) {
+                    rows.sortedBy { code ->
+                        val index = state.favoriteOrder.indexOf(code.code)
+                        if (index < 0) Int.MAX_VALUE else index
+                    }
+                } else {
+                    rows.sortedBy(sortMode)
+                }
+            }
     }
-    val otherRows = remember(allRateRows, state.favorites, query) {
+    val otherRows = remember(allRateRows, state.favorites, query, sortMode) {
         allRateRows
             .filter { it.code !in state.favorites }
             .filter(::rowMatchesQuery)
+            .sortedBy(sortMode)
     }
 
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         contentWindowInsets = WindowInsets(0)
-    ) { _ ->
+    ) { contentPadding ->
         PullToRefreshBox(
             isRefreshing = state.isRefreshing,
             onRefresh    = viewModel::refresh,
-            modifier     = Modifier.fillMaxSize()
+            modifier     = Modifier.fillMaxSize().padding(contentPadding)
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
                 Row(
@@ -149,9 +171,6 @@ fun DashboardScreen(
                         onSelect = viewModel::onBaseCurrencyChange,
                         modifier = Modifier.weight(1f)
                     )
-                    TextButton(onClick = onNavigateToAlerts) {
-                        Text(stringResource(R.string.nav_alerts))
-                    }
                     state.lastUpdated?.let { ts ->
                         Text(
                             text  = formatRelativeTime(ts),
@@ -180,6 +199,34 @@ fun DashboardScreen(
                     singleLine = true
                 )
 
+                // A flow layout keeps long translations and large fonts from squeezing a chip to nothing.
+                FlowRow(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(0.dp)
+                ) {
+                    RateSort.entries.forEach { mode ->
+                        FilterChip(
+                            selected = sortMode == mode,
+                            onClick = { sortMode = mode },
+                            label = {
+                                Text(
+                                    stringResource(
+                                        when (mode) {
+                                            RateSort.DEFAULT -> R.string.sort_default
+                                            RateSort.CHANGE -> R.string.sort_change
+                                            RateSort.RATE -> R.string.sort_rate
+                                        }
+                                    )
+                                )
+                            }
+                        )
+                    }
+                    TextButton(onClick = onNavigateToAlerts) {
+                        Text(stringResource(R.string.nav_alerts))
+                    }
+                }
+
                 if (state.isLoading) {
                     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator()
@@ -189,6 +236,16 @@ fun DashboardScreen(
                         columns = GridCells.Fixed(if (isWide) 2 else 1),
                         modifier = Modifier.fillMaxSize()
                     ) {
+                        if (query.isBlank()) {
+                            val vsBase = topMovers(allRateRows)
+                            val strength = strengthMovers(allRateRows, state.baseCurrency)
+                            if (!vsBase.isEmpty || !strength.isEmpty) {
+                                item(span = { GridItemSpan(maxLineSpan) }) {
+                                    MoversCard(vsBase, strength, state.baseCurrency)
+                                }
+                            }
+                        }
+
                         if (favoriteRows.isNotEmpty()) {
                             item(span = { GridItemSpan(maxLineSpan) }) {
                                 Text(
@@ -332,7 +389,7 @@ private fun BaseCurrencyDialog(
 ) {
     var query by remember { mutableStateOf("") }
     val context = LocalContext.current
-    val localeKey = LocalConfiguration.current.locales.toLanguageTags()
+    val localeKey = androidx.core.os.ConfigurationCompat.getLocales(LocalConfiguration.current).toLanguageTags()
     val filtered = remember(query, favorites, localeKey) {
         val q = query.trim()
         val matches = if (q.isBlank()) {
@@ -408,10 +465,7 @@ private fun AlarmDialog(
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    FilterChip(selected = isAbove, onClick = { isAbove = true }, label = { Text(stringResource(R.string.alarm_when_above)) })
-                    FilterChip(selected = !isAbove, onClick = { isAbove = false }, label = { Text(stringResource(R.string.alarm_when_below)) })
-                }
+                AlarmDirectionChips(isAbove = isAbove, onChange = { isAbove = it })
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Checkbox(checked = repeating, onCheckedChange = { repeating = it })
                     Text(stringResource(R.string.alarm_repeating), style = MaterialTheme.typography.bodyMedium)

@@ -5,7 +5,8 @@ import com.hayhak.currencyconverter.domain.model.HistoricalRate
 import com.hayhak.currencyconverter.domain.model.currencyByCode
 
 enum class TimeRange(val labelRes: Int, val days: Int) {
-    ONE_DAY(com.hayhak.currencyconverter.R.string.range_1d, 5),
+    // Rates are daily, so a single day has one point and no chart; five days is the shortest useful range.
+    FIVE_DAYS(com.hayhak.currencyconverter.R.string.range_5d, 5),
     ONE_WEEK(com.hayhak.currencyconverter.R.string.range_1w, 7),
     ONE_MONTH(com.hayhak.currencyconverter.R.string.range_1m, 30),
     SIX_MONTHS(com.hayhak.currencyconverter.R.string.range_6m, 180),
@@ -15,9 +16,9 @@ enum class TimeRange(val labelRes: Int, val days: Int) {
 
 data class HistoryUiState(
     val baseCurrency: String = "USD",
-    val targetCurrency: String = "TRY",
+    val targetCurrency: String = "EUR",
     val baseInfo: CurrencyInfo? = currencyByCode("USD"),
-    val targetInfo: CurrencyInfo? = currencyByCode("TRY"),
+    val targetInfo: CurrencyInfo? = currencyByCode("EUR"),
     val timeRange: TimeRange = TimeRange.ONE_WEEK,
     val data: List<HistoricalRate> = emptyList(),
     val compareEnabled: Boolean = false,
@@ -26,6 +27,7 @@ data class HistoryUiState(
     val compareBaseInfo: CurrencyInfo? = currencyByCode("EUR"),
     val compareTargetInfo: CurrencyInfo? = currencyByCode("USD"),
     val compareData: List<HistoricalRate> = emptyList(),
+    val favorites: Set<String> = emptySet(),
     val isLoading: Boolean = false,
     val error: String? = null,
     val hasData: Boolean = false

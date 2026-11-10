@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">فیس، محفوظ حساب اور سفر</string>
+    <string name="tools_fees">فیس</string>
+    <string name="tools_history">محفوظ</string>
+    <string name="tools_travel">سفر</string>
+    <string name="tools_fee_explanation">صرف تخمینہ۔ فیصد اور مقررہ فیس %1$s میں تبدیل شدہ رقم سے کاٹی جاتی ہے۔</string>
+    <string name="tools_percent">فیس (%)</string>
+    <string name="tools_fixed">مقررہ فیس (%1$s)</string>
+    <string name="tools_net">خالص: %1$s %2$s</string>
+    <string name="tools_invalid">درست رقم اور فیس درج کریں۔ فیس تبدیل شدہ رقم سے زیادہ نہیں ہو سکتی۔</string>
+    <string name="tools_save">تبدیلی محفوظ کریں</string>
+    <string name="tools_history_note">اس آلے پر آخری 50 دستی تخمینے محفوظ ہیں۔ دوبارہ استعمال دستیاب شرح پر فیس کے بغیر حساب کرتا ہے۔</string>
+    <string name="tools_saved_fees">محفوظ فیس: %1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">محفوظ نہیں ہوا۔ دوبارہ کوشش کریں۔</string>
+    <string name="tools_empty">کوئی محفوظ تبدیلی نہیں۔</string>
+    <string name="tools_reuse">دوبارہ استعمال</string>
+    <string name="tools_delete">حذف کریں</string>
+    <string name="tools_country">ملک یا کرنسی تلاش کریں</string>
+    <string name="tools_travel_note">منزل منتخب کرکے اس کی کرنسی استعمال کریں اور پسندیدہ میں شامل کریں۔</string>
+    <string name="metal_amount">دھات کی مقدار</string>
+    <string name="metal_gram">گرام</string>
+    <string name="metal_ounce">ٹرائے اونس</string>
+    <string name="metal_cache">محفوظ قیمت — تازہ کاری دستیاب نہیں</string>
+    <string name="metal_retrieved">%1$s · حاصل کردہ: %2$s</string>
+    <string name="metal_estimate">اشاریاتی قیمت؛ خالص پن کی ایڈجسٹمنٹ، فروخت کنندہ کا پریمیم اور فیس شامل نہیں۔</string>
+</resources>

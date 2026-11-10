@@ -1,0 +1,7 @@
+• Portfel z zyskiem/stratą i budżety podróży
+• Sprawdzanie ukrytych kosztów ofert wymiany i kafelek szybkich ustawień
+• Historia: położenie dzisiejszego kursu, SMA 50/200, eksport CSV
+• Alerty ze zmianą procentową, godzinami ciszy i historią; wprowadzanie głosowe
+• Przeliczanie na dzień z przeszłości, zapisane pary, poranne podsumowanie, kursy krzyżowe
+• Złoto według próby, trendy w widżecie, kopia zapasowa
+• Anonimowe statystyki użycia są teraz opcjonalne (domyślnie wyłączone)

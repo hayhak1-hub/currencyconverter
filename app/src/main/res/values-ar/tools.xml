@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">الرسوم والمحفوظات والسفر</string>
+    <string name="tools_fees">الرسوم</string>
+    <string name="tools_history">المحفوظات</string>
+    <string name="tools_travel">السفر</string>
+    <string name="tools_fee_explanation">تقدير فقط. تُخصم الرسوم النسبية والثابتة من المبلغ المحوّل بعملة %1$s.</string>
+    <string name="tools_percent">الرسوم (%)</string>
+    <string name="tools_fixed">رسوم ثابتة (%1$s)</string>
+    <string name="tools_net">الصافي: %1$s %2$s</string>
+    <string name="tools_invalid">أدخل مبلغًا ورسومًا صالحة لا تتجاوز المبلغ المحوّل.</string>
+    <string name="tools_save">حفظ التحويل</string>
+    <string name="tools_history_note">آخر 50 تقديرًا محفوظًا يدويًا على هذا الجهاز. إعادة الاستخدام تحسب بالسعر المتاح دون رسوم.</string>
+    <string name="tools_saved_fees">الرسوم المحفوظة: %1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">تعذر الحفظ. حاول مجددًا.</string>
+    <string name="tools_empty">لا توجد تحويلات محفوظة.</string>
+    <string name="tools_reuse">إعادة الاستخدام</string>
+    <string name="tools_delete">حذف</string>
+    <string name="tools_country">البحث عن بلد أو عملة</string>
+    <string name="tools_travel_note">اختر وجهة لاستخدام عملتها وإضافتها إلى المفضلة.</string>
+    <string name="metal_amount">كمية المعدن</string>
+    <string name="metal_gram">غرام</string>
+    <string name="metal_ounce">أونصة تروي</string>
+    <string name="metal_cache">سعر محفوظ — التحديث غير متاح</string>
+    <string name="metal_retrieved">%1$s · تم الجلب: %2$s</string>
+    <string name="metal_estimate">قيمة إرشادية؛ لا تشمل تعديلات النقاء وعلاوة البائع والرسوم.</string>
+</resources>

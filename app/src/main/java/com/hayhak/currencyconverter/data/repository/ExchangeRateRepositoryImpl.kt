@@ -4,15 +4,20 @@ import com.hayhak.currencyconverter.data.local.dao.ExchangeRateDao
 import com.hayhak.currencyconverter.data.local.entity.ExchangeRateEntity
 import com.hayhak.currencyconverter.data.remote.api.ExchangeRateApi
 import com.hayhak.currencyconverter.data.remote.api.LiveExchangeRateApi
+import com.hayhak.currencyconverter.domain.model.DatedRates
 import com.hayhak.currencyconverter.domain.model.ExchangeRate
 import com.hayhak.currencyconverter.domain.model.HistoricalRate
+import com.hayhak.currencyconverter.domain.model.SUPPORTED_CURRENCIES
 import com.hayhak.currencyconverter.domain.repository.ExchangeRateRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -22,7 +27,7 @@ class ExchangeRateRepositoryImpl @Inject constructor(
     private val dao: ExchangeRateDao
 ) : ExchangeRateRepository {
 
-    private val utcDayKey = SimpleDateFormat("yyyy-MM-dd", Locale.US).apply {
+    private fun utcDayKey() = SimpleDateFormat("yyyy-MM-dd", Locale.US).apply {
         timeZone = TimeZone.getTimeZone("UTC")
     }
 
@@ -40,16 +45,12 @@ class ExchangeRateRepositoryImpl @Inject constructor(
         target: String,
         daysBack: Int
     ): Flow<List<HistoricalRate>> {
-        val bufferDays = when {
-            daysBack > 400 -> 35L
-            daysBack > 90 -> 14L
-            else -> 2L
-        }
         val sinceTimestamp = System.currentTimeMillis() -
-            TimeUnit.DAYS.toMillis(daysBack.toLong() + bufferDays)
+            TimeUnit.DAYS.toMillis(daysBack.toLong())
         return dao.getHistoricalRates(base, target, sinceTimestamp).map { entities ->
+            val dayKey = utcDayKey()
             entities
-                .groupBy { utcDayKey.format(Date(it.timestamp)) }
+                .groupBy { dayKey.format(Date(it.timestamp)) }
                 .entries
                 .sortedBy { it.key }
                 .map { (_, group) ->
@@ -61,7 +62,7 @@ class ExchangeRateRepositoryImpl @Inject constructor(
 
     override suspend fun refreshHistoricalRates(base: String, target: String, daysBack: Int) {
         try {
-            val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            val sdf = utcDayKey()
             val fetchDays = when {
                 daysBack <= 1 -> 10
                 daysBack <= 7 -> daysBack.coerceAtLeast(7)
@@ -92,17 +93,11 @@ class ExchangeRateRepositoryImpl @Inject constructor(
             )
 
             if (entities.isNotEmpty()) {
-                dao.deletePairInRange(
-                    base = base,
-                    target = target,
-                    fromTimestamp = startMs,
-                    toTimestamp = endMs + TimeUnit.DAYS.toMillis(1)
-                )
-                dao.insertRates(entities)
+                dao.replaceHistory(base, entities.minOf { it.timestamp }, entities.maxOf { it.timestamp }, entities)
             }
         } catch (e: Exception) {
-            android.util.Log.e("ExchangeRateRepo", "Failed to refresh history $base/$target ($daysBack d)", e)
-            throw e
+            if (e is kotlinx.coroutines.CancellationException) throw e
+            android.util.Log.w("ExchangeRateRepo", "Failed to refresh history $base/$target ($daysBack d): ${e.message}")
         }
     }
 
@@ -148,12 +143,23 @@ class ExchangeRateRepositoryImpl @Inject constructor(
             .map { group -> group.last() }
     }
 
-    override suspend fun refreshRates(base: String) {
-        try {
-            refreshLiveRates(base)
-        } catch (e: Exception) {
-            android.util.Log.w("ExchangeRateRepo", "Live API failed for $base, using Frankfurter", e)
-            refreshFrankfurterRates(base)
+    private val refreshLocks = ConcurrentHashMap<String, Mutex>()
+    private val lastRefreshAt = ConcurrentHashMap<String, Long>()
+
+    override suspend fun refreshRates(base: String, force: Boolean) {
+        refreshLocks.getOrPut(base) { Mutex() }.withLock {
+            val last = lastRefreshAt[base]
+            if (!force && last != null && System.currentTimeMillis() - last < MIN_REFRESH_INTERVAL_MS) {
+                return
+            }
+            try {
+                refreshLiveRates(base)
+            } catch (e: Exception) {
+                if (e is kotlinx.coroutines.CancellationException) throw e
+                android.util.Log.w("ExchangeRateRepo", "Live API failed for $base, using Frankfurter", e)
+                refreshFrankfurterRates(base)
+            }
+            lastRefreshAt[base] = System.currentTimeMillis()
         }
     }
 
@@ -181,7 +187,7 @@ class ExchangeRateRepositoryImpl @Inject constructor(
             }
 
         android.util.Log.d("ExchangeRateRepo", "Live API rows: ${entities.size}")
-        dao.insertRates(entities)
+        dao.replaceLatest(base, entities)
         pruneOldHistory(timestamp)
     }
 
@@ -190,6 +196,7 @@ class ExchangeRateRepositoryImpl @Inject constructor(
         val rows = frankfurterApi.getLatestRates(base = base)
         android.util.Log.d("ExchangeRateRepo", "Frankfurter rows: ${rows.size}")
         val timestamp = System.currentTimeMillis()
+        val dayKey = utcDayKey()
         val entities = rows
             .filter { !it.quote.equals(base, ignoreCase = true) }
             .map { row ->
@@ -197,10 +204,11 @@ class ExchangeRateRepositoryImpl @Inject constructor(
                     baseCurrency = base,
                     targetCurrency = row.quote,
                     rate = row.rate,
-                    timestamp = timestamp
+                    timestamp = dayKey.parse(row.date)?.time ?: timestamp
                 )
             }
-        dao.insertRates(entities)
+        if (entities.isEmpty()) throw IllegalStateException("No rates returned for $base")
+        dao.replaceLatest(base, entities)
         pruneOldHistory(timestamp)
     }
 
@@ -212,11 +220,59 @@ class ExchangeRateRepositoryImpl @Inject constructor(
     override suspend fun getLastUpdateTime(base: String): Long? =
         dao.getLastUpdateTime(base)
 
+    override suspend fun ratesOnDate(dayMillis: Long): DatedRates? {
+        val format = utcDayKey()
+        val end = format.format(Date(dayMillis))
+        val start = format.format(Date(dayMillis - TimeUnit.DAYS.toMillis(7)))
+        val rows = try {
+            frankfurterApi.getRatesBetween(base = "USD", from = start, to = end)
+        } catch (e: Exception) {
+            if (e is kotlinx.coroutines.CancellationException) throw e
+            val quotes = SUPPORTED_CURRENCIES.map { it.code }.filter { it != "USD" }.joinToString(",")
+            try {
+                frankfurterApi.getRatesBetween(base = "USD", from = start, to = end, quotes = quotes)
+            } catch (fallback: Exception) {
+                if (fallback is kotlinx.coroutines.CancellationException) throw fallback
+                android.util.Log.w("ExchangeRateRepo", "Historical date failed for $end: ${fallback.message}")
+                return null
+            }
+        }
+        if (rows.isEmpty()) return null
+        val latest = rows.maxOf { it.date }
+        val rates = rows.filter { it.date == latest }
+            .filter { !it.quote.equals("USD", ignoreCase = true) }
+            .associate { it.quote.uppercase() to it.rate }
+        if (rates.isEmpty()) return null
+        return DatedRates(latest, rates)
+    }
+
+    override suspend fun pairHistory(from: String, to: String, days: Int): List<Double> {
+        if (from.equals(to, ignoreCase = true)) return emptyList()
+        return try {
+            val format = utcDayKey()
+            val end = System.currentTimeMillis()
+            val start = end - TimeUnit.DAYS.toMillis(days.toLong().coerceAtLeast(1))
+            frankfurterApi.getHistoricalRates(
+                base = from,
+                quotes = to,
+                from = format.format(Date(start)),
+                to = format.format(Date(end))
+            ).sortedBy { it.date }.map { it.rate }.filter { it.isFinite() && it > 0.0 }
+        } catch (e: Exception) {
+            if (e is kotlinx.coroutines.CancellationException) throw e
+            emptyList()
+        }
+    }
+
     override suspend fun getRatesBefore(base: String, beforeTimestamp: Long): ExchangeRate? {
         val entities = dao.getRatesBefore(base, beforeTimestamp)
         if (entities.isEmpty()) return null
         val ts = entities.maxOf { it.timestamp }
         val rates = entities.associate { it.targetCurrency to it.rate }
         return ExchangeRate(base, rates, ts)
+    }
+
+    private companion object {
+        const val MIN_REFRESH_INTERVAL_MS = 30_000L
     }
 }

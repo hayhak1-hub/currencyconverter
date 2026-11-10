@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">Комісії, збереження й подорожі</string>
+    <string name="tools_fees">Комісії</string>
+    <string name="tools_history">Збережене</string>
+    <string name="tools_travel">Подорожі</string>
+    <string name="tools_fee_explanation">Оцінка. Відсоткова та фіксована комісії віднімаються від суми в %1$s.</string>
+    <string name="tools_percent">Комісія (%)</string>
+    <string name="tools_fixed">Фіксована комісія (%1$s)</string>
+    <string name="tools_net">Разом: %1$s %2$s</string>
+    <string name="tools_invalid">Введіть коректні суму й комісії, що не перевищують суму обміну.</string>
+    <string name="tools_save">Зберегти розрахунок</string>
+    <string name="tools_history_note">Останні 50 розрахунків на цьому пристрої. Повторне використання перераховує суму за доступним курсом без комісій.</string>
+    <string name="tools_saved_fees">Збережені комісії: %1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">Не вдалося зберегти. Спробуйте ще раз.</string>
+    <string name="tools_empty">Немає збережених розрахунків.</string>
+    <string name="tools_reuse">Використати</string>
+    <string name="tools_delete">Видалити</string>
+    <string name="tools_country">Пошук країни або валюти</string>
+    <string name="tools_travel_note">Виберіть країну, щоб використовувати її валюту й додати до обраного.</string>
+    <string name="metal_amount">Кількість металу</string>
+    <string name="metal_gram">Грам</string>
+    <string name="metal_ounce">Тройська унція</string>
+    <string name="metal_cache">Збережена ціна — оновлення недоступне</string>
+    <string name="metal_retrieved">%1$s · Отримано: %2$s</string>
+    <string name="metal_estimate">Орієнтовна вартість; без поправок на пробу, націнок і комісій.</string>
+</resources>

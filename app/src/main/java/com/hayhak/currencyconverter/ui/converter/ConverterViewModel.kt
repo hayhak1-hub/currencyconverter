@@ -1,17 +1,17 @@
 package com.hayhak.currencyconverter.ui.converter
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hayhak.currencyconverter.domain.model.BASE_CURRENCY
 import com.hayhak.currencyconverter.domain.model.CurrencyInfo
 import com.hayhak.currencyconverter.domain.model.SUPPORTED_CURRENCIES
 import com.hayhak.currencyconverter.domain.repository.ExchangeRateRepository
 import com.hayhak.currencyconverter.domain.repository.UserPreferencesRepository
 import com.hayhak.currencyconverter.domain.usecase.ConvertCurrencyUseCase
 import com.hayhak.currencyconverter.domain.usecase.GetExchangeRatesUseCase
-import com.hayhak.currencyconverter.util.AnalyticsHelper
+import com.hayhak.currencyconverter.util.AnalyticsTracker
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,9 +20,11 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.LinkedHashMap
 import javax.inject.Inject
 
@@ -33,7 +35,7 @@ class ConverterViewModel @Inject constructor(
     private val convertCurrency: ConvertCurrencyUseCase,
     private val repository: ExchangeRateRepository,
     private val userPrefs: UserPreferencesRepository,
-    @ApplicationContext private val appContext: Context
+    private val analytics: AnalyticsTracker
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ConverterUiState(isLoading = true))
@@ -45,8 +47,28 @@ class ConverterViewModel @Inject constructor(
     private var appliedLaunchPair = false
 
     init {
-        userPrefs.favorites
-            .onEach { favs -> _uiState.update { it.copy(favorites = favs) } }
+        userPrefs.favoriteOrder
+            .onEach { order -> _uiState.update { it.copy(favorites = order.toSet(), favoriteOrder = order) } }
+            .launchIn(viewModelScope)
+
+        userPrefs.spreadPercent
+            .onEach { percent -> _uiState.update { it.copy(spreadPercent = percent) } }
+            .launchIn(viewModelScope)
+
+        userPrefs.savedPairs
+            .onEach { pairs -> _uiState.update { it.copy(savedPairs = pairs) } }
+            .launchIn(viewModelScope)
+
+        _uiState
+            .map { it.fromCurrency.code to it.toCurrency.code }
+            .distinctUntilChanged()
+            .debounce(300)
+            .onEach { (from, to) ->
+                val series = repository.pairHistory(from, to, 7)
+                _uiState.update { state ->
+                    if (state.fromCurrency.code == from && state.toCurrency.code == to) state.copy(sparkline = series) else state
+                }
+            }
             .launchIn(viewModelScope)
 
         viewModelScope.launch {
@@ -62,70 +84,71 @@ class ConverterViewModel @Inject constructor(
 
         refreshRates()
 
-        getExchangeRates("USD")
+        getExchangeRates(BASE_CURRENCY)
             .onEach { exchangeRate ->
                 _uiState.update { state ->
-                    val rates = exchangeRate?.rates ?: emptyMap()
-                    val result = recalculate(
-                        state.amount,
-                        state.fromCurrency.code,
-                        state.toCurrency.code,
-                        rates
-                    )
-                    val batchResults = calculateBatch(
-                        state.amount,
-                        state.fromCurrency.code,
-                        rates,
-                        state.favorites
-                    )
                     state.copy(
-                        rates = rates,
+                        rates = exchangeRate?.rates ?: emptyMap(),
                         isLoading = false,
                         lastUpdated = exchangeRate?.timestamp,
-                        error = if (exchangeRate == null) "offline" else null,
-                        result = result,
-                        batchResults = batchResults
+                        error = if (exchangeRate == null) "offline" else null
                     )
                 }
             }
             .launchIn(viewModelScope)
 
+        // Results follow input immediately; only the side effects below are debounced.
         _uiState
-            .debounce(500)
-            .distinctUntilChanged { old, new ->
-                old.amount == new.amount &&
-                    old.fromCurrency == new.fromCurrency &&
-                    old.toCurrency == new.toCurrency &&
-                    old.favorites == new.favorites
+            .map {
+                val table = if (it.historicalDate != null) it.historicalRates else it.rates
+                CalcInput(it.amount, it.fromCurrency.code, it.toCurrency.code, it.favoriteOrder, table)
             }
-            .onEach { state ->
-                val result = recalculate(
-                    state.amount,
-                    state.fromCurrency.code,
-                    state.toCurrency.code,
-                    state.rates
-                )
-                val batchResults = calculateBatch(
-                    state.amount,
-                    state.fromCurrency.code,
-                    state.rates,
-                    state.favorites
-                )
-                _uiState.update { it.copy(result = result, batchResults = batchResults) }
-                userPrefs.saveLastConverterCurrencies(state.fromCurrency.code, state.toCurrency.code)
-                AnalyticsHelper.logConversion(appContext, state.fromCurrency.code, state.toCurrency.code)
-                if (needsRefresh(state.fromCurrency.code, state.toCurrency.code, state.rates)) {
+            .distinctUntilChanged()
+            .onEach { input ->
+                val result = recalculate(input.amount, input.from, input.to, input.rates)
+                val inverse = calculateInverse(input.from, input.to, input.rates)
+                val batchResults = withContext(Dispatchers.Default) {
+                    calculateBatch(input.amount, input.from, input.rates, input.favorites)
+                }
+                _uiState.update { it.copy(result = result, inverseRate = inverse, batchResults = batchResults) }
+            }
+            .launchIn(viewModelScope)
+
+        _uiState
+            .map { Triple(it.amount, it.fromCurrency.code, it.toCurrency.code) }
+            .distinctUntilChanged()
+            .debounce(500)
+            .onEach { (_, from, to) ->
+                userPrefs.saveLastConverterCurrencies(from, to)
+                analytics.logConversion(from, to)
+                if (needsRefresh(from, to, _uiState.value.rates)) {
                     refreshRates()
                 }
             }
             .launchIn(viewModelScope)
     }
 
+    private data class CalcInput(
+        val amount: String,
+        val from: String,
+        val to: String,
+        val favorites: List<String>,
+        val rates: Map<String, Double>
+    )
+
     fun startAmountEntry() {
         accumulator = null
         pendingOp = null
         replaceOnNextDigit = false
         _uiState.update { it.copy(amount = "") }
+    }
+
+    fun reuseConversion(entry: com.hayhak.currencyconverter.domain.model.SavedConversion) {
+        applyPair(entry.from, entry.to)
+        accumulator = null
+        pendingOp = null
+        replaceOnNextDigit = false
+        _uiState.update { it.copy(amount = entry.amount) }
     }
 
     fun finishAmountEntry() {
@@ -168,14 +191,111 @@ class ConverterViewModel @Inject constructor(
         _uiState.update { it.copy(fromCurrency = fromInfo, toCurrency = toInfo) }
     }
 
+    fun applyLaunch(from: String?, to: String?, amount: String?) {
+        val resolvedFrom = from?.uppercase()
+        val resolvedTo = to?.uppercase() ?: resolvedFrom?.let { if (it == "USD") "EUR" else "USD" }
+        if (resolvedFrom != null && resolvedTo != null) applyPair(resolvedFrom, resolvedTo)
+        if (!amount.isNullOrBlank()) {
+            accumulator = null
+            pendingOp = null
+            replaceOnNextDigit = false
+            _uiState.update { it.copy(amount = amount) }
+        }
+    }
+
+    fun setHistoricalDate(dayMillis: Long?) {
+        if (dayMillis == null) {
+            _uiState.update {
+                it.copy(
+                    historicalDate = null,
+                    historicalLabel = null,
+                    historicalRates = emptyMap(),
+                    historicalLoading = false,
+                    historicalError = false
+                )
+            }
+            return
+        }
+        _uiState.update {
+            it.copy(historicalDate = dayMillis, historicalLoading = true, historicalError = false)
+        }
+        viewModelScope.launch {
+            val dated = repository.ratesOnDate(dayMillis)
+            _uiState.update { state ->
+                if (state.historicalDate != dayMillis) state
+                else if (dated == null) state.copy(historicalLoading = false, historicalError = true, historicalRates = emptyMap())
+                else state.copy(
+                    historicalLoading = false,
+                    historicalError = false,
+                    historicalLabel = dated.date,
+                    historicalRates = dated.rates
+                )
+            }
+        }
+    }
+
     fun swapCurrencies() {
         _uiState.update { it.copy(fromCurrency = it.toCurrency, toCurrency = it.fromCurrency) }
     }
 
-    fun refreshRates() {
+    fun saveCurrentPair() {
+        val state = _uiState.value
+        viewModelScope.launch { userPrefs.savePair(state.fromCurrency.code, state.toCurrency.code) }
+    }
+
+    fun removePair(from: String, to: String) {
+        viewModelScope.launch { userPrefs.removePair(from, to) }
+    }
+
+    fun beginTargetEntry() {
+        val current = _uiState.value.result?.let(::formatCalc).orEmpty()
+        _uiState.update { it.copy(targetDraft = current) }
+    }
+
+    fun cancelTargetEntry() {
+        _uiState.update { it.copy(targetDraft = null) }
+    }
+
+    fun onTargetKey(key: String) {
+        _uiState.update { state ->
+            val current = state.targetDraft ?: return@update state
+            val next = when (key) {
+                "C" -> ""
+                "DEL" -> current.dropLast(1)
+                ",", "." -> if (current.contains(',') || current.contains('.')) current else (current.ifEmpty { "0" } + key)
+                else -> if (key.length == 1 && key[0].isDigit()) {
+                    val base = current
+                    when {
+                        base.length >= 15 -> base
+                        base == "0" -> key
+                        else -> base + key
+                    }
+                } else current
+            }
+            state.copy(targetDraft = next)
+        }
+    }
+
+    fun finishTargetEntry() {
+        val state = _uiState.value
+        val draft = state.targetDraft
+        val target = draft?.let(::parseAmount)
+        val table = if (state.historicalDate != null) state.historicalRates else state.rates
+        val source = target?.let {
+            convertCurrency(it, state.toCurrency.code, state.fromCurrency.code, table, BASE_CURRENCY)
+        }
+        _uiState.update {
+            if (source != null && source.isFinite() && source >= 0.0) it.copy(amount = formatCalc(source), targetDraft = null)
+            else it.copy(targetDraft = null)
+        }
+    }
+
+    fun retryRates() = refreshRates(force = true)
+
+    fun refreshRates(force: Boolean = false) {
         viewModelScope.launch {
             try {
-                repository.refreshRates("USD")
+                repository.refreshRates(BASE_CURRENCY, force)
             } catch (_: Exception) {
                 _uiState.update { it.copy(isLoading = false, error = it.error ?: "offline") }
             }
@@ -271,7 +391,7 @@ class ConverterViewModel @Inject constructor(
     }
 
     private fun needsRefresh(from: String, to: String, rates: Map<String, Double>): Boolean {
-        return listOf(from, to).any { code -> code != "USD" && code !in rates }
+        return listOf(from, to).any { code -> code != BASE_CURRENCY && code !in rates }
     }
 
     private fun recalculate(
@@ -281,22 +401,30 @@ class ConverterViewModel @Inject constructor(
         rates: Map<String, Double>
     ): Double? {
         val amount = parseAmount(amountStr) ?: return null
-        return convertCurrency(amount, from, to, rates, baseCurrency = "USD")
+        return convertCurrency(amount, from, to, rates, baseCurrency = BASE_CURRENCY)
+    }
+
+    private fun calculateInverse(
+        from: String,
+        to: String,
+        rates: Map<String, Double>
+    ): Double? {
+        return convertCurrency(1.0, to, from, rates, baseCurrency = BASE_CURRENCY)
     }
 
     private fun calculateBatch(
         amountStr: String,
         from: String,
         rates: Map<String, Double>,
-        favorites: Set<String>
+        favorites: List<String>
     ): Map<String, Double> {
         val amount = parseAmount(amountStr) ?: return emptyMap()
-        val ordered = (favorites.toList() + SUPPORTED_CURRENCIES.map { it.code })
+        val ordered = (favorites + SUPPORTED_CURRENCIES.map { it.code })
             .distinct()
             .filter { it != from }
         val out = LinkedHashMap<String, Double>()
         for (to in ordered) {
-            val value = convertCurrency(amount, from, to, rates, baseCurrency = "USD") ?: continue
+            val value = convertCurrency(amount, from, to, rates, baseCurrency = BASE_CURRENCY) ?: continue
             out[to] = value
         }
         return out

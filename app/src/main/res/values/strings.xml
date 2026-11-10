@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Currency Converter</string>
     <string name="nav_converter">Converter</string>
     <string name="nav_rates">Rates</string>
@@ -41,7 +41,7 @@
     <string name="alarm_when_below">When it goes below</string>
     <string name="alarm_set">Set alert</string>
     <string name="alarm_repeating">Repeat until I turn it off</string>
-    <string name="alerts_empty">No rate alerts yet. Set one from the Rates screen.</string>
+    <string name="alerts_empty">No rate alerts yet. Tap + or use the bell on the Rates screen.</string>
     <string name="alerts_delete">Delete alert</string>
     <string name="alerts_edit">Edit alert</string>
     <string name="settings_widget_add">Add a currency</string>
@@ -55,6 +55,7 @@
     <string name="history_change">Change</string>
     <string name="history_compare">Compare</string>
     <string name="range_1d">1D</string>
+    <string name="range_5d" tools:ignore="MissingTranslation">5D</string>
     <string name="range_1w">1W</string>
     <string name="range_1m">1M</string>
     <string name="range_6m">6M</string>
@@ -83,7 +84,7 @@
     <string name="metals_subtitle">Spot metals in %1$s (troy ounce)</string>
     <string name="metals_error">Could not load metal prices. Pull to refresh or try again.</string>
     <string name="settings_about">About</string>
-    <string name="settings_developer_by">Developed by Hayhak</string>
+    <string name="settings_developer_by">Developed by Thunderbascraft</string>
     <string name="settings_version_label">Version %1$s (%2$d)</string>
     <string name="settings_update">Update</string>
     <string name="settings_update_desc">Check Google Play for the latest version</string>
@@ -91,6 +92,10 @@
     <string name="settings_help_desc">How to use the app</string>
     <string name="settings_rate_us">Rate us</string>
     <string name="settings_rate_us_desc">Share your feedback on Google Play</string>
+    <string name="rate_prompt_title">Rate us</string>
+    <string name="rate_prompt_message">If you like Currency Converter, a quick rating on Google Play helps a lot.</string>
+    <string name="rate_prompt_ok">OK</string>
+    <string name="rate_prompt_later">Later</string>
     <string name="settings_feedback">Contact us</string>
     <string name="settings_feedback_desc">Send ideas, issues, or requests by email</string>
     <string name="settings_feedback_email" translatable="false">thunderbascraft@gmail.com</string>
@@ -112,7 +117,7 @@
     <string name="update_dialog_positive">Update</string>
     <string name="update_dialog_later">Later</string>
     <string name="help_welcome_title">Welcome to Currency Converter</string>
-    <string name="help_body">• Converter: Tap the amount (default 1) to open the keypad. Use + − × ÷, share the result, and see a banner if rates are offline or stale. Other currencies lists favorites first, then the full catalog.\n\n• Rates: Live rates for your base currency, with daily percent change. Star favorites. Set a rate alert from any row (Android 13+ will ask for notification permission).\n\n• Alerts: List, edit, or delete alerts. A one-shot alert turns off after it fires; repeating alerts stay on. Tap a notification to open that pair in the converter.\n\n• Statistics: Daily change versus yesterday, quoted in the same base as Rates.\n\n• History: Drag the chart to inspect a date, see the range percent change, and compare a second pair.\n\n• Metals: Gold, silver, platinum, and palladium in your Rates base.\n\n• Widget: Choose quote currency and up to four rates in Settings. Resize for 1, 2, or 4 rows. Tap a row to open the converter for that pair.\n\n• Settings: Language, theme, favorites, widget, updates, and privacy.\n\nOpen screens from the menu at the top left. Live rates come from ExchangeRate-API. Historical charts use Frankfurter (ECB). Data is cached on your device.</string>
+    <string name="help_body">• Converter: Tap the amount (default 1) to open the keypad. Use + − × ÷, share the result, and see a banner if rates are offline or stale. Other currencies lists favorites first, then the full catalog.\n\n• Rates: Live rates for your base currency, with daily percent change. Star favorites. Set a rate alert from any row (Android 13+ will ask for notification permission).\n\n• Alerts: Add, edit, or delete alerts with the + button. A one-shot alert turns off after it fires; repeating alerts stay on. Tap a notification to open that pair in the converter.\n\n• Statistics: Daily change versus yesterday, quoted in the same base as Rates.\n\n• History: Drag the chart to inspect a date, see the range percent change, compare a second pair, and export the data as CSV.\n\n• Metals: Gold, silver, platinum, and palladium in the currency you pick.\n\n• Widget: Choose quote currency and up to four rates in Settings. Resize for 1, 2, or 4 rows. Tap a row to open the converter for that pair.\n\n• Settings: Language, theme, favorites, widget, updates, and privacy.\n\nOpen screens from the menu at the top left. Live rates come from ExchangeRate-API. Historical charts use Frankfurter (ECB). Data is cached on your device.</string>
     <string name="cd_back">Back</string>
     <string name="widget_live_rates">Live rates</string>
     <string name="widget_no_data">No data</string>
@@ -155,8 +160,131 @@
     <string name="currency_xag">Silver (troy ounce)</string>
     <string name="currency_xpt">Platinum</string>
     <string name="currency_xpd">Palladium</string>
+    <string name="alerts_add" tools:ignore="MissingTranslation">Add alert</string>
+    <string name="sort_default">Default</string>
+    <string name="sort_change">Change</string>
+    <string name="sort_rate">Rate</string>
+    <string name="sort_name" tools:ignore="MissingTranslation">Name</string>
+    <string name="dashboard_sort" tools:ignore="MissingTranslation">Sort by</string>
+    <string name="metals_show_in">Show in</string>
+    <string name="gold_jewelry_title">Gold by purity</string>
+    <string name="gold_coins_title">Gold coins (22K)</string>
+    <string name="gold_coins_note">Gold content at the spot price. Market prices include premiums and fees.</string>
+    <string name="gold_coin_quarter" translatable="false">Çeyrek (¼)</string>
+    <string name="gold_coin_half" translatable="false">Yarım (½)</string>
+    <string name="gold_coin_full" translatable="false">Tam (1)</string>
+    <string name="gold_coin_ata" translatable="false">Ata (Cumhuriyet)</string>
+    <string name="movers_gainers">Top gainers</string>
+    <string name="movers_losers">Top losers</string>
+    <string name="dashboard_view_list" tools:ignore="MissingTranslation">List</string>
+    <string name="dashboard_view_matrix" tools:ignore="MissingTranslation">Cross Matrix</string>
+    <string name="matrix_title" tools:ignore="MissingTranslation">Cross Rates Matrix</string>
+    <string name="matrix_select_currencies" tools:ignore="MissingTranslation">Select Currencies</string>
+    <string name="network_offline_banner" tools:ignore="MissingTranslation">No internet connection. Displaying cached data.</string>
+    <string name="converter_inverse_rate" tools:ignore="MissingTranslation">1 %1$s = %2$s %3$s</string>
+    <string name="converter_copied" tools:ignore="MissingTranslation">Result copied to clipboard</string>
+    <string name="history_custom_range" tools:ignore="MissingTranslation">Custom</string>
+    <string name="stats_add_currency" tools:ignore="MissingTranslation">Add currency</string>
+    <string name="stats_select_currencies" tools:ignore="MissingTranslation">Select currencies</string>
+    <string name="converter_as_of">As of %1$s</string>
+    <string name="converter_pick_date">Historical date</string>
+    <string name="converter_latest">Latest rate</string>
+    <string name="converter_history_missing">No rate for that date</string>
+    <string name="converter_buy">Buy %1$s</string>
+    <string name="converter_sell">Sell %1$s</string>
+    <string name="settings_spread">Estimated spread</string>
+    <string name="settings_spread_sub">Shows buy and sell around the mid-market rate. Half of the percent is applied on each side.</string>
+    <string name="settings_spread_percent">Spread (%)</string>
+    <string name="settings_backup">Backup</string>
+    <string name="settings_backup_sub">Save favorites, alerts, the widget and these settings as a JSON file.</string>
+    <string name="settings_backup_export">Export</string>
+    <string name="settings_backup_import">Import</string>
+    <string name="settings_backup_exported">Backup saved</string>
+    <string name="settings_backup_imported">Backup restored</string>
+    <string name="settings_backup_failed">Backup failed</string>
+    <string name="settings_quiet_hours">Quiet hours</string>
+    <string name="settings_quiet_hours_sub">Pause rate alerts between these times.</string>
+    <string name="settings_quiet_from">From</string>
+    <string name="settings_quiet_until">Until</string>
+    <string name="alarm_mode_level">Target rate</string>
+    <string name="alarm_mode_percent">Percent change</string>
+    <string name="alarm_percent">Change (%)</string>
+    <string name="alarm_when_rises">When it rises</string>
+    <string name="alarm_when_falls">When it falls</string>
+    <string name="alarm_percent_up_line">Rises %1$s%% in 24 hours</string>
+    <string name="alarm_percent_down_line">Falls %1$s%% in 24 hours</string>
+    <string name="notif_alarm_percent_up">Up %1$s%% in 24 hours (now %2$s%%)</string>
+    <string name="notif_alarm_percent_down">Down %1$s%% in 24 hours (now %2$s%%)</string>
+    <string name="process_text_label">Convert currency</string>
+    <string name="favorites_drag">Hold and drag to reorder</string>
+    <string name="converter_sparkline" tools:ignore="MissingTranslation">Rate history</string>
+    <string name="converter_edit_result" tools:ignore="MissingTranslation">Edit result</string>
+    <string name="converter_pnl_today">Today %1$s</string>
+    <string name="converter_pnl_change">Change %1$s</string>
+    <string name="pairs_saved" tools:ignore="MissingTranslation">Saved pairs</string>
+    <string name="pairs_save" tools:ignore="MissingTranslation">Save pair</string>
+    <string name="pairs_alert" tools:ignore="MissingTranslation">Set alert</string>
+    <string name="pairs_remove" tools:ignore="MissingTranslation">Remove pair</string>
+    <string name="tools_people" tools:ignore="MissingTranslation">People</string>
+    <string name="tools_each">Each person: %1$s %2$s</string>
+    <string name="widget_configure_title" tools:ignore="MissingTranslation">Configure Widget</string>
+    <string name="widget_configure_quotes" tools:ignore="MissingTranslation">Select Currencies</string>
+    <string name="widget_configure_add" tools:ignore="MissingTranslation">Add Currency</string>
+    <string name="widget_configure_save" tools:ignore="MissingTranslation">Save Widget</string>
+    <string name="digest_title" tools:ignore="MissingTranslation">Morning Rate Digest</string>
+    <string name="settings_digest" tools:ignore="MissingTranslation">Morning Rate Digest</string>
+    <string name="settings_digest_sub" tools:ignore="MissingTranslation">Show a daily notification summary of your saved pairs.</string>
     <plurals name="minutes_ago">
         <item quantity="one">%d minute ago</item>
         <item quantity="other">%d minutes ago</item>
     </plurals>
+    <string name="digest_empty">No saved pairs yet</string>
+    <string name="alerts_history">Recent alerts</string>
+    <string name="alerts_history_clear">Clear</string>
+    <string name="nav_portfolio">Portfolio</string>
+    <string name="nav_trips">Trips</string>
+    <string name="portfolio_empty">Record what you bought and what you paid per unit. The app shows today’s value and your profit or loss.</string>
+    <string name="portfolio_add">Add holding</string>
+    <string name="portfolio_save">Save</string>
+    <string name="portfolio_delete">Delete holding</string>
+    <string name="portfolio_total_value">Total value</string>
+    <string name="portfolio_cost">Cost</string>
+    <string name="portfolio_unpriced">%d holding(s) could not be valued because a rate is missing.</string>
+    <string name="portfolio_disclaimer">Based only on the entries you add and indicative exchange rates. Not investment advice.</string>
+    <string name="portfolio_currency">Currency bought</string>
+    <string name="portfolio_paid_in">Paid in</string>
+    <string name="portfolio_price_per_unit">Price per unit</string>
+    <string name="trips_empty">Create a trip with a budget, then add what you spend in the local currency.</string>
+    <string name="trips_new">New trip</string>
+    <string name="trips_delete">Delete trip</string>
+    <string name="trips_delete_expense">Delete expense</string>
+    <string name="trips_left">%1$s left</string>
+    <string name="trips_over">%1$s over budget</string>
+    <string name="trips_spent_of">Spent %1$s of %2$s</string>
+    <string name="trips_no_rate">Some expenses could not be converted because a rate is missing.</string>
+    <string name="trips_add_expense">Add expense</string>
+    <string name="trips_name">Trip name</string>
+    <string name="trips_local_currency">Spending currency</string>
+    <string name="trips_home_currency">Budget currency</string>
+    <string name="trips_budget">Budget (%1$s)</string>
+    <string name="trips_expense_amount">Amount (%1$s)</string>
+    <string name="trips_expense_label">Note (optional)</string>
+    <string name="movers_vs_base">Vs %1$s</string>
+    <string name="movers_strength">Strength</string>
+    <string name="movers_strongest">Strongest</string>
+    <string name="movers_weakest">Weakest</string>
+    <string name="history_chart_description">Rate chart %1$s. Low %2$s, high %3$s, latest %4$s.</string>
+    <string name="converter_voice_input" translatable="false">Speak currency command</string>
+    <string name="converter_voice_error" translatable="false">Could not recognize speech</string>
+    <string name="converter_voice_recognized" translatable="false">Recognized: %1$s</string>
+    <string name="settings_analytics">Anonymous usage statistics</string>
+    <string name="settings_analytics_sub">Share which screens are used to help improve the app. Off by default and never includes amounts.</string>
+    <string name="history_timing_title">Where today’s rate stands</string>
+    <string name="history_timing_percentile">Today’s rate is higher than %1$d%% of this period</string>
+    <string name="history_timing_vs_average">%1$s versus the period average</string>
+    <string name="tools_offered_rate">Rate you were offered (1 %1$s = ? %2$s)</string>
+    <string name="tools_mid_rate">Mid-market rate: %1$s %2$s</string>
+    <string name="tools_markup_cost">Hidden cost: %1$s%% (about %2$s %3$s)</string>
+    <string name="tools_markup_better">Better than mid-market by %1$s%% (about %2$s %3$s)</string>
+    <string name="tools_markup_none">Matches the mid-market rate</string>
 </resources>

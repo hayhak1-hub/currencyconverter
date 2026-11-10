@@ -17,3 +17,6 @@ local.properties
 /keystore/*
 !keystore/keystore.properties.example
 !keystore/README.md
+
+# Firebase config — local to each developer/CI
+app/google-services.json

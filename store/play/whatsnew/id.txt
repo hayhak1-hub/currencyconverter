@@ -1,0 +1,7 @@
+• Portofolio dengan untung/rugi dan anggaran perjalanan
+• Cek biaya tersembunyi pada penawaran tukar uang dan ubin Pengaturan Cepat
+• Riwayat: posisi kurs hari ini, SMA 50/200, ekspor CSV
+• Peringatan dengan perubahan persen, jam tenang, dan riwayat; input suara
+• Konversi tanggal lampau, pasangan tersimpan, ringkasan pagi, pergerakan terbesar, kurs silang
+• Emas menurut kadar, tren di widget, cadangan dan pemulihan
+• Statistik penggunaan anonim kini opsional (mati secara default)

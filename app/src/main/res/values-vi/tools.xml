@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">Phí, bản lưu và du lịch</string>
+    <string name="tools_fees">Phí</string>
+    <string name="tools_history">Đã lưu</string>
+    <string name="tools_travel">Du lịch</string>
+    <string name="tools_fee_explanation">Ước tính. Phí phần trăm và phí cố định được trừ từ số tiền đã đổi sang %1$s.</string>
+    <string name="tools_percent">Phí (%)</string>
+    <string name="tools_fixed">Phí cố định (%1$s)</string>
+    <string name="tools_net">Thực nhận: %1$s %2$s</string>
+    <string name="tools_invalid">Nhập số tiền và phí hợp lệ. Phí không được vượt quá số tiền quy đổi.</string>
+    <string name="tools_save">Lưu quy đổi</string>
+    <string name="tools_history_note">50 ước tính lưu thủ công gần nhất trên thiết bị. Dùng lại tính theo tỷ giá hiện có, không có phí.</string>
+    <string name="tools_saved_fees">Phí đã lưu: %1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">Không thể lưu. Vui lòng thử lại.</string>
+    <string name="tools_empty">Chưa có quy đổi đã lưu.</string>
+    <string name="tools_reuse">Dùng lại</string>
+    <string name="tools_delete">Xóa</string>
+    <string name="tools_country">Tìm quốc gia hoặc tiền tệ</string>
+    <string name="tools_travel_note">Chọn điểm đến để dùng tiền tệ của nước đó và thêm vào yêu thích.</string>
+    <string name="metal_amount">Lượng kim loại</string>
+    <string name="metal_gram">Gam</string>
+    <string name="metal_ounce">Ounce troy</string>
+    <string name="metal_cache">Giá đã lưu — chưa thể cập nhật</string>
+    <string name="metal_retrieved">%1$s · Lấy lúc: %2$s</string>
+    <string name="metal_estimate">Giá trị tham khảo; chưa tính độ tinh khiết, phụ phí đại lý và phí.</string>
+</resources>

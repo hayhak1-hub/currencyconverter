@@ -1,0 +1,7 @@
+• Portafoglio con guadagni/perdite e budget di viaggio
+• Controllo costi nascosti del cambio e riquadro Impostazioni rapide
+• Cronologia: posizione del cambio di oggi, SMA 50/200, esportazione CSV
+• Avvisi con variazione percentuale, ore silenziose e cronologia; input vocale
+• Conversione a data passata, coppie salvate, riepilogo mattutino, cambi incrociati
+• Oro per purezza, tendenze nel widget, backup e ripristino
+• Statistiche d'uso anonime ora facoltative (disattivate di default)

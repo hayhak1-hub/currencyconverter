@@ -6,21 +6,32 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ShowChart
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Contrast
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.AccountBalanceWallet
 import androidx.compose.material.icons.filled.Diamond
+import androidx.compose.material.icons.filled.Flight
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Menu
@@ -28,6 +39,7 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material.icons.filled.WbAuto
+import androidx.compose.material.icons.filled.WifiOff
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -38,6 +50,9 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Alignment
+import com.hayhak.currencyconverter.util.NetworkMonitor
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -78,6 +93,10 @@ import com.hayhak.currencyconverter.ui.converter.ConverterViewModel
 import com.hayhak.currencyconverter.ui.dashboard.DashboardScreen
 import com.hayhak.currencyconverter.ui.history.HistoryScreen
 import com.hayhak.currencyconverter.ui.metals.MetalsScreen
+import com.hayhak.currencyconverter.ui.portfolio.PortfolioScreen
+import com.hayhak.currencyconverter.ui.trips.TripsScreen
+import com.hayhak.currencyconverter.ui.components.RatePromptDialog
+import com.hayhak.currencyconverter.ui.rate.RatePromptViewModel
 import com.hayhak.currencyconverter.ui.settings.HelpScreen
 import com.hayhak.currencyconverter.ui.settings.PrivacyPolicyScreen
 import com.hayhak.currencyconverter.ui.settings.SettingsScreen
@@ -95,6 +114,8 @@ sealed class Screen(val route: String, val labelRes: Int, val icon: ImageVector)
     object History    : Screen("history",    R.string.nav_history,    Icons.Default.History)
     object Metals     : Screen("metals",     R.string.nav_metals,     Icons.Default.Diamond)
     object Alerts     : Screen("alerts",     R.string.nav_alerts,     Icons.Default.Notifications)
+    object Portfolio  : Screen("portfolio",  R.string.nav_portfolio,  Icons.Default.AccountBalanceWallet)
+    object Trips      : Screen("trips",      R.string.nav_trips,      Icons.Default.Flight)
     object Settings   : Screen("settings",   R.string.nav_settings,   Icons.Default.Settings)
 }
 
@@ -105,6 +126,8 @@ private val screens = listOf(
     Screen.History,
     Screen.Metals,
     Screen.Alerts,
+    Screen.Portfolio,
+    Screen.Trips,
     Screen.Settings
 )
 
@@ -118,6 +141,8 @@ fun CurrencyNavGraph(
     launchExtras: MainActivity.LaunchExtras? = null,
     onLaunchConsumed: () -> Unit = {}
 ) {
+    val ratePromptViewModel: RatePromptViewModel = hiltViewModel()
+    val showRatePrompt by ratePromptViewModel.showPrompt.collectAsStateWithLifecycle()
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -129,12 +154,18 @@ fun CurrencyNavGraph(
     val density = LocalDensity.current
     val isWide = windowWidth == WindowWidthSizeClass.Expanded
     var pendingPair by remember { mutableStateOf<Pair<String, String>?>(null) }
+    var pendingAmount by remember { mutableStateOf<String?>(null) }
+    var pendingAlert by remember { mutableStateOf<Pair<String, String>?>(null) }
+
+    val networkMonitor = remember(context) { NetworkMonitor(context) }
+    val isOnline by networkMonitor.isOnline.collectAsStateWithLifecycle(initialValue = true)
 
     LaunchedEffect(launchExtras) {
         val extras = launchExtras ?: return@LaunchedEffect
         if (!extras.from.isNullOrBlank() && !extras.target.isNullOrBlank()) {
             pendingPair = extras.from to extras.target
         }
+        if (!extras.amount.isNullOrBlank()) pendingAmount = extras.amount
         when (extras.route) {
             MainActivity.NAV_ALERTS -> navController.navigate(Screen.Alerts.route) {
                 launchSingleTop = true
@@ -188,6 +219,7 @@ fun CurrencyNavGraph(
         label = "menuIconRotation"
     )
 
+    Box(modifier = Modifier.fillMaxSize()) {
     ModalNavigationDrawer(
         drawerState = drawerState,
         gesturesEnabled = !isSubScreen,
@@ -329,20 +361,60 @@ fun CurrencyNavGraph(
                 }
             }
         ) { innerPadding ->
-            Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
-                NavHost(
-                    navController = navController,
-                    startDestination = Screen.Converter.route
+            Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+                AnimatedVisibility(
+                    visible = !isOnline,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
                 ) {
+                    Surface(
+                        color = MaterialTheme.colorScheme.errorContainer,
+                        contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                Icons.Default.WifiOff,
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Spacer(Modifier.width(8.dp))
+                            androidx.compose.material3.Text(
+                                stringResource(R.string.network_offline_banner),
+                                style = MaterialTheme.typography.labelMedium
+                            )
+                        }
+                    }
+                }
+                Box(modifier = Modifier.weight(1f)) {
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.Converter.route
+                    ) {
                     composable(Screen.Converter.route) {
                         val converterVm: ConverterViewModel = hiltViewModel()
-                        LaunchedEffect(launchExtras?.from, launchExtras?.target, pendingPair) {
+                        LaunchedEffect(launchExtras?.from, launchExtras?.target, launchExtras?.amount, pendingPair, pendingAmount) {
                             val from = pendingPair?.first ?: launchExtras?.from
                             val to = pendingPair?.second ?: launchExtras?.target
-                            if (from != null && to != null) converterVm.applyPair(from, to)
+                            val amount = pendingAmount ?: launchExtras?.amount
+                            if (from != null || to != null || amount != null) {
+                                converterVm.applyLaunch(from, to, amount)
+                            }
                             pendingPair = null
+                            pendingAmount = null
                         }
-                        ConverterScreen(viewModel = converterVm, isWide = isWide)
+                        ConverterScreen(
+                            viewModel = converterVm,
+                            isWide = isWide,
+                            onAlertPair = { from, to ->
+                                pendingAlert = from to to
+                                navigateTo(Screen.Alerts)
+                            }
+                        )
                     }
                     composable(Screen.Dashboard.route) {
                         DashboardScreen(
@@ -353,8 +425,12 @@ fun CurrencyNavGraph(
                     composable(Screen.Statistics.route) { StatisticsScreen(isWide = isWide) }
                     composable(Screen.History.route) { HistoryScreen(isWide = isWide) }
                     composable(Screen.Metals.route) { MetalsScreen(isWide = isWide) }
+                    composable(Screen.Portfolio.route) { PortfolioScreen() }
+                    composable(Screen.Trips.route) { TripsScreen() }
                     composable(Screen.Alerts.route) {
                         AlertsScreen(
+                            prefill = pendingAlert,
+                            onPrefillConsumed = { pendingAlert = null },
                             onOpenPair = { from, to ->
                                 pendingPair = from to to
                                 navigateTo(Screen.Converter)
@@ -376,6 +452,14 @@ fun CurrencyNavGraph(
                     }
                 }
             }
+            }
+        }
+    }
+        if (showRatePrompt) {
+            RatePromptDialog(
+                onOk = ratePromptViewModel::onOk,
+                onLater = ratePromptViewModel::onLater
+            )
         }
     }
 }

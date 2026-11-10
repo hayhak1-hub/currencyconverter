@@ -24,6 +24,21 @@
 # Room entities
 -keep class com.hayhak.currencyconverter.data.local.entity.** { *; }
 
+# R8 full mode strips the generic signature of anonymous TypeToken subclasses, which makes
+# Gson throw "TypeToken must be created with a type argument" (alarms, saved conversions,
+# metal cache). Keep the subclasses and their signatures.
+-keep class com.google.gson.reflect.TypeToken { *; }
+-keep class * extends com.google.gson.reflect.TypeToken
+
+# Persisted JSON must retain stable field names across releases.
+-keep class com.hayhak.currencyconverter.domain.model.SavedConversion { *; }
+-keep class com.hayhak.currencyconverter.ui.metals.CachedMetal { *; }
+-keep class com.hayhak.currencyconverter.domain.model.RateAlarm { *; }
+-keep class com.hayhak.currencyconverter.domain.model.AppBackup { *; }
+
+# Records saved by the JSON list stores (alert history, portfolio, trips).
+-keep class com.hayhak.currencyconverter.data.store.model.** { *; }
+
 # Glance / WorkManager workers
 -keep class * extends androidx.work.Worker
 -keep class * extends androidx.work.CoroutineWorker

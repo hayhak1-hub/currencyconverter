@@ -14,7 +14,7 @@ class ConvertCurrencyUseCase @Inject constructor() {
         val fromRate = if (fromCurrency == baseCurrency) 1.0 else rates[fromCurrency] ?: return null
         val toRate = if (toCurrency == baseCurrency) 1.0 else rates[toCurrency] ?: return null
 
-        if (fromRate == 0.0) return null
-        return amount * (toRate / fromRate)
+        if (!amount.isFinite() || !fromRate.isFinite() || !toRate.isFinite() || fromRate <= 0.0 || toRate <= 0.0) return null
+        return (amount * (toRate / fromRate)).takeIf { it.isFinite() }
     }
 }

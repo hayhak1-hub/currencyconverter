@@ -13,6 +13,7 @@ data class StatisticsUiState(
     val stats: List<CurrencyStat> = emptyList(),
     val quoteCode: String = "USD",
     val date: String = "",
+    val favorites: Set<String> = emptySet(),
     val isLoading: Boolean = true,
     val hasYesterdayData: Boolean = false,
     val error: String? = null

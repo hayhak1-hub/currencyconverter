@@ -24,6 +24,10 @@ playAppUpdate = "2.1.0"
 coroutinesPlayServices = "1.8.1"
 firebaseBom = "33.7.0"
 googleServices = "4.4.2"
+firebaseCrashlyticsPlugin = "3.0.2"
+wearTiles = "1.4.0"
+wearProtolayout = "1.2.0"
+wearComplications = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -50,6 +54,11 @@ androidx-glance-material3 = { group = "androidx.glance", name = "glance-material
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 material3-window-size = { group = "androidx.compose.material3", name = "material3-window-size-class" }
 material3-adaptive-nav = { group = "androidx.compose.material3", name = "material3-adaptive-navigation-suite", version.ref = "adaptiveNav" }
+
+wearTiles = { group = "androidx.wear.tiles", name = "tiles", version.ref = "wearTiles" }
+wearProtolayout = { group = "androidx.wear.protolayout", name = "protolayout", version.ref = "wearProtolayout" }
+wearProtolayoutMaterial = { group = "androidx.wear.protolayout", name = "protolayout-material", version.ref = "wearProtolayout" }
+wearComplications = { group = "androidx.wear.watchface", name = "watchface-complications-data-source", version.ref = "wearComplications" }
 
 # Networking
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
@@ -82,6 +91,7 @@ kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "ko
 # Firebase / Google Analytics
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -90,3 +100,4 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }

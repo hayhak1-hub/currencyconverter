@@ -28,11 +28,12 @@ class DashboardViewModel @Inject constructor(
     val uiState: StateFlow<DashboardUiState> = _uiState.asStateFlow()
 
     private var ratesJob: Job? = null
+    private val historyLoaded = MutableStateFlow(0)
 
     init {
         // Favorileri state'e yaz (SettingsScreen bunu okur)
-        userPrefs.favorites
-            .onEach { favs -> _uiState.update { it.copy(favorites = favs) } }
+        userPrefs.favoriteOrder
+            .onEach { order -> _uiState.update { it.copy(favorites = order.toSet(), favoriteOrder = order) } }
             .launchIn(viewModelScope)
 
         viewModelScope.launch {
@@ -52,6 +53,21 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    fun setSortOption(option: DashboardSortOption) {
+        _uiState.update { state ->
+            val sorted = sortRows(state.rows, option)
+            state.copy(sortOption = option, rows = sorted)
+        }
+    }
+
+    private fun sortRows(rows: List<CurrencyRow>, option: DashboardSortOption): List<CurrencyRow> =
+        when (option) {
+            DashboardSortOption.DEFAULT -> rows
+            DashboardSortOption.NAME -> rows.sortedBy { it.name }
+            DashboardSortOption.RATE -> rows.sortedByDescending { it.rateToTry }
+            DashboardSortOption.TREND -> rows.sortedByDescending { it.trend }
+        }
+
     fun onBaseCurrencyChange(newBase: String) {
         viewModelScope.launch {
             userPrefs.saveLastDashboardBase(newBase)
@@ -62,6 +78,10 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             userPrefs.toggleFavorite(code)
         }
+    }
+
+    fun moveFavorite(fromIndex: Int, toIndex: Int) {
+        viewModelScope.launch { userPrefs.moveFavorite(fromIndex, toIndex) }
     }
 
     fun showAlarmDialog(row: CurrencyRow?) {
@@ -95,8 +115,25 @@ class DashboardViewModel @Inject constructor(
             }
         }
 
+        // Without stored history there is no "yesterday" for the change column on a fresh install.
+        // One request covers every listed currency (needed for the top gainers and losers), and a
+        // process-wide timestamp keeps reopening the screen from repeating it.
+        viewModelScope.launch {
+            val recent = historyFetchedAt[base]?.let { System.currentTimeMillis() - it < HISTORY_MIN_AGE_MS } == true
+            if (recent) return@launch
+            val targets = SUPPORTED_CURRENCIES.map { it.code }.filter { it != base }.sorted()
+            if (targets.isEmpty()) return@launch
+            try {
+                repository.refreshHistoricalRates(base, targets.joinToString(","), 7)
+                historyFetchedAt[base] = System.currentTimeMillis()
+                historyLoaded.update { it + 1 }
+            } catch (e: Exception) {
+                if (e is kotlinx.coroutines.CancellationException) throw e
+            }
+        }
+
         ratesJob = viewModelScope.launch {
-            combine(getExchangeRates(base), userPrefs.favorites) { exchangeRate, favorites ->
+            combine(getExchangeRates(base), userPrefs.favorites, historyLoaded) { exchangeRate, favorites, _ ->
                 exchangeRate to favorites
             }.collect { (exchangeRate, favorites) ->
                 if (exchangeRate == null) {
@@ -123,9 +160,9 @@ class DashboardViewModel @Inject constructor(
                         )
                     }
 
-                _uiState.update {
-                    it.copy(
-                        rows = rows,
+                _uiState.update { state ->
+                    state.copy(
+                        rows = sortRows(rows, state.sortOption),
                         allRates = exchangeRate.rates,
                         yesterdayRates = yesterday,
                         isLoading = false,
@@ -144,14 +181,21 @@ class DashboardViewModel @Inject constructor(
         
         viewModelScope.launch {
             try {
-                repository.refreshRates(base)
+                repository.refreshRates(base, force = true)
             } catch (e: Exception) {
-                _uiState.update { it.copy(error = application.getString(com.hayhak.currencyconverter.R.string.dashboard_error_refresh), isRefreshing = false) }
+                _uiState.update { it.copy(error = application.getString(com.hayhak.currencyconverter.R.string.dashboard_error_refresh)) }
+            } finally {
+                _uiState.update { it.copy(isRefreshing = false) }
             }
         }
     }
 
     fun clearError() {
         _uiState.update { it.copy(error = null) }
+    }
+
+    private companion object {
+        val historyFetchedAt = java.util.concurrent.ConcurrentHashMap<String, Long>()
+        const val HISTORY_MIN_AGE_MS = 6 * 60 * 60 * 1000L
     }
 }

@@ -7,10 +7,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
-}
-
-if (file("google-services.json").exists()) {
-    apply(plugin = "com.google.gms.google-services")
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 val keystorePropertiesFile = rootProject.file("keystore/keystore.properties")
@@ -28,11 +26,11 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.hayhak.currencyconverter"
-        minSdk = 23
+        applicationId = "com.hayhak.currencyConverter"
+        minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1"
+        versionCode = 14
+        versionName = "1.3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -72,6 +70,11 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+    }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+        // StringResourcesTest reads the resource files directly, so changes to them must re-run it.
+        unitTests.all { it.inputs.dir("src/main/res").withPropertyName("stringResources") }
     }
     buildFeatures {
         compose = true
@@ -136,6 +139,8 @@ dependencies {
     implementation(libs.androidx.glance.appwidget)
     implementation(libs.androidx.glance.material3)
 
+
+
     // Adaptive / Tablet
     implementation(libs.material3.window.size)
     implementation(libs.material3.adaptive.nav)
@@ -144,13 +149,13 @@ dependencies {
     implementation(libs.datastore.preferences)
 
     // Play In-App Updates
-    implementation(libs.google.play.app.update)
     implementation(libs.google.play.app.update.ktx)
     implementation(libs.kotlinx.coroutines.play.services)
 
     // Google Analytics (Firebase)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
 
     // Test
     testImplementation(libs.junit)

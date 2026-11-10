@@ -1,0 +1,7 @@
+• Kar/zarar takibi yapan portföy ve seyahat bütçeleri
+• Döviz tekliflerinde gizli maliyet kontrolü ve Hızlı Ayarlar kutucuğu
+• Geçmiş: bugünkü kurun konumu, SMA 50/200, CSV dışa aktarma
+• Yüzde değişim, sessiz saat ve geçmişli alarmlar; sesli giriş
+• Geçmiş tarihte çeviri, kayıtlı çiftler, sabah özeti, en çok değişenler, çapraz kurlar
+• Ayara göre altın, widget'ta eğilimler, yedekleme ve geri yükleme
+• Anonim kullanım istatistikleri artık isteğe bağlı (varsayılan kapalı)

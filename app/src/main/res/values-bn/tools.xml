@@ -1,0 +1,26 @@
+<resources>
+    <string name="tools_title">ফি, সংরক্ষিত ও ভ্রমণ</string>
+    <string name="tools_fees">ফি</string>
+    <string name="tools_history">সংরক্ষিত</string>
+    <string name="tools_travel">ভ্রমণ</string>
+    <string name="tools_fee_explanation">আনুমানিক হিসাব। শতাংশ ও নির্দিষ্ট ফি %1$s-এ রূপান্তরিত পরিমাণ থেকে কাটা হয়।</string>
+    <string name="tools_percent">ফি (%)</string>
+    <string name="tools_fixed">নির্দিষ্ট ফি (%1$s)</string>
+    <string name="tools_net">নিট: %1$s %2$s</string>
+    <string name="tools_invalid">সঠিক পরিমাণ ও ফি দিন। ফি রূপান্তরিত পরিমাণের বেশি হতে পারে না।</string>
+    <string name="tools_save">রূপান্তর সংরক্ষণ</string>
+    <string name="tools_history_note">এই ডিভাইসে সর্বশেষ ৫০টি ম্যানুয়াল হিসাব থাকে। পুনর্ব্যবহারে উপলব্ধ হার দিয়ে ফি ছাড়া গণনা হয়।</string>
+    <string name="tools_saved_fees">সংরক্ষিত ফি: %1$s%% + %2$s %3$s</string>
+    <string name="tools_save_error">সংরক্ষণ হয়নি। আবার চেষ্টা করুন।</string>
+    <string name="tools_empty">কোনো সংরক্ষিত রূপান্তর নেই।</string>
+    <string name="tools_reuse">পুনর্ব্যবহার</string>
+    <string name="tools_delete">মুছুন</string>
+    <string name="tools_country">দেশ বা মুদ্রা খুঁজুন</string>
+    <string name="tools_travel_note">গন্তব্য বেছে তার মুদ্রা ব্যবহার করুন ও পছন্দে যোগ করুন।</string>
+    <string name="metal_amount">ধাতুর পরিমাণ</string>
+    <string name="metal_gram">গ্রাম</string>
+    <string name="metal_ounce">ট্রয় আউন্স</string>
+    <string name="metal_cache">সংরক্ষিত দাম — হালনাগাদ অনুপলব্ধ</string>
+    <string name="metal_retrieved">%1$s · সংগ্রহ: %2$s</string>
+    <string name="metal_estimate">আনুমানিক মূল্য; বিশুদ্ধতা সমন্বয়, বিক্রেতার প্রিমিয়াম ও ফি অন্তর্ভুক্ত নয়।</string>
+</resources>

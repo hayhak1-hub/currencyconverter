@@ -1,0 +1,7 @@
+• Portefeuille avec gains/pertes et budgets de voyage
+• Contrôle des coûts cachés du change et tuile Réglages rapides
+• Historique : position du cours du jour, SMA 50/200, export CSV
+• Alertes en %, heures calmes et historique ; saisie vocale
+• Conversion à date passée, paires enregistrées, résumé matinal, cours croisés
+• Or selon la pureté, tendances du widget, sauvegarde et restauration
+• Les statistiques d'utilisation anonymes sont désormais facultatives (désactivées par défaut)

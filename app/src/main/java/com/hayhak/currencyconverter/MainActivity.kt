@@ -2,6 +2,7 @@ package com.hayhak.currencyconverter
 
 import android.content.Intent
 import android.os.Bundle
+import com.hayhak.currencyconverter.util.parseProcessText
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -56,14 +57,25 @@ class MainActivity : AppCompatActivity() {
     data class LaunchExtras(
         val route: String?,
         val from: String?,
-        val target: String?
+        val target: String?,
+        val amount: String?
     ) {
         companion object {
-            fun from(intent: Intent?) = LaunchExtras(
-                route = intent?.getStringExtra(EXTRA_NAV),
-                from = intent?.getStringExtra(EXTRA_FROM),
-                target = intent?.getStringExtra(EXTRA_TARGET)
-            )
+            fun from(intent: Intent?): LaunchExtras {
+                val process = intent?.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT)?.toString()
+                val parsed = process?.let(::parseProcessText)
+                val from = intent?.getStringExtra(EXTRA_FROM) ?: parsed?.from
+                val target = intent?.getStringExtra(EXTRA_TARGET) ?: parsed?.to
+                    ?: from?.let { if (it == "USD") "EUR" else "USD" }?.takeIf { process != null }
+                return LaunchExtras(
+                    route = intent?.getStringExtra(EXTRA_NAV) ?: if (process != null) NAV_CONVERTER else null,
+                    from = from,
+                    target = target,
+                    amount = parsed?.amount?.let { value ->
+                        if (value % 1.0 == 0.0) value.toLong().toString() else value.toString()
+                    }
+                )
+            }
         }
     }
 

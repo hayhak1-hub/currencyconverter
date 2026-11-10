@@ -5,67 +5,184 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Privacy Policy — Currency Converter</title>
 <style>
-  body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #222; }
-  h1 { font-size: 1.8em; }
-  h2 { font-size: 1.3em; margin-top: 2em; }
-  ul { padding-left: 1.3em; }
-  .updated, .langs { color: #666; font-size: 0.9em; }
-  .langs a { color: #1565c0; }
-  a { color: #1565c0; }
+  :root { --bg:#f4f6fb; --card:#ffffff; --text:#1f2540; --muted:#6b7394; --accent:#2f6df6; --accent2:#7c4dff; --soft:#eaf0ff; --line:#e3e8f5; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0f1424; --card:#182036; --text:#e8ecfa; --muted:#9aa4c7; --accent:#6ea0ff; --accent2:#a98bff; --soft:#1f2b4d; --line:#26304f; }
+  }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); line-height: 1.65; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px 40px; }
+  .hero { background: linear-gradient(135deg, #2f6df6 0%, #7c4dff 100%); color: #fff; padding: 36px 20px 40px; margin: 0 -16px 20px; border-radius: 0 0 28px 28px; box-shadow: 0 8px 24px rgba(47,109,246,.25); }
+  .hero .badge { display: inline-block; background: rgba(255,255,255,.2); padding: 4px 12px; border-radius: 999px; font-size: .8em; letter-spacing: .04em; text-transform: uppercase; }
+  .hero h1 { font-size: 2em; margin: 12px 0 4px; }
+  .hero p { margin: 2px 0; opacity: .92; }
+  .updated { color: var(--muted); font-size: .9em; }
+  .hero .updated { color: #fff; opacity: .85; margin-top: 10px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 6px 20px 18px; margin: 14px 0; box-shadow: 0 2px 10px rgba(20,30,70,.05); }
+  h2 { font-size: 1.2em; margin: 18px 0 8px; color: var(--accent); }
+  h2 .n { display: inline-block; min-width: 1.9em; height: 1.9em; line-height: 1.9em; text-align: center; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; border-radius: 50%; font-size: .85em; margin-right: 8px; }
+  h3 { font-size: 1.02em; margin: 18px 0 6px; color: var(--accent2); border-left: 4px solid var(--accent2); padding-left: 10px; }
+  ul { padding-left: 0; list-style: none; margin: 8px 0; }
+  li { position: relative; padding: 6px 10px 6px 30px; margin: 4px 0; background: var(--soft); border-radius: 10px; }
+  li::before { content: ""; position: absolute; left: 11px; top: 1.05em; width: 9px; height: 9px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); }
+  .glance li { background: rgba(46,160,90,.12); }
+  .glance li::before { content: "✓"; background: none; color: #2ea05a; font-weight: 700; top: .4em; left: 10px; width: auto; height: auto; }
+  code { background: var(--soft); color: var(--accent); padding: 1px 6px; border-radius: 6px; font-size: .92em; }
+  a { color: var(--accent); }
+  .contact { background: linear-gradient(135deg, var(--soft), var(--card)); }
+  .foot { text-align: center; margin-top: 22px; }
 </style>
 </head>
 <body>
 
-<p class="langs"><a href="datenschutz.html">Deutsch</a> · <strong>English</strong> · <a href="gizlilik.html">Türkçe</a></p>
+<div class="wrap">
+<div class="hero">
+  <span class="badge">Privacy</span>
+  <h1>Privacy Policy</h1>
+  <p><strong>Currency Converter – Android Application</strong></p>
+  <p>Developer: Thunderbascraft</p>
+  <p class="updated">Last updated: November 9, 2026</p>
+</div>
 
-<h1>Privacy Policy</h1>
-<p class="updated">Last updated: August 18, 2026</p>
-
-<p>This Privacy Policy describes how the Android app <strong>Currency Converter</strong>
-(package <code>com.hayhak.currencyconverter</code>, “the App”) handles information.
-The developer is <strong>Hayhak</strong>.</p>
-
-<h2>1. Overview</h2>
-<p>The App converts currencies and shows live rates, history charts, statistics, and optional rate
-alerts. <strong>No account</strong> is required. There are <strong>no ads</strong> and
-<strong>no advertising tracking</strong>.</p>
-
-<h2>2. Data the App processes</h2>
+<section>
+<h2><span class="n">1</span>Introduction</h2>
+<p>This Privacy Policy explains how Thunderbascraft (“we”, “us” or “our”) handles information when you use the Currency Converter Android application (package <code>com.hayhak.currencyConverter</code>).</p>
+<p>We respect your privacy and are committed to protecting your personal information. The application does not require an account and does not contain advertisements.</p>
+</section>
+<section class="glance">
+<h2><span class="n">2</span>Privacy at a Glance</h2>
 <ul>
-  <li><strong>Exchange rates:</strong> Live rates come from the free ExchangeRate-API open endpoint.
-    Historical charts use the Frankfurter API (ECB data). Only currency codes (and date ranges for
-    history) are sent — not your name, email, or an identifier we assign to you.</li>
-  <li><strong>Local storage:</strong> Rates, favorites, alarms, language, theme, and last-used
-    currency pairs are stored with Room and DataStore <em>on your device only</em>.</li>
-  <li><strong>Amounts you enter</strong> stay on the device and are not sent to us.</li>
-  <li><strong>Notifications:</strong> If you set a rate alert and grant permission, the App may show
-    a local system notification. No cloud account is used for this.</li>
-  <li><strong>App updates:</strong> If installed from Google Play, the App may check for updates via
-    the Play In-App Updates API.</li>
+  <li>No account or registration is required.</li>
+  <li>No advertisements are displayed.</li>
+  <li>Your amounts, favorites, alerts, portfolio entries and trip budgets are stored locally on your device.</li>
+  <li>Your personal entries are never uploaded to our servers.</li>
+  <li>Exchange rates and metal prices are retrieved from third-party services using only currency codes, metal symbols and date ranges.</li>
+  <li>Anonymous usage statistics (Firebase Analytics) are optional and off by default; you can turn them on or off in Settings.</li>
+  <li>Firebase Crashlytics collects technical crash reports in release builds.</li>
+</ul>
+</section>
+<section>
+<h2><span class="n">3</span>Data We Process</h2>
+
+<h3>3.1. Exchange Rates and Metal Prices</h3>
+<p>The application retrieves exchange rates and metal prices from the following services:</p>
+<ul>
+  <li>ExchangeRate-API – <code>open.er-api.com</code></li>
+  <li>Frankfurter (ECB data) – <code>api.frankfurter.dev</code></li>
+  <li>Gold-API – <code>api.gold-api.com</code></li>
+  <li>jsDelivr – <code>cdn.jsdelivr.net</code></li>
+</ul>
+<p>These services receive only the information necessary to retrieve the requested data, such as currency codes, metal symbols and date ranges. Your name, email address, conversion amounts and personal notes are never sent to these services.</p>
+
+<h3>3.2. Your Personal Entries</h3>
+<p>The following information is stored locally on your device and is not uploaded to our servers:</p>
+<ul>
+  <li>Favorite currencies</li>
+  <li>Exchange rate alerts and alert history</li>
+  <li>Portfolio entries, including holdings and purchase prices</li>
+  <li>Trip budgets and expenses</li>
+  <li>Saved currency pairs</li>
+  <li>Language and theme preferences</li>
+  <li>Widget settings</li>
+  <li>Recently used currencies</li>
 </ul>
 
-<h2>3. Third parties</h2>
+<h3>3.3. Voice Input (Optional)</h3>
+<p>The application provides an optional voice input feature through the microphone button in the currency converter. When used:</p>
 <ul>
-  <li><strong>ExchangeRate-API</strong> (<a href="https://www.exchangerate-api.com/">exchangerate-api.com</a>): live rates.</li>
-  <li><strong>Frankfurter</strong> (<a href="https://www.frankfurter.app/">frankfurter.app</a>): historical rates.</li>
-  <li><strong>Google Play</strong>: distribution, update checks, and Play services when installed from the Play Store.</li>
-  <li><strong>Firebase Analytics</strong>: anonymous usage events (screen views, language). No ads and no Advertising ID collection.</li>
+  <li>The application opens the speech recognition service provided by Google on your device.</li>
+  <li>The application receives only the recognized text.</li>
+  <li>The application does not request microphone permission.</li>
+  <li>The application does not record or store audio recordings.</li>
 </ul>
-<p>We do not run our own backend servers for your App data.</p>
+<p>Voice recognition is provided by Google’s speech recognition service and may be subject to Google’s privacy practices.</p>
 
-<h2>4. Sharing and sale</h2>
-<p>We do not sell your data. Favorites, alerts, and amounts are not uploaded to Hayhak servers.
-Third parties above only receive the technical requests needed for rates or updates.</p>
+<h3>3.4. Usage Statistics – Firebase Analytics (Optional)</h3>
+<p>Usage statistics are <strong>off by default</strong>. They are collected only if you turn on “Anonymous usage statistics” in Settings, and you can turn them off again at any time. When enabled, Google Firebase Analytics helps us understand how the application is used and improve it. The information collected may include:</p>
+<ul>
+  <li>Screens opened within the application</li>
+  <li>Selected language</li>
+  <li>Currency codes used for conversions (not conversion amounts)</li>
+  <li>Device model, Android version and application version</li>
+  <li>Approximate country</li>
+  <li>Application instance ID</li>
+</ul>
 
-<h2>5. Retention</h2>
-<p>Local data remains until you change it in the App or uninstall. Uninstalling removes App data
-from the device.</p>
+<h3>3.5. Crash Reports – Firebase Crashlytics</h3>
+<p>In release builds, Google Firebase Crashlytics collects technical information to help us identify and fix application crashes. This information may include:</p>
+<ul>
+  <li>Error and crash traces</li>
+  <li>Application version, device model and Android version</li>
+  <li>Application state at the time of the crash</li>
+  <li>Installation ID</li>
+</ul>
+<p>Crash reporting is disabled in debug builds. We use this information exclusively to improve application stability and reliability.</p>
 
-<h2>6. Children</h2>
-<p>The App is not directed at children under 13.</p>
+<h3>3.6. Update Checks</h3>
+<p>If the application was installed from Google Play, it may check for available updates using the Google Play In-App Updates API. This check is performed by Google Play services and is subject to Google’s privacy practices.</p>
 
-<h2>7. Contact</h2>
-<p>Questions: <a href="mailto:thunderbascraft@gmail.com">thunderbascraft@gmail.com</a>.</p>
-
+<h3>3.7. Feedback (Optional)</h3>
+<p>If you choose to contact us from the Settings screen, your email application opens with a draft message that may include the application version, device manufacturer, device model and Android version. This information reaches us only if you send the email.</p>
+</section>
+<section>
+<h2><span class="n">4</span>Data Storage and Security</h2>
+<p>Your personal entries and application preferences are stored in the application’s private storage on your Android device. This includes favorites and saved currency pairs, alerts and alert history, portfolio information, trip budgets and expenses, and application settings.</p>
+<p>If Android backup is enabled on your device, application data may be included in your Google account backup. We do not have access to these backups.</p>
+<p>All network requests made by the application use HTTPS encryption.</p>
+</section>
+<section>
+<h2><span class="n">5</span>Data Sharing</h2>
+<p>We do not sell, rent or trade your personal information. Your personal entries remain on your device and are not uploaded to our servers.</p>
+<p>Information may leave your device only when you explicitly choose to:</p>
+<ul>
+  <li>Share a currency conversion</li>
+  <li>Export a CSV file</li>
+  <li>Export a backup file to a location of your choice</li>
+  <li>Send a feedback email</li>
+</ul>
+<p>Once exported or shared, the information is handled according to the privacy practices of the destination or service you select.</p>
+</section>
+<section>
+<h2><span class="n">6</span>Analytics and Crash Reporting Services</h2>
+<p>The application uses Google Firebase Analytics (optional anonymous usage statistics) and Google Firebase Crashlytics (technical crash reports). These services are provided by Google LLC / Google Ireland Limited, acting as our data processor. For more information, see <a href="https://firebase.google.com/support/privacy">firebase.google.com/support/privacy</a>.</p>
+<ul>
+  <li>No advertising ID is collected.</li>
+  <li>Analytics and crash data are not used for advertising or personalization.</li>
+  <li>Analytics data is retained according to our Firebase Analytics settings, for a maximum of 14 months.</li>
+  <li>Crash reports may be retained for up to 90 days.</li>
+</ul>
+<p>The legal basis for usage statistics is your consent (Article 6(1)(a) of the GDPR), which you can withdraw at any time by turning the setting off. The legal basis for crash reports is our legitimate interest in maintaining application stability (Article 6(1)(f) of the GDPR).</p>
+</section>
+<section>
+<h2><span class="n">7</span>Permissions</h2>
+<ul>
+  <li><strong>Internet and network state:</strong> required to retrieve exchange rates and metal prices from external data providers.</li>
+  <li><strong>Post notifications (optional):</strong> used to display exchange rate alerts and the optional morning rate digest. You can refuse this permission at any time; without it, these notifications are not displayed.</li>
+</ul>
+</section>
+<section>
+<h2><span class="n">8</span>Data Retention and Deletion</h2>
+<p>Your personal entries are stored locally on your device. You can delete exchange rate alerts, portfolio entries, trips and trip expenses at any time in the application. Uninstalling the application deletes its locally stored data from your device.</p>
+<p>Data included in Android or Google account backups may remain in those backups according to Google’s backup and retention policies.</p>
+</section>
+<section>
+<h2><span class="n">9</span>Your Privacy Rights</h2>
+<p>Because your personal entries are stored exclusively on your device and are never transmitted to us, you can access, modify and delete this information directly within the application. For information processed through Firebase Analytics and Firebase Crashlytics, you can contact us at the address below. You also have the right to lodge a complaint with your local data protection supervisory authority, where applicable.</p>
+</section>
+<section>
+<h2><span class="n">10</span>Children’s Privacy</h2>
+<p>The application is not directed at children under the age of 13. We do not knowingly collect personal information from children under 13.</p>
+</section>
+<section>
+<h2><span class="n">11</span>Changes to This Privacy Policy</h2>
+<p>We may update this Privacy Policy from time to time. Any changes will be published on this page together with an updated “Last updated” date.</p>
+</section>
+<section class="contact">
+<h2><span class="n">12</span>Contact Information</h2>
+<p>Developer: Thunderbascraft<br>
+Email: <a href="mailto:thunderbascraft@gmail.com">thunderbascraft@gmail.com</a></p>
+</section>
+<p class="updated foot">© 2026 Thunderbascraft. All rights reserved.</p>
+</div>
 </body>
 </html>
